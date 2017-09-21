@@ -1,0 +1,29 @@
+{
+  "name": "let_it_fly",
+  "version": "1.0.0",
+  "description": "on demand shuttle survices",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyenq2006/let_it_fly.git"
+  },
+  "keywords": [
+    "shuttle",
+    "survices"
+  ],
+  "author": "Quoc N, Damon L, Nhu L, Shweta M",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyenq2006/let_it_fly/issues"
+  },
+  "homepage": "https://github.com/nguyenq2006/let_it_fly#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.3"
+  }
+}
