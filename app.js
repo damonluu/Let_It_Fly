@@ -3,6 +3,19 @@ var http = require('http');
 var app = express();
 var path = require('path');
 var routes = require('./routes');
+//Connect to mySQL database
+var mysql = require('mysql');
+var con = mysql.createConnection({
+	host: "localhost",
+	user: "root",
+	password: "fakepass",
+	database: "user"
+});
+
+con.connect(function(err) {
+	if (err) throw err;
+	console.log("Connected!");
+})
 
 //define the port to host the server
 app.set('port', 1600);
