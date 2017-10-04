@@ -129,6 +129,8 @@ header.masthead {
       font-size: 30px; }
   header.masthead .device-container {
     max-width: 325px;
+    margin-top: 100px;
+    margin-bottom: 100px;
     margin-right: auto;
     margin-left: auto; }
     header.masthead .device-container .screen img {
@@ -306,3 +308,9 @@ footer {
 .btn-xl {
   font-size: 11px;
   padding: 15px 45px; }
+
+#box{
+  border: 1px solid white;
+  border-radius: 5px;
+}
+

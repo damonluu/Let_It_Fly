@@ -8,15 +8,12 @@
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="vendor/components-font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-  <link rel="stylesheet" href="css/new-age.css"
-  <!-- SPELLS -->
-  <script src="vendor/angular/angular.min.js"></script>
-  <script src="vendor/angular-route/angular-route.min.js"></script>
-  <script src="script.js"></script>
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
+  <link rel="stylesheet" href="css/new-age.css">
+  
 </head>
 
 <!-- define angular controller -->
@@ -31,25 +28,40 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#signup">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#features">Features</a>
+            <a class="nav-link js-scroll-trigger" href="#features">Services</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#signup" id="box">Sign Up</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
   <div id="main">
     <!-- angular templating -->
 		<!-- this is where content will be injected -->
     <div ng-view></div>
-
   </div>
+    <!-- SPELLS -->
+  <script src="vendor/angular/angular.min.js"></script>
+  <script src="vendor/angular-route/angular-route.min.js"></script>
+   <!-- Bootstrap core JavaScript -->
+
+  <script src="vendor/jquery/dist/jquery.min.js"></script>
+  <script src="vendor/popper/popper.min.js"></script>
+  <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery.easing/js/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/new-age.js"></script>
+  <script src="js/script.js"></script>
+
+ 
+
 
 </body>
 
