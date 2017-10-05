@@ -4,18 +4,23 @@ var app = express();
 var path = require('path');
 var routes = require('./routes');
 //Connect to mySQL database
-var mysql = require('mysql');
-var con = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "fakepass",
-	database: "user"
-});
+// var mysql = require('mysql');
+// var con = mysql.createConnection({
+// 	host: "localhost",
+// 	user: "root",
+// 	password: "fakepass",
+// 	database: "user"
+// });
 
-con.connect(function(err) {
-	if (err) throw err;
-	console.log("Connected!");
-})
+// con.connect(function(err) {
+// 	if (err) throw err;
+// 	console.log("Connected!");
+// })
+
+app.use(function(req, res, next) {
+  console.log(req.method, req.url);
+  next(); 
+});
 
 //define the port to host the server
 app.set('port', 1600);
@@ -31,3 +36,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(routes);
 
 http.createServer(app).listen(app.get('port'), serverListener);
+
+
+

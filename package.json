@@ -25,6 +25,7 @@
     "express": "^4.15.4"
   },
   "devDependencies": {
+    "bower": "^1.8.2",
     "mocha": "^3.5.3"
   }
 }
