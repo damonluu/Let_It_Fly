@@ -1,15 +1,15 @@
-*, *:before, *:after {
+/**, *:before, *:after {
   box-sizing: border-box;
 }
 
 html {
   overflow-y: scroll;
-}
+}*/
 body {
   background: #c1bdba;
-  font-family: 'Titillium Web', sans-serif;
+  /*font-family: 'Titillium Web', sans-serif;*/
 }
-
+/*
 a {
   text-decoration: none;
   color: #ffa100;
@@ -19,16 +19,17 @@ a {
 
 a:hover {
   color: #ba7601;
-}
+}*/
 
 .form {
   background: rgba(9, 32, 68, 0.9);
   padding: 40px;
   max-width: 600px;
-  margin: 40px auto;
+  margin: 100px auto;
   border-radius: 4px;
   box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
 }
+
 
 .tab-group {
   list-style: none;
@@ -67,11 +68,11 @@ a:hover {
   color: #ffffff;
 }
 
-.tab-content > div:last-child {
+/*.tab-content > div:last-child {
   display: none;
-}
+}*/
 
-h1 {
+.form h1 {
   text-align: center;
   color: #ffffff;
   font-weight: 300;
@@ -171,11 +172,11 @@ textarea {
   margin: 0;
 }
 
-.button {
+.form .button {
   border: 0;
   outline: none;
   border-radius: 30px;
-  padding: 15px 0;
+  padding: 5px 0;
   font-size: 2rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -187,11 +188,11 @@ textarea {
   -webkit-appearance: none;
   margin-top: 40px;
 }
-.button:hover, .button:focus {
+.form .button:hover, .form .button:focus {
   background: #ba7601;
 }
 
-.button-block {
+.form .button-block {
   display: block;
   width: 100%;
 }

@@ -16,6 +16,10 @@
 				templateUrl : 'pages/signup.html',
 				controller  : 'aboutController'
 			})
+			.when('/login', {
+				templateUrl : 'pages/login.html',
+				controller  : 'aboutController'
+			})
 			.when('/learnmore', {
 				templateUrl : 'pages/features.html',
 				controller  : 'contactController'
@@ -35,7 +39,7 @@
 	myApp.controller('mainController', function($scope) {
 		// create a message to display in our view
 		$scope.message = 'Everyone come and see how good I look!';
-		
+
 	});
 
 	myApp.controller('aboutController', function($scope) {
