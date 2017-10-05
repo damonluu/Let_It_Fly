@@ -6,5 +6,5 @@
 2. Run this command in the repo
 ```
 bower install
-node app.js
+npm start
 ```
