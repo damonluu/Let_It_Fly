@@ -59,7 +59,7 @@ section {
   letter-spacing: 1px; }
   #mainNav .navbar-brand {
     color: #fdcc52;
-    font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+    font-family: 'Yesteryear','Catamaran', 'Helvetica', 'Arial', 'sans-serif';
     font-weight: 200;
     letter-spacing: 1px; }
     #mainNav .navbar-brand:hover, #mainNav .navbar-brand:focus {
@@ -313,4 +313,3 @@ footer {
   border: 1px solid white;
   border-radius: 5px;
 }
-

@@ -10,40 +10,22 @@
 				templateUrl : 'pages/home.html',
 				controller  : 'mainController'
 			})
-
 			// route for the about page
 			.when('/signup', {
 				templateUrl : 'pages/signup.html',
 				controller  : 'aboutController'
 			})
-			.when('/login', {
-				templateUrl : 'pages/login.html',
-				controller  : 'aboutController'
-			})
-			.when('/learnmore', {
-				templateUrl : 'pages/features.html',
-				controller  : 'contactController'
-			})
-			// route for the contact page
-			.when('/features', {
-				templateUrl : 'pages/features.html',
-				controller  : 'contactController'
-			})
-			.when('/contact', {
-				templateUrl : 'pages/contact.html',
-				controller  : 'contactController'
-			});
 	});
 
 	// create the controller and inject Angular's $scope
-	myApp.controller('mainController', function($scope) {
+	myApp.controller('mainController', function($scope, $rootScope) {
 		// create a message to display in our view
-		$scope.message = 'Everyone come and see how good I look!';
+		$scope.message = 'Sign Up';
 
 	});
 
-	myApp.controller('aboutController', function($scope) {
-		$scope.message = 'Look! I am an about page.';
+	myApp.controller('aboutController', function($scope,$rootScope) {
+		$scope.message = 'Sign In';
 	});
 
 	myApp.controller('contactController', function($scope) {
