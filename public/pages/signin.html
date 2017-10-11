@@ -1,0 +1,60 @@
+ <!DOCTYPE html>
+
+<!-- define angular app -->
+<html ng-app="myApp2">
+
+<head>
+  <!-- SCROLLS -->
+  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="vendor/components-font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="vendor/simple-line-icons/css/simple-line-icons.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Yesteryear" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/new-age.css">
+  <link rel="stylesheet" href="css/add-on.css">
+  <link rel="stylesheet" href="css/form.css">
+
+  <script src="vendor/angular/angular.min.js"></script>
+  <script src="vendor/angular-route/angular-route.min.js"></script>
+   <!-- Bootstrap core JavaScript -->
+   <style>
+    #mainNav li a{
+      opacity: 0;
+    }
+    #mainNav #brand{
+      color: white;
+    }
+  </style>
+
+</head>
+
+ <div class="container">
+    <div id="logbox">
+      <form id="signup" method="post" action="/signup">
+        <h1>account login</h1>
+        <input name="user[email]" type="email" placeholder="enter your email" class="input pass"/>
+        <input name="user[password]" type="password" placeholder="enter your password" required="required" class="input pass"/>
+        <input type="submit" value="Sign me in!" class="inputButton"/>
+        <div class="text-center"">
+                    <a href="#signup" id="">create an account</a> - <a href="#" id="">forgot password</a>
+                </div>
+      </form>
+    </div>
+</div>
+
+
+  <script src="vendor/jquery/dist/jquery.min.js"></script>
+  <script src="vendor/popper/popper.min.js"></script>
+  <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery.easing/js/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/script.js"></script>
+  <script src="js/new-age.js"></script>
+</body>
+
+</html>

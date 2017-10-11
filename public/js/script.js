@@ -11,8 +11,13 @@
 			})
 			// route for the about page
 			.when('/signup', {
-				templateUrl : 'signup.html',
+				templateUrl : 'pages/signup.html',
 				controller  : 'aboutController'
+			})
+
+			.when('/signin', {
+				templateUrl : 'pages/signin.html',
+				controller : 'aboutController'
 			})
 	});
 	// create the controller and inject Angular's $scope
