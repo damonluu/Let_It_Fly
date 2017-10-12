@@ -66,31 +66,31 @@ AutocompleteDirectionsHandler.prototype.route = function() {
     alert("Either the origin or destination must be an airport (SFO, SJC, or OAK)");
     location.reload();
   }
+  else {
+    var me = this;
 
-
-  var me = this;
-
-  this.directionsService.route({
-    origin: {
-      'placeId': this.originPlaceId
-    },
-    destination: {
-      'placeId': this.destinationPlaceId
-    },
-    travelMode: this.travelMode
-  }, function(response, status) {
-    if (status === 'OK') {
-      me.directionsDisplay.setDirections(response);
-      console.log("~~~~~~~~~~~~~~~~~~~~~");
-      console.log("distance: " + response.routes[0].legs[0].distance.text);
-      console.log("duration: " + response.routes[0].legs[0].duration.text);
-      console.log("main road taken: " + response.routes[0].summary);
-      console.log("~~~~~~~~~~~~~~~~~~~~~");
-      calculatePrice(response.routes[0].legs[0].distance.value, response.routes[0].legs[0].duration.value);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
+    this.directionsService.route({
+      origin: {
+        'placeId': this.originPlaceId
+      },
+      destination: {
+        'placeId': this.destinationPlaceId
+      },
+      travelMode: this.travelMode
+    }, function(response, status) {
+      if (status === 'OK') {
+        me.directionsDisplay.setDirections(response);
+        console.log("~~~~~~~~~~~~~~~~~~~~~");
+        console.log("distance: " + response.routes[0].legs[0].distance.text);
+        console.log("duration: " + response.routes[0].legs[0].duration.text);
+        console.log("main road taken: " + response.routes[0].summary);
+        console.log("~~~~~~~~~~~~~~~~~~~~~");
+        calculatePrice(response.routes[0].legs[0].distance.value, response.routes[0].legs[0].duration.value);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
 }
 
 function getAddressFromLatLang(lat, lng, geocoder) {
