@@ -22,10 +22,12 @@
   },
   "homepage": "https://github.com/nguyenq2006/let_it_fly#readme",
   "dependencies": {
-    "express": "^4.16.1"
+    "express": "^4.16.1",
+    "body-parser": "^1.18.2",
+    "bower": "^1.8.2",
+    "mysql": "^2.15.0"
   },
   "devDependencies": {
-    "bower": "^1.8.2",
     "mocha": "^3.5.3"
   }
 }

@@ -2,13 +2,17 @@ var express = require('express');
 var http = require('http');
 var app = express();
 var path = require('path');
-var routes = require('./routes');
+var routes = require('./api/routes');
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 //Connect to mySQL database
-// var mysql = require('mysql');
+var mysql = require('mysql');
 // var con = mysql.createConnection({
 // 	host: "localhost",
 // 	user: "root",
-// 	password: "fakepass",
+// 	password: "password",
 // 	database: "user"
 // });
 
