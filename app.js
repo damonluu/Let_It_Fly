@@ -3,6 +3,10 @@ var http = require('http');
 var app = express();
 var path = require('path');
 var routes = require('./routes');
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //Connect to mySQL database
 // var mysql = require('mysql');
 // var con = mysql.createConnection({
@@ -20,6 +24,11 @@ var routes = require('./routes');
 app.use(function(req, res, next) {
   console.log(req.method, req.url);
   next(); 
+});
+
+app.post('/adduser', function(req, res){
+	console.log(req.body.user);
+	res.end();
 });
 
 //define the port to host the server

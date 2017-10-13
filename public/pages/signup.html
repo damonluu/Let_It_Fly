@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!-- define angular app -->
-<html ng-app="myApp2">
+<html ng-app="myApp">
 
 <head>
   <!-- SCROLLS -->
@@ -30,17 +30,24 @@
   </style>
 
 </head>
-<body>
+<bod ng-controller="SignUpController">
 <!-- define angular controller -->
 <div class="container">
   <div id="logbox">
-      <form id="signup" method="post" action="/signup">
-        <h1>create an account</h1>
-        <input name="user[name]" type="text" placeholder="What's your username?" pattern="^[\w]{3,16}$" autofocus="autofocus" required="required" class="input pass"/>
-        <input name="user[password]" type="password" placeholder="Choose a password" required="required" class="input pass"/>
-        <input name="user[password2]" type="password" placeholder="Confirm password" required="required" class="input pass"/>
-        <input name="user[email]" type="email" placeholder="Email address" class="input pass"/>
-        <input type="submit" value="Sign Up!" class="inputButton"/>
+      <form id="signup">
+        <h1>Create An Account</h1>
+        <div class="row">
+          <div class="col">
+        <input ng-model="users.firstName" id="first" name="user[firstName]" type="text" placeholder="First Name" autofocus="autofocus" required="required" class="input pass"/>
+      </div>
+      <div class="col">
+        <input ng-model="users.lastName" id="last" name="user[lastName]" type="text" placeholder="Last Name" autofocus="autofocus" required="required" class="input pass"/>
+      </div>
+      </div>
+        <input ng-model="users.password" name="user[password]" type="password" placeholder="Choose a password" required="required" class="input pass"/>
+        <input ng-model="users.phoneNumber" name="user[phone]" type="text" placeholder="Phone Number" required="required" class="input pass"/>
+        <input ng-model="users.email" name="user[email]" type="email" placeholder="Email address" required="required" class="input pass"/>
+        <button type="submit" ng-click="create(users)" class="inputButton"/>Sign Up</button>
         <div class="text-center">
             already have an account? <a href="#signin" id="login_id">login</a>
         </div>

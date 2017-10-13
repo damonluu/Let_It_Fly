@@ -3,7 +3,7 @@
 }
 
 ::-moz-selection {
-  background-color: #8ac7d8;
+  background-color: #5AB9EA;
 }
 
 body {
@@ -28,7 +28,7 @@ body {
 #logbox {
   padding: 10px;
   margin: 100px auto;
-  width: 340px;
+  width: 500px;
   background-color: rgba(255,255,255,1);
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
@@ -52,7 +52,7 @@ h1, input {
   height: 50px;
   display: block;
   margin: 0 auto 15px;
-  padding: 0 15px;
+  padding: 0 15px;  
   border: none;
   border-bottom: 2px solid #ebebeb;
   color: black;
@@ -60,10 +60,10 @@ h1, input {
 }
 .input:focus {
   outline: none;
-  border-bottom-color: #3CC !important;
+  border-bottom-color: #5AB9EA !important;
 }
 .input:hover {
-  border-bottom-color: #dcdcdc;
+  border-bottom-color: #5AB9EA;
 }
 .input:invalid {
   box-shadow: none;
@@ -80,17 +80,17 @@ h1, input {
   display: block;
   margin: 30px auto 30px;
   color: white;
-  background-color: #3CC;
+  background-color: #5AB9EA;
   border: none;
-  -webkit-box-shadow: 0 5px 0 #2CADAD;
-  -moz-box-shadow: 0 5px 0 #2CADAD;
-  box-shadow: 0 5px 0 #2CADAD;
+  -webkit-box-shadow: 0 5px 0 #5AB9EA;
+  -moz-box-shadow: 0 5px 0 #5AB9EA;
+  box-shadow: 0 5px 0 #5AB9EA;
 }
 .inputButton:hover {
   top: 2px;
-  -webkit-box-shadow: 0 3px 0 #2CADAD;
-  -moz-box-shadow: 0 3px 0 #2CADAD;
-  box-shadow: 0 3px 0 #2CADAD;
+  -webkit-box-shadow: 0 3px 0 #5AB9EA;
+  -moz-box-shadow: 0 3px 0 #5AB9EA;
+  box-shadow: 0 3px 0 #5AB9EA;
 }
 .inputButton:active {
   top: 5px;
@@ -98,4 +98,19 @@ h1, input {
 }
 .inputButton:focus {
   outline: none;
+}
+#first {
+  padding-left: 15px;
+  margin-left: 30px;
+  width: 80%;
+}
+#last {
+  padding-left: 15px;
+  margin-left: 0px;
+  width: 85%;
+}
+.row {
+   margin: 0 auto 15px;
+   padding: 0 15px; 
+   height: 50px;
 }
