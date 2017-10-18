@@ -1,6 +1,7 @@
 
 .locations {
-  background-color: #B3325E;
+  background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to bottom, #5680E9, #8860D0);
+  background: url("../img/bg-pattern.png"), linear-gradient(to bottom, #5680E9, #8860D0); }
 }
 .locations a{
 	color: gray;
@@ -31,7 +32,7 @@
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  border: 2px solid #1d2087;
+  border: 2px solid #5680E9;
 }
 
 .circle::before,
@@ -55,8 +56,8 @@
   position: relative;
   z-index: 2;
   background-color: #fff;
-  border: 2px solid #B3325E;
-  color: #B3325E;
+  border: 2px solid #5680E9;
+  color: #5680E9;
   line-height: 50px;
   overflow: hidden;
 }
@@ -74,7 +75,7 @@
   transform: scale(.5);
 }
 .circle:hover::after {
-  background: #B3325E;
+  background: #5680E9;
   border-radius: 50%;
   -webkit-transform: scale(.9);
   transform: scale(.9);

@@ -11,8 +11,16 @@
 			})
 			// route for the about page
 			.when('/signup', {
-				templateUrl : 'signup.html',
-				controller  : 'aboutController'
+				templateUrl : 'pages/signup.html',
+				controller  : 'SignUpController'
+			})
+
+			.when('/signin', {
+				templateUrl : 'pages/signin.html',
+				controller : 'SignInController'
+			})
+			.when('/adduser',{
+				templateUrl : 'pages/test.html'
 			})
 	});
 	// create the controller and inject Angular's $scope
@@ -22,11 +30,18 @@
 
 	});
 
-	myApp.controller('aboutController', function($scope) {
-		$scope.message = 'Sign In';
+	myApp.controller('SignUpController', function($scope, $http) {
+		$scope.create = function(user){
+			console.log(user);
+			$http.post('/user',user).
+	        then(function(response) {
+	            console.log("posted successfully");
+	        }).catch(function(response) {
+	            console.error("error in posting");
+	        })
+		}
 	});
 
-	myApp.controller('contactController', function($scope) {
+	myApp.controller('SignInController', function($scope) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
 	});
-	$locationProvider.html5Mode(true);
