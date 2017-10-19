@@ -1,0 +1,64 @@
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+  position: relative;
+}
+
+#directionsPanel {
+  position: absolute; top: 250px; left: 15px; z-index: 99;
+  background-color: white;
+  float:right;
+  width:30%;
+  max-width: 375px;
+  min-width: 200px;
+  max-height: 70%;
+  display: inline;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  line-height: 30px;
+  padding: 0px 15px 0px 15px;
+  opacity: .9;
+  overflow: auto;
+}
+
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.controls {
+  margin-top: 20px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  clear: both;
+  box-sizing: border-box;
+  height: 40px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#origin-input,
+#destination-input,
+#pickup-input {
+  background-color: #ffbb66;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  margin-left: 10px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 32%;
+  max-width: 400px;
+  min-width: 230px;
+  display: grid;
+}
+
+#origin-input:focus,
+#destination-input:focus,
+#pickup-input:focus {
+  border-color: #4d90fe;
+}

@@ -1,0 +1,13 @@
+Oct 5
+* If origin or destination is not within the 3 counties, Alerts an error
+* Shows distance and time in console
+* Shows turn by turn directions
+* Show line of how car will move on the map
+* Can get current location if browser allows
+
+Oct 11
+* Displays price of ride using Alert(), change it later to look nicer
+  - using formula of $0.2 per minute, $1.7 per mile, and required $15 base fee
+* If neither origin nor destination is SFO, SJC, or OAK, Alerts the error
+  - Can be nearby the airport such as parking lots, cell phone lots, etc.
+  - For a full list view documentation on shared Google Drive folder
