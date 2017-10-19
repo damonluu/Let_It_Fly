@@ -1,0 +1,5 @@
+Oct 19
+* Allows driver to set origin, pickup, and destination
+* origin is where driver is
+* pickup is where rider is
+* destination is final locaion
