@@ -42,6 +42,14 @@
 		}
 	});
 
-	myApp.controller('SignInController', function($scope) {
-		$scope.message = 'Contact us! JK. This is just a demo.';
+	myApp.controller('SignInController', function($scope, $http) {
+		$scope.login = function(user){
+			console.log(user);
+			$http.get('/user',user).
+	        then(function(response) {
+	            console.log("get successfully");
+	        }).catch(function(response) {
+	            console.error("error in getting");
+	        })
+		}
 	});

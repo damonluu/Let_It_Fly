@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 
-//Connect to mySQL database
+//Connect to mySQL databasIe
 var mysql = require('mysql');
 var con = mysql.createConnection({
 	host: "localhost",
