@@ -19,9 +19,6 @@
 				templateUrl : 'pages/signin.html',
 				controller : 'SignInController'
 			})
-			.when('/adduser',{
-				templateUrl : 'pages/test.html'
-			})
 	});
 	// create the controller and inject Angular's $scope
 	myApp.controller('mainController', function($scope, $rootScope) {
@@ -33,23 +30,30 @@
 	myApp.controller('SignUpController', function($scope, $http) {
 		$scope.create = function(user){
 			console.log(user);
-			$http.post('/user',user).
-	        then(function(response) {
-	            console.log("posted successfully");
-	        }).catch(function(response) {
-	            console.error("error in posting");
-	        })
+			var regexPhone = /\d{10}/;
+			var regexEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+			if(regexPhone.test(user.phoneNumber) && regexEmail.test(user.email)){
+				$http.post('/user',user).
+		        then(function(response) {
+		            console.log("posted successfully");
+		        }).catch(function(response) {
+		            console.error("error in posting");
+		        })
+	   		}
 		}
 	});
 
 	myApp.controller('SignInController', function($scope, $http) {
 		$scope.login = function(user){
 			console.log(user);
-			$http.get('/user',user).
-	        then(function(response) {
-	            console.log("get successfully");
-	        }).catch(function(response) {
-	            console.error("error in getting");
-	        })
+		    $http({
+		            url: '/user',
+		            method: 'GET',
+		            params: user
+		        }). then(function(response) {
+		            console.log("posted successfully");
+		        }).catch(function(error) {
+		            console.log("Invalid Password or Email")
+		        })
 		}
 	});

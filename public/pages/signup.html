@@ -45,7 +45,7 @@
       </div>
       </div>
         <input ng-model="users.password" name="user[password]" type="password" placeholder="Choose a password" required="required" class="input pass"/>
-        <input ng-model="users.phoneNumber" name="user[phone]" type="text" placeholder="Phone Number" required="required" class="input pass"/>
+        <input ng-model="users.phoneNumber" pattern="\d{10}" name="user[phone]" type="text" title="Please enter 10 digits phone number without space"placeholder="Phone Number" required="required" class="input pass"/>
         <input ng-model="users.email" name="user[email]" type="email" placeholder="Email address" required="required" class="input pass"/>
         <button type="submit" ng-click="create(users)" class="inputButton"/>Sign Up</button>
         <div class="text-center">

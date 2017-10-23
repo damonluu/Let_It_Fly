@@ -5,6 +5,7 @@ var ctrlUser = require('../controllers/users_controller.js');
 
 router
   .route('/user')
-  .post(ctrlUser.newUser);
+  .post(ctrlUser.newUser)
+  .get(ctrlUser.getUser);
 
 module.exports = router;
