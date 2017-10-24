@@ -1,5 +1,5 @@
 /**
- * @constructor
+ *
  */
 function AutocompleteDirectionsHandler(map) {
     this.map = map;
@@ -61,29 +61,33 @@ AutocompleteDirectionsHandler.prototype.route = function() {
     //EITHER ORIGIN OR DESTINATION MUST BE AIRPORT, CANNOT BE NEAR AIRPORT LIKE THE LUGGAGE PICK UP LOCATION
     var airportPlaceId = validAirportPlace();
     if (airportPlaceId.includes(this.originPlaceId) || airportPlaceId.includes(this.destinationPlaceId)) {
-      var me = this;
+        var me = this;
 
-      this.directionsService.route({
-          origin: {
-              'placeId': this.originPlaceId
-          },
-          destination: {
-              'placeId': this.destinationPlaceId
-          },
-          travelMode: this.travelMode
-      }, function(response, status) {
-          if (status === 'OK') {
-              me.directionsDisplay.setDirections(response);
-              console.log("~~~~~~~~~~~~~~~~~~~~~");
-              console.log("distance: " + response.routes[0].legs[0].distance.text);
-              console.log("duration: " + response.routes[0].legs[0].duration.text);
-              console.log("main road taken: " + response.routes[0].summary);
-              console.log("~~~~~~~~~~~~~~~~~~~~~");
-              calculatePrice(response.routes[0].legs[0].distance.value, response.routes[0].legs[0].duration.value);
-          } else {
-              window.alert('Directions request failed due to ' + status);
-          }
-      });
+        this.directionsService.route({
+            origin: {
+                'placeId': this.originPlaceId
+            },
+            destination: {
+                'placeId': this.destinationPlaceId
+            },
+            travelMode: this.travelMode
+        }, function(response, status) {
+            if (status === 'OK') {
+                me.directionsDisplay.setDirections(response);
+                // console.log("~~~~~~~~~~~~~~~~~~~~~");
+                // console.log("distance: " + response.routes[0].legs[0].distance.text);
+                // console.log("duration: " + response.routes[0].legs[0].duration.text);
+                // console.log("main road taken: " + response.routes[0].summary);
+                // console.log("~~~~~~~~~~~~~~~~~~~~~");
+                calculatePrice(response.routes[0].legs[0].distance.value, response.routes[0].legs[0].duration.value);
+                console.log("~~~~~~~~~Test Array~~~~~~~~~~~~~~");
+                console.log(details(response.geocoded_waypoints[0].place_id, response.geocoded_waypoints[1].place_id));
+                // console.log(response.geocoded_waypoints[0].place_id);
+                // console.log(testGeocode(response.geocoded_waypoints[0].place_id));
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
     } else {
         alert("Either the origin or destination must be an airport (SFO, SJC, or OAK)");
         location.reload();
@@ -185,4 +189,89 @@ function validAirportPlace() {
         "ChIJCQq50rWFj4AR4bo5FthEzXU", "ChIJY0qG2giFj4ARtshexOmLHO4"
     ];
     return valid;
+}
+
+// function testGeocode(placeId) {
+//     var position = {};
+//     console.log("testing geocode post");
+//     $.ajax({
+//         url: 'https://maps.googleapis.com/maps/api/geocode/json?place_id=' + placeId + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+//         //type: 'POST',
+//         success: function(result, status) {
+//             position[0] = result.results[0].geometry.location.lat;
+//             position[1] = result.results[0].geometry.location.lng;
+//         }
+//     });
+//     return position;
+// }
+
+// function getLatLongFromPlace(placeid) {
+//     //array to store the latitude and longitude
+//     var loc = [];
+//     // create a new Geocoder object
+//     var geocoder = new google.maps.Geocoder();
+//     geocoder.geocode({
+//         'placeId': placeid
+//     }, function(results, status) {
+//         // and this is function which processes response
+//         if (status == google.maps.GeocoderStatus.OK) {
+//             loc[0] = results[0].geometry.location.lat();
+//             loc[1] = results[0].geometry.location.lng();
+//             return loc;
+//         } else {
+//             alert("Geocode was not successful for the following reason: " + status);
+//         }
+//     });
+// }
+
+function details(origin_PlaceId, destination_PlaceId) {
+    var formData = {};
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRequest = {
+        origin: {
+            placeId: origin_PlaceId
+        },
+        destination: {
+            placeId: destination_PlaceId
+        },
+        travelMode: "DRIVING"
+    }
+
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+        'placeId': origin_PlaceId
+    }, function(results, status) {
+        // and this is function which processes response
+        if (status == google.maps.GeocoderStatus.OK) {
+            formData["latOrigin"] = results[0].geometry.location.lat();
+            formData["lngOrigin"] = results[0].geometry.location.lng();
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    });
+    geocoder.geocode({
+        'placeId': destination_PlaceId
+    }, function(results, status) {
+        // and this is function which processes response
+        if (status == google.maps.GeocoderStatus.OK) {
+            formData["latDestination"] = results[0].geometry.location.lat();
+            formData["lngDestination"] = results[0].geometry.location.lng();
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    });
+
+
+    directionsService.route(directionsRequest, function(response, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            formData["originPlaceId"] = response.request.origin.placeId;
+            formData["destinationPlaceId"] = response.request.destination.placeId;
+            formData["distance"] = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+            formData["duration"] = (response.routes["0"].legs["0"].duration.value / 60).toFixed(0);
+
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    });
+    return formData;
 }

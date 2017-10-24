@@ -11,3 +11,14 @@ Oct 11
 * If neither origin nor destination is SFO, SJC, or OAK, Alerts the error
   - Can be nearby the airport such as parking lots, cell phone lots, etc.
   - For a full list view documentation on shared Google Drive folder
+
+Oct 24
+* Stores all values that will be used in the database in an array
+  * Stuff in the array include:
+    Origin latitude
+    Origin longitude
+    destination latitude
+    destination longitude
+    distance
+    duration
+    price???

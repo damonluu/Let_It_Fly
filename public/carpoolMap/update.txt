@@ -1,0 +1,4 @@
+Oct 24
+ * checks if carpooler is within 1 mile of road
+ * if carpooler is not within 1 mile of road, driver will get an error to not pick them up
+ 
