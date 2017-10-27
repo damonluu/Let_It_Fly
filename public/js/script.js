@@ -19,6 +19,11 @@
 				templateUrl : 'pages/signin.html',
 				controller : 'SignInController'
 			})
+
+			/*.when('/dashboard',{
+				templateUrl : 'pages/dashboard.html',
+				controller : 'DashboardController'
+			})*/
 	});
 	// create the controller and inject Angular's $scope
 	myApp.controller('mainController', function($scope, $rootScope) {
@@ -36,6 +41,7 @@
 				$http.post('/user',user).
 		        then(function(response) {
 		            console.log("posted successfully");
+		            window.location.href="dashboard.html";
 		        }).catch(function(response) {
 		            console.error("error in posting");
 		        })
@@ -52,8 +58,13 @@
 		            params: user
 		        }). then(function(response) {
 		            console.log("posted successfully");
+		            window.location.href="dashboard.html";
 		        }).catch(function(error) {
 		            console.log("Invalid Password or Email")
 		        })
 		}
 	});
+
+	/*myApp.controller('DashboardController', function($scope, $http){
+		$scope.
+	})*/

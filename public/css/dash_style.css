@@ -1,0 +1,250 @@
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+body {
+  margin-top:45px;
+}
+
+
+body{
+	background: url("../img/bg-pattern.png"), #7b4397;
+/*background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, #7b4397, #dc2430);
+  background: url("../img/bg-pattern.png"), linear-gradient(to left, #7b4397, #dc2430); }*/
+  background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, #5AB9EA, #8860D0);
+  background: url("../img/bg-pattern.png"), linear-gradient(to left, #5AB9EA, #8860D0); }
+
+.navbar {
+  border-bottom-left-radius:0; /*Change bootstrap default border-radius for menu*/
+  size: 30px;
+}
+@media(min-width:768px) {
+  .navbar .navbar-brand {
+    width:224px; /*Change the width of .navbar-brand to center text and align with .sider-navbar border-right*/
+    text-align: center;
+  }
+}
+
+@media(min-width:768px) {
+    .sider-navbar {
+        position: fixed;
+        top: 60px; /*Change to reposition .sider-navbar from top*/
+        left: 225px;
+        width: 225px;
+        margin-left: -225px;
+        border-right:1px solid #E7E7E7; /*Change for right side border color*/
+        border-radius: 0;
+        overflow-y: auto;
+        background: #F8F8F8; /*Change for background color*/
+        bottom: 0;
+        overflow-x: hidden;
+        padding-bottom: 40px;
+        padding-top: 20px;
+        font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+        font-weight: 100;
+  		letter-spacing: 1px;
+  		border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    }
+    
+    .sider-navbar li.sider-menu {
+      
+    }
+    .sider-navbar li.sider-menu ul {
+        width: 225px;
+        color: #896CD3;
+    }
+    .sider-navbar li.sider-menu > ul > li,
+    .sider-navbar li.sider-menu ul li ul li{
+      border-top:1px solid #E7E7E7;/*Change for .sider-menu border color*/
+     -webkit-transition: all 0.3s ease-out;
+     transition: all 0.3s ease-out;
+     top: 70px;
+    }
+    .sider-navbar li.sider-menu > ul > li:last-child {
+      border-bottom:1px solid #E7E7E7;/*Change for .sider-menu border color*/
+    }
+    .sider-navbar li.sider-menu > ul > li.active,
+    .sider-navbar li.sider-menu > ul > li:hover,
+    .sider-navbar li.sider-menu ul li ul li:hover{
+      border-right:6px solid #dddddd;
+      top: 70px;
+    }
+    .sider-navbar li.sider-menu ul li ul li:hover{
+      background:#FFFFFF;/*Change for .sider-menu border color*/
+    }
+    .sider-navbar li.sider-menu ul li a {
+      outline: none;
+      padding:15px;
+      top: 70px;
+    }
+    
+}
+.sider-navbar li.sider-menu ul {
+  list-style:none;
+  padding: 0;
+  top: 70px;
+}
+
+.sider-navbar li.sider-menu ul li a {
+    display: block;
+    padding:15px;
+    text-decoration: none;
+    color:#5E5E5E;/*Change for .sider-menu color*/
+    top: 70px;
+}
+.sider-navbar li.sider-menu ul li ul {
+  background-color:#f3f3f3;/*Change for .sider-menu background-color*/
+}
+
+#profile-button{
+  display: block;
+  float: none;
+  /*margin-left: auto;
+  margin-right: auto;*/
+  padding:6px;
+  width: 10%;
+  height: 10%;
+  /*-webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+  border-left: 4px solid #333333;
+  border-right: 4px solid #333333;
+  border-color: #8860D0;*/
+}
+
+#profile {
+  
+}
+.profile-userpic img {
+  display: block;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding:6px;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+  border-left: 4px solid #333333;
+  border-right: 4px solid #333333;
+  border-color: rgba(122, 133, 211, 79);
+}
+
+.profile-usertitle {
+  text-align: center;
+  font-family: 'Yesteryear','Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+  letter-spacing: 3px
+  font-size: 20px;
+  margin-top: 16px;
+  color: rgba(122, 179, 228, 100);
+}
+
+.profile-usertitle-name {
+  font-size: 30px;
+  letter-spacing: 3px
+  font-weight: 100;
+  margin-bottom: 7px;
+}
+
+.profile-usertitle-title {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 200;
+  margin-bottom: 15px;
+}
+@media(max-width:768px) {
+  #profile {
+    display:none;
+  }
+}
+.panel-default{
+	background-color: white;
+	/*border-color: rgba(92, 123, 229, 59);*/
+}
+.panel-default > .panel-heading {
+    color: white;
+    /*background-color: rgba(92, 123, 229, 59);*/
+    background-color: rgba(114, 179, 228, 81);
+    opacity: 30%;
+    border-color: #8860D0; 
+	font-weight: 50;}
+.panel-heading {
+    padding: 10px 15px;
+
+    /*border-bottom: 1px solid rgba(92, 123, 229, 59);*/
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #8860D0;
+    font-weight: 50;
+}
+.panel-body {
+    padding: 15px;
+}
+
+/*@media(min-width:768px) {
+    #page-keeper {
+      position: relative;
+      width: 500px;
+      padding: 10px 10px 10px 225px;
+      background-color: white;
+      left: 250px;
+      top: 15px;
+      text-align: left;
+      color: #4A90E2 ;
+      font-family: 'Yesteryear','Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+        }
+      /*height: 100%;
+      font-family: 'Yesteryear','Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+      padding: 10px 10px 10px 225px;
+      background-color: white;
+      color: #4A90E2 ;
+      top: 70px;
+      
+  	  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+
+    }
+}*/
+
+
+#wrapper {
+  width: 100%;
+  background-color: white;
+  border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+#page-wrapper {
+  position: relative;
+  padding: 30px 30px;
+  top: 15px;
+  margin: 0 0 0 250px;
+    /*padding: 0 30px;*/
+  min-height: 100%;
+  background-color: white;
+  color: rgba(122, 133, 211, 79) ;
+  border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  /*font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';*/
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+  font-weight: 300;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #e7e7e7; 
+   }
+
+@media (min-width: 768px) {
+  .page-wrapper{ 
+    position: relative;
+    width: 480px;
+    top: 15px;
+    margin: 0 0 0 250px;
+    padding: 30 30px;
+    border-left: 1px solid #e7e7e7;
+    color: #4A90E2 ;
+    font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+  }
+
