@@ -56,7 +56,7 @@
 						 users.month = user.month;
 						 users.year = user.year;
 						 users.cvv = user.cvv;
-						 window.location.href="dashboard.html";
+						 window.location.href="../dashboard.html";
 						 $http.post('/user',users).then(function(response) {
 				            console.log("created account successfully");
 				           
@@ -98,7 +98,7 @@
 		            params: user
 		        }). then(function(response) {
 		            console.log("posted successfully");
-		            window.location.href="dashboard.html";
+		            window.location.href="../dashboard.html";
 		        }).catch(function(error) {
 		            console.log("Invalid Password or Email")
 		        })
