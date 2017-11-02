@@ -10,11 +10,12 @@ function AutocompleteDirectionsHandler(map) {
     var originInput = document.getElementById('origin-input');
     var carpoolInput = document.getElementById('carpool-input');
     var destinationInput = document.getElementById('destination-input');
-    // var submitButton = document.getElementById('submit-button');
+    var submitButton = document.getElementById('submit-button');
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.directionsDisplay.setMap(map);
     this.directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+
 
     var originAutocomplete = new google.maps.places.Autocomplete(
         originInput, {
@@ -28,6 +29,12 @@ function AutocompleteDirectionsHandler(map) {
         destinationInput, {
             placeIdOnly: true
         });
+        
+    submitButton.onclick = function () {
+        location.href = "#openModal";
+    };
+
+
 
     this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
     this.setupPlaceChangedListener(carpoolAutocomplete, 'PICK');
@@ -36,7 +43,7 @@ function AutocompleteDirectionsHandler(map) {
     this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
     this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(carpoolInput);
     this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(destinationInput);
-    // this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
+    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
 }
 
 
@@ -103,6 +110,8 @@ AutocompleteDirectionsHandler.prototype.route = function() {
               console.log("Distance between three");
               console.log(distanceThreePoints(response.geocoded_waypoints[0].place_id, response.geocoded_waypoints[1].place_id, response.geocoded_waypoints[2].place_id));
               console.log("~~~~~~~~~~~~~~~~~~~~~");
+              // alert("hello");
+              // $('#openModal').modal('show');
           } else {
               window.alert('Directions request failed due to ' + status);
           }
