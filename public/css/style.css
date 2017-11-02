@@ -201,3 +201,8 @@ textarea {
   margin-top: -20px;
   text-align: right;
 }
+
+#siteloader object{
+  height: 100% !important;
+  width: 100% !important;
+}
