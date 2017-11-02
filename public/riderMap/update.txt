@@ -22,3 +22,11 @@ Oct 24
     distance
     duration
     price???
+
+Nov 2
+ * Added estimated arrival time
+ * Changed the pricing/distance/estimated time/duration from alert to modal box
+ * Added submit button that will show the modal
+ * Added dummy drivers at SJSU, Milpitas, Hayward, San Mateo, and Palo Alto
+ * Removed turn by turn directions on rider map
+ * Tweaked ride pricing calculation to be closer to Uber and Lyft's pricing

@@ -164,9 +164,9 @@ function getGeocode(placeid) {
 }
 
 function calculatePrice(distanceInMeters, durationInSeconds) {
-    var baseFare = 15;
-    var pricePerMinute = 0.25;
-    var pricePerMile = 1.7; //remember to give first 2 miles for free
+    var baseFare = 2.5;
+    var pricePerMinute = 0.24;
+    var pricePerMile = 1.95; //remember to give first 2 miles for free
 
     // duration is in seconds and distance is in meters, so we have to covert
     // into minutes and miles
