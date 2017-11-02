@@ -11,9 +11,25 @@
   <!--creates the two boxes at top left where user can input origin and destination-->
   <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location">
   <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+  <button type="submit" id="submit-button">Submit</button>
 
   <div id="map"></div>
-  <div id="directionsPanel"></div>
+  <!-- <div id="directionsPanel"></div> -->
+
+  <div id="openModal" class="modalDialog">
+    <div>
+      <a id="close" href="#close" title="Close" class="close">X</a>
+      <h2>Ride Details</h2>
+      <p id="estimate">Please Enter Origin And Destination First</p>
+      <p id="distance"></p>
+      <p id="duration"></p>
+      <p id="price"></p>
+      <button id="confirm" type="button" class="hidden" data-dismiss="modal">Confirm Ride</button>
+      <a href="#close"><button id = "decline" type="button" class="hidden">Decline Ride</button></a>
+
+    </div>
+
+  </div>
 
   <script>
     // This example requires the Places library. Include the libraries=places
@@ -24,15 +40,76 @@
 
       //creates a new map object with center at SJSU
       var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 37.3352, lng: -121.8811},
-        zoom: 12,
+        center: {
+          lat: 37.3352,
+          lng: -121.8811
+        },
+        zoom: 10,
         minZoom: 10,
         MapOptions: true,
         mapTypeControlOptions: {
-              style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-              position: google.maps.ControlPosition.TOP_LEFT
-          },
+          style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+          position: google.maps.ControlPosition.TOP_LEFT
+        },
       });
+
+      var marker_image = new google.maps.MarkerImage(
+        "./images/beachflag.png"
+      );
+
+      //sjsu
+      var marker = new google.maps.Marker({
+        position: {
+          lat: 37.3352,
+          lng: -121.8811
+        },
+        map: map,
+        icon: marker_image
+      });
+
+      //milpitas
+      var marker = new google.maps.Marker({
+        position: {
+          lat: 37.4323,
+          lng: -121.8996
+        },
+        map: map,
+        icon: marker_image
+      });
+
+      //hayward
+      var marker = new google.maps.Marker({
+        position: {
+          lat: 37.6688,
+          lng: -122.0808
+        },
+        map: map,
+        icon: marker_image
+      });
+
+      //san mateo
+      var marker = new google.maps.Marker({
+        position: {
+          lat: 37.5630,
+          lng: -122.3255
+        },
+        map: map,
+        icon: marker_image
+      });
+
+      // palo alto
+      var marker = new google.maps.Marker({
+        position: {
+          lat: 37.4419,
+          lng: -122.1430
+        },
+        map: map,
+        icon: marker_image
+      });
+
+
+
+
 
       //lets origin and destination text box auto complete to a place/address
       new AutocompleteDirectionsHandler(map);

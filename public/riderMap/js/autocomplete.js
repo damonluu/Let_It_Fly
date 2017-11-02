@@ -8,6 +8,7 @@ function AutocompleteDirectionsHandler(map) {
     this.travelMode = 'DRIVING';
     var originInput = document.getElementById('origin-input');
     var destinationInput = document.getElementById('destination-input');
+    var submitButton = document.getElementById('submit-button');
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.directionsDisplay.setMap(map);
@@ -22,11 +23,17 @@ function AutocompleteDirectionsHandler(map) {
             placeIdOnly: true
         });
 
+    submitButton.onclick = function () {
+        location.href = "#openModal";
+    };
+
     this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
     this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
     this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
     this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(destinationInput);
+    this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
+
 }
 
 
@@ -169,10 +176,35 @@ function calculatePrice(distanceInMeters, durationInSeconds) {
     console.log(distanceInMiles);
 
     //total will show price of 15 dollar minimum
+    var d = new Date();
     var total = Math.max(baseFare + (durationInMinutes * pricePerMinute) + ((distanceInMiles - 2) * pricePerMile), 15).toFixed(2);
-    alert("Total Distance: " + distanceInMiles + " miles\n" +
-        "Total Duration: " + durationInMinutes + " minutes\n" +
-        "Total Calculated Price: $" + total);
+
+    document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000*60*60*7) + (durationInMinutes * 60 *1000));
+    document.getElementById("distance").innerHTML = "Total Distance : " + distanceInMiles + " miles";
+    document.getElementById("duration").innerHTML = "Total Duration : " + durationInMinutes + " minutes";
+    document.getElementById("price").innerHTML = "Total Calculated Price : $" + total;
+    document.getElementById('confirm').setAttribute("class", "btn-confirm");
+    document.getElementById('decline').setAttribute("class", "btn-decline");
+    document.getElementById('close').setAttribute("class", "hidden");
+}
+
+function msToTime(duration) {
+    var milliseconds = parseInt((duration%1000)/100)
+        , seconds = parseInt((duration/1000)%60)
+        , minutes = parseInt((duration/(1000*60))%60)
+        , hours = parseInt((duration/(1000*60*60)%24));
+
+    var end = "AM";
+    if(hours > 12) {
+      end = "PM";
+      hours %= 12;
+    }
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes + " " + end;
 }
 
 //array of place ids of airports, including some nearby stuff like cellphone lots, parking, baggage pickup locations
@@ -264,8 +296,8 @@ function details(origin_PlaceId, destination_PlaceId) {
 
     directionsService.route(directionsRequest, function(response, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            formData["originPlaceId"] = response.request.origin.placeId;
-            formData["destinationPlaceId"] = response.request.destination.placeId;
+            // formData["originPlaceId"] = response.request.origin.placeId;
+            // formData["destinationPlaceId"] = response.request.destination.placeId;
             formData["distance"] = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
             formData["duration"] = (response.routes["0"].legs["0"].duration.value / 60).toFixed(0);
 
