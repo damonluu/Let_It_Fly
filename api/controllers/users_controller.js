@@ -37,16 +37,11 @@ module.exports.newUser = function(req, res) {
      console.log(queryInsert);
     c.query(queryInsert, function (err, result, fields){
         if (err) throw err;
-        console.log(result);
-    });
-    var querySelect = 'SELECT ID FROM USERS WHERE EMAIL = "' + data.email + '"';
-    console.log(querySelect);
-    c.query(querySelect, function (err, result, fields){
-        if (err) throw err;
-        console.log(result[0].ID);
-        res.status(200).json(result[0].ID);
+        console.log(result.insertId);
+        res.status(200).json(result.insertId);
         return res.end();
     });
+  
   });
 
 };
@@ -70,7 +65,7 @@ module.exports.getUser = function(req, res) {
      console.log(query);
      c.query(query, function (err, result, fields){
         c.release();  
-        if (Object.keys(result).length == 0) { return res.status(400).send('Invalid password or email'); }
+        if (result.length == 0) { return res.status(400).send('Invalid password or email'); }
         else {  res.status(200).json(data); return res.end(); }
       });
   });

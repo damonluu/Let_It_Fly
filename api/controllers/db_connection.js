@@ -15,7 +15,7 @@ conPool.getConnection(function(err, c) {
 			if(err) throw err;
 			console.log("Connected to app_db");
 		});
-		c.query("CREATE TABLE IF NOT EXISTS Users (ID INT UNIQUE AUTO_INCREMENT, firstName VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL ,password VARCHAR(50) NOT NULL, phoneNumber BIGINT NOT NULL, email VARCHAR(150), rider BOOLEAN NOT NULL, PRIMARY KEY (email)) AUTO_INCREMENT=1000", function(err, result, fields){
+		c.query("CREATE TABLE IF NOT EXISTS Users (ID INT AUTO_INCREMENT, firstName VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL ,password VARCHAR(50) NOT NULL, phoneNumber BIGINT NOT NULL, email VARCHAR(150), rider BOOLEAN NOT NULL, PRIMARY KEY (ID, email)) AUTO_INCREMENT=1000", function(err, result, fields){
 
     	//this is important to release the connection 
         if(err) throw err; 
