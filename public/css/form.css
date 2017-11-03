@@ -202,6 +202,22 @@ pre {
     from {top: 30px; opacity: 1;}
     to {top: 0; opacity: 0;}
 }
+form label {
+  color: #757575;
+  font-size: 15px;
+  margin-left: 60px;
+  font-family: "Open Sans", Helvetica, sans-serif;
+}
+#driver {
+ margin-top: 7px;
+ margin-left: 30px;
+ background-color: #5AB9EA;
+}
+#rider {
+  margin-top: 7px;
+  margin-left: 30px;
+  background-color: #5AB9EA;
+}
 /*.input.valid.visa{
   background-image: url('../img/card/visa.png');
   background-repeat: no-repeat;
