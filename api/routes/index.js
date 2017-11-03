@@ -8,4 +8,8 @@ router
   .post(ctrlUser.newUser)
   .get(ctrlUser.getUser);
 
+router
+  .route('/checkCard')
+  .post(ctrlUser.checkCard);
+
 module.exports = router;

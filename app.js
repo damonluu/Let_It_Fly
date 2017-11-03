@@ -14,7 +14,6 @@ app.use(function(req, res, next) {
   next(); 
 });
 
-
 //define the port to host the server
 app.set('port', 1600);
 
@@ -24,7 +23,10 @@ var serverListener = function (req, res){
 };
 
 //set static directory before defining route
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public', {
+  extensions: ['html']
+}));
 
 app.use(routes);
 

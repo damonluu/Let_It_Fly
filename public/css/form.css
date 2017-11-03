@@ -18,6 +18,10 @@ body {
   background-size: cover;
 
 }
+p {
+  font-size: 10px;
+  color: grey;
+}
 
 .container {
   display: -webkit-flex;
@@ -99,6 +103,38 @@ h1, input {
 .inputButton:focus {
   outline: none;
 }
+
+.input#cvv {
+  margin-left: 43px;
+  margin-right: 30px;
+  width: 200px;
+}
+option {
+  margin-left: 50px;
+  font-size: 15px;
+  height: 50px;
+  width: 200px;
+}
+
+#month {
+   margin-left: 43px;
+   border: none;
+   font-size: 15px;
+   height: 50px;
+   width: 200px;
+}
+#cvv-details{
+  margin-top: 15px;
+}
+
+#year {
+   margin-left: 25px;
+   border: none;
+   font-size: 15px;
+   height: 50px;
+   width: 120px;
+}
+
 #first {
   padding-left: 15px;
   margin-left: 30px;
@@ -114,3 +150,70 @@ h1, input {
    padding: 0 15px; 
    height: 50px;
 }
+
+pre {
+  height: 100px;
+  width: 100%;
+  font-size: 10px;
+  color: white;
+  display:block; 
+  background-color: red;
+}
+
+#popup {
+    visibility: hidden;
+    width: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ED4337;
+    color: #fff;
+    text-align: center;
+    border-radius: 15px;
+    position: fixed;
+    padding: 10px;
+    z-index: 1;
+    top: 30px;
+    font-size: 17px;
+}
+
+
+#popup.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {top: 0; opacity: 0;} 
+    to {top: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {top: 30px; opacity: 1;} 
+    to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {top: 30px; opacity: 1;}
+    to {top: 0; opacity: 0;}
+}
+/*.input.valid.visa{
+  background-image: url('../img/card/visa.png');
+  background-repeat: no-repeat;
+  background-size: 20%;
+  background-position: right;
+}
+.input.valid.amex{
+ background-image: url('../img/card/amex.png');
+}
+.input.valid.discover{
+ background-image: url('../img/card/discover.png');
+}
+.input.valid.mastercard{
+ background-image: url('../img/card/mastercard.png');
+}*/
