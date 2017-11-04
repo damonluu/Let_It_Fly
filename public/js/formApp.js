@@ -1,4 +1,4 @@
-	// create the module and name it scotchApp
+		// create the module and name it scotchApp
 	var formApp = angular.module('formApp', ['ngRoute']);
 	// configure our routes
 	formApp.value('users', {
@@ -112,7 +112,9 @@
 		            params: user
 		        }). then(function(response) {
 		            console.log("posted successfully");
-		            window.location.href="../dashboard.html";
+		            console.log(response.data);
+		            var id = response.data[0].ID;
+		            window.location.href="../dashboard#/userID:" + id;
 		        }).catch(function(response) {
 		        	var popup = document.getElementById("popup");
 			        popup.innerHTML = response.data;

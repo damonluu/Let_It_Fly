@@ -2,6 +2,10 @@ var dashboard = angular.module('dashboard', ['ngRoute']);
 
 dashboard.config(function($routeProvider) {
 		$routeProvider
+			// .when('/:userID'){
+			// 	templateUrl: 'pages/dashboard/homepage.html'
+			// 	//controller: 'UserController'
+			// }
 			.when('/profile', {
 				templateUrl : 'pages/dashboard/profile.html',
 			})
@@ -11,8 +15,11 @@ dashboard.config(function($routeProvider) {
 			.when('/pastride', {
 				templateUrl : 'pages/dashboard/pastride.html',
 			})
+			.when('/userID:id', {
+				templateUrl : 'pages/dashboard/homepage.html',
+			})
 			.otherwise({
-              redirectTo: '/',
+              redirectTo: '/userID:id',
               templateUrl: 'pages/dashboard/homepage.html',
             });
 			/*.when('/dashboard',{
@@ -20,3 +27,4 @@ dashboard.config(function($routeProvider) {
 				controller : 'DashboardController'
 			})*/
 });
+

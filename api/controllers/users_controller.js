@@ -66,7 +66,7 @@ module.exports.getUser = function(req, res) {
      c.query(query, function (err, result, fields){
         c.release();  
         if (result.length == 0) { return res.status(400).send('Invalid password or email'); }
-        else {  res.status(200).json(data); return res.end(); }
+        else {  res.status(200).json(result); return res.end(); }
       });
   });
 };
