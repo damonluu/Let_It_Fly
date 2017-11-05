@@ -11,13 +11,16 @@ h2, p {
 }
 
 #directionsPanel {
-  position: absolute; top: 200px; left: 15px; z-index: 99;
+  position: absolute;
+  top: 120px;
+  left: 15px;
+  z-index: 99;
   background-color: white;
   float:right;
-  width:30%;
+  width:72%;
   max-width: 375px;
   min-width: 200px;
-  max-height: 70%;
+  max-height: 80%;
   display: inline;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -150,12 +153,9 @@ html, body {
   font-weight: 400;
   text-align: center;
   margin-left: 27px;
-  /*padding: 10px 11px 0 13px;*/
   max-width: 60%;
   min-width: 40%;
-
   margin-top: 0px;
-  /*border: 1px solid transparent;*/
   border-radius: 20px;
   box-sizing: border-box;
   height: 40px;
@@ -169,5 +169,5 @@ html, body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
