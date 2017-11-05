@@ -1,6 +1,7 @@
 //Connect to mySQL database
 var mysql = require('mysql');
 var db_connection = require('./db_connection');
+<<<<<<< Updated upstream
 // var con = mysql.createConnection({
 //   host: "localhost",
 //   user: "development",
@@ -38,6 +39,10 @@ db_connection.getConnection(function (err, c) {
 
 });
 
+=======
+var CreditCard = require('credit-card');
+
+>>>>>>> Stashed changes
 //adding new user
 module.exports.newUser = function(req, res) {
   console.log('POST New User');
@@ -78,19 +83,23 @@ module.exports.getUser = function(req, res) {
 
   db_connection.getConnection(function(err, c){
     if(err) throw err;
-     // var existAccount = false;
-     // var queryExistAccount = 'SELECT ID FROM users WHERE email="' + data.email + '"';
-     // console.log(queryExistAccount);
-     // c.query(queryExistAccount, function(err, result, fields){
-     //    if(err) throw err;
-     //    else if(!Object.keys(result).length == 0){ console.log('Here'); existAccount = true; } 
-     // });
-     var query = 'SELECT ID FROM users WHERE email="' + data.email + '" and password="' + data.password + '"';
+    
+     var query = 'SELECT ID, firstName, lastName FROM users WHERE email="' + data.email + '" and password="' + data.password + '"';
      console.log(query);
      c.query(query, function (err, result, fields){
         c.release();  
+<<<<<<< Updated upstream
         if (Object.keys(result).length == 0) { return res.status(401).json({error: 'Invalid password or email'}); }
         else {  res.status(200).json(data); res.end(); }
+=======
+        if (result.length == 0) { return res.status(400).send('Invalid password or email'); }
+        else {  
+          console.log(result);
+          res.status(200).json(result); 
+          return res.end(); 
+        }
+>>>>>>> Stashed changes
       });
+
   });
 };
