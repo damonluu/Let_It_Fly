@@ -54,19 +54,29 @@ module.exports.getUser = function(req, res) {
   console.log(data);
   db_connection.getConnection(function(err, c){
     if(err) throw err;
-     // var existAccount = false;
-     // var queryExistAccount = 'SELECT ID FROM users WHERE email="' + data.email + '"';
-     // console.log(queryExistAccount);
-     // c.query(queryExistAccount, function(err, result, fields){
-     //    if(err) throw err;
-     //    else if(!Object.keys(result).length == 0){ console.log('Here'); existAccount = true; } 
-     // });
-     var query = 'SELECT ID FROM users WHERE email="' + data.email + '" and password="' + data.password + '"';
+     var query = 'SELECT * FROM users WHERE email="' + data.email + '" and password="' + data.password + '"';
      console.log(query);
      c.query(query, function (err, result, fields){
         c.release();  
         if (result.length == 0) { return res.status(400).send('Invalid password or email'); }
         else {  res.status(200).json(result); return res.end(); }
       });
+  });
+};
+
+module.exports.getUserByID = function(req, res) {
+  console.log('GET User By ID');
+  //getting the request json data
+  var data = req.query;
+  console.log(data)
+  console.log(data.id);
+  db_connection.getConnection(function(err, c){
+    if(err) throw err;
+     var query = 'SELECT * FROM users WHERE ID=' + data.id;
+     console.log(query);
+     c.query(query, function (err, result, fields){
+        c.release();  
+        res.status(200).json(result); return res.end(); }
+     );
   });
 };

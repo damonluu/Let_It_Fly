@@ -12,4 +12,8 @@ router
   .route('/checkCard')
   .post(ctrlPayment.checkCard);
 
+router
+  .route('/getID')
+  .get(ctrlUser.getUserByID);
+
 module.exports = router;

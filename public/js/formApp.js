@@ -1,6 +1,5 @@
 		// create the module and name it scotchApp
 	var formApp = angular.module('formApp', ['ngRoute']);
-	// configure our routes
 	formApp.value('users', {
 		id: '',
 		firstname: '',
@@ -15,6 +14,7 @@
 		month: '',
 		year: ''
 	});
+
 	formApp.config(function($routeProvider) {
 		$routeProvider
 			// route for the about page
@@ -57,7 +57,7 @@
 			    $http.post('/checkCard',users).
 			         then(function(response) {
 			         	 console.log("passed checkCard");
-						 window.location.href="../dashboard.html";
+						 window.location.href="../dashboard#/userID:" + users.id;
 			         }).catch(function(response) {
 			         	 console.log(response.data);
 			         	 var popup = document.getElementById("popup");
@@ -103,7 +103,7 @@
 		}
 	}]);
 
-	formApp.controller('SignInController', function($scope, $http) {
+	formApp.controller('SignInController', ['$scope','users','$http',function($scope, users, $http) {
 		$scope.login = function(user){
 			console.log(user);
 		    $http({
@@ -112,9 +112,8 @@
 		            params: user
 		        }). then(function(response) {
 		            console.log("posted successfully");
-		            console.log(response.data);
-		            var id = response.data[0].ID;
-		            window.location.href="../dashboard#/userID:" + id;
+		            users.id = response.data[0].ID;
+		            window.location.href="../dashboard#/userID:" + users.id;
 		        }).catch(function(response) {
 		        	var popup = document.getElementById("popup");
 			        popup.innerHTML = response.data;
@@ -123,7 +122,9 @@
 		            console.log("Invalid Password or Email")
 		        })
 		}
-	});
+
+
+	}]);
 
 	/*myApp.controller('DashboardController', function($scope, $http){
 		$scope.
