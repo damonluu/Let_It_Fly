@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Let It Fly</title>
+  <link rel="icon" type="image/gif/png" href="img/map/shuttlePlane.png">
+  <link rel="stylesheet" href="css/ridermap.css">
+</head>
+
+<body>
+  <!--creates the two boxes at top left where user can input origin and destination-->
+  <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location">
+  <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+  <button type="submit" id="submit-button">Submit</button>
+
+  <!-- socket io test -->
+  <button id="button">Send!</button>
+  <h2 id="alert"> waiting...</h2>
+
+
+  <div id="map"></div>
+  <div id="directionsPanel"></div>
+
+  <div id="openModal" class="modalDialog">
+    <div>
+      <a id="close" href="#close" title="Close" class="close">X</a>
+      <h2>Ride Details</h2>
+      <p id="estimate">Please Enter Origin And Destination First</p>
+      <p id="distance"></p>
+      <p id="duration"></p>
+      <p id="price"></p>
+      <a href="#close"><button id="confirm" type="button" class="hidden" data-dismiss="modal" onclick="displayStepByStep()">Confirm Ride</button></a>
+      <a href="#close"><button id="decline" type="button" class="hidden">Decline Ride</button></a>
+
+    </div>
+  </div>
+
+  <script src="jquery/jquery-3.2.1.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0&libraries=places"></script>
+  <script type="text/javascript" src="js/currentLocation.js"></script>
+  <script type="text/javascript" src="js/googlemapsRider.js"></script>
+  <script type="text/javascript" src="js/markers.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script type="text/javascript" src="js/socketRider.js"></script>
+
+  <!-- <script src = "/socket.io/socket.io.js"></script> -->
+  <!-- <script src = "./js/socket.js"></script> -->
+</body>
+
+</html>

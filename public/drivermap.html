@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Let It Fly</title>
+  <link rel="icon" type="image/gif/png" href="img/map/shuttlePlane.png">
+  <link rel="stylesheet" href="css/drivermap.css">
+</head>
+
+<body>
+  <!--creates the two boxes at top left where user can input origin and destination-->
+  <input id="origin-input" class="controls" type="text" placeholder="Enter your origin location">
+  <!-- <input id="pickup-input" class="controls" type="text" placeholder="Enter a pickup location"> -->
+  <!-- <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location"> -->
+  <button type="submit" id="submit-button" onclick="activeDriver()">Set As Active Driver</button>
+  <!-- <button type="submit" id="directionToRider-button" class = "hidden" onclick="directionToRider()">Get Direction To Rider</button> -->
+
+  <!-- socket io test -->
+  <h2 id="alert"> waiting...</h2>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script type="text/javascript" src="js/socketDriver.js"></script>
+  <div id="map"></div>
+  <div id="directionsPanel"></div>
+
+  <script src="jquery/jquery-3.2.1.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0&libraries=places"></script>
+  <script type="text/javascript" src="js/currentLocation.js"></script>
+  <script type="text/javascript" src="js/markers.js"></script>
+  <script type="text/javascript" src="js/googlemapsDriver.js"></script>
+</body>
+
+</html>
