@@ -36,8 +36,7 @@ module.exports.getUser = function(req, res) {
   console.log(data);
   db_connection.getConnection(function(err, c){
     if(err) throw err;
-    
-     var query = 'SELECT ID, firstName, lastName FROM users WHERE email="' + data.email + '" and password="' + data.password + '"';
+     var query = 'SELECT * FROM users WHERE email="' + data.email + '" and password="' + data.password + '"';
      console.log(query);
      c.query(query, function (err, result, fields){
         c.release();  
@@ -51,5 +50,22 @@ module.exports.getUser = function(req, res) {
 
       });
 
+  });
+};
+
+module.exports.getUserByID = function(req, res) {
+  console.log('GET User By ID');
+  //getting the request json data
+  var data = req.query;
+  console.log(data)
+  console.log(data.id);
+  db_connection.getConnection(function(err, c){
+    if(err) throw err;
+     var query = 'SELECT * FROM users WHERE ID=' + data.id;
+     console.log(query);
+     c.query(query, function (err, result, fields){
+        c.release();  
+        res.status(200).json(result); return res.end(); }
+     );
   });
 };

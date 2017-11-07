@@ -1,5 +1,4 @@
 
-
 var socket = io();
 var map;
 
@@ -16,3 +15,4 @@ socket.on("map view", function (data){
     markers.insertNewMarker(driverLat, driverLong);
   }
 });
+

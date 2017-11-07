@@ -18,23 +18,23 @@
   <link rel="stylesheet" href="css/dash_style.css">
   <!--<link rel="stylesheet" href="css/add-on.css">-->
   <!--<link rel="stylesheet" href="css/form.css">-->
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="vendor/angular/angular.min.js"></script>
   <script src="vendor/angular-route/angular-route.min.js"></script>
+  <script src="js/formApp.js"></script>
+
+
    <!-- Bootstrap core JavaScript -->
 
   </head>
-  <body>
+  <body ng-controller="HomepageController">
     <div id="wrapper">
       <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="navbar-header">
           <a class="navbar-brand" href="">Let It Fly</a>
         </div>
         <div class="collapse navbar-collapse">
-                <!--<img src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" id="profile-button" class="img-responsive" alt="Profile Picture"></li>-->
-              <!--<li class="nav-item">
-                <a class="nav-link" href="profile.html" id="box">Sign Up</a>
-            </li>-->
         </div>
     </nav>
 
@@ -44,20 +44,22 @@
             <img src ="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" class="img-responsive" alt="Profile Picture">
           </figure>
           <div class="profile-usertitle">
-            <div class="profile-usertitle-name">Jane Doe</div>
-            <!--<div class="profile-usertitle-title">Administrator</div>-->
+            <div class="profile-usertitle-name">{{ name }}</div>
           </div>
         </li>
         <li class="sider-menu">
-          <ul>
-            <li class="active"><a href="#id"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
-            <li><a href="#profile"><i class="fa fa-user fa-fw"></i>Profile</a></li>
+        <ul id ="sidebar">
+            <li class="active"><a href="#userID"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
+            <li><a href="#profile" ><i class="fa fa-user fa-fw"></i>Profile</a></li>
             <li><a href="#currentride"><i class="fa fa-taxi fa-fw"></i>Current Ride</a></li>
             <li><a href="#pastride"><i class="fa fa-clock-o fa-fw"></i>Past Rides</a></li>
         </ul>
       </li>
+     <button id="request" ng-click="requestRide()">Request Ride </button>
+
     </div>
-        <ng-view></ng-view>
+    <ng-view></ng-view>
+
 
 
 
