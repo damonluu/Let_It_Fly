@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   console.log(req.method, req.url);
-  next(); 
+  next();
 });
 
 //define the port to host the server
@@ -46,7 +46,7 @@ googleMapsClient.distanceMatrix({
 }, function(err, response) {
   if (!err) {
   	console.log(response.json.rows[0].elements[0].distance.value);
-    
+
   }
 });
 
@@ -55,7 +55,7 @@ googleMapsClient.distanceMatrix({
 var io = require('socket.io')(server);
 //handling events happen on socket.io
 io.on('connection', function(socket){
-
+  console.log('a client has connected');
 	//return the location of all active driver when the client emit 'map view'
 	socket.on('rider view', function(data){
 		db_connection.getConnection(function(err, c){
@@ -78,7 +78,7 @@ io.on('connection', function(socket){
 		});
 	});
 
-	//data for request ride: rider id, rider long, rider lat, 
+	//data for request ride: rider id, rider long, rider lat,
 	socket.on('ride request', function(data){
 
 	});
