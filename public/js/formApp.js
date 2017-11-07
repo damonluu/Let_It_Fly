@@ -112,9 +112,8 @@
 		            params: user
 		        }). then(function(response) {
 		            console.log("posted successfully");
-		            console.log(response.data);
-		            var id = response.data[0].ID;
-		            window.location.href="../dashboard#/userID:" + id;
+		            console.log(response.data[0].ID + ', ' + response.data[0].firstName + ', ' + response.data[0].lastName);
+		            window.location.href="../dashboard#/userID:" + response.data[0].ID;
 		        }).catch(function(response) {
 		        	var popup = document.getElementById("popup");
 			        popup.innerHTML = response.data;

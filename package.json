@@ -22,11 +22,13 @@
   },
   "homepage": "https://github.com/nguyenq2006/let_it_fly#readme",
   "dependencies": {
+    "@google/maps": "^0.4.5",
     "body-parser": "^1.18.2",
     "bower": "^1.8.2",
     "credit-card": "^3.0.1",
     "express": "^4.16.1",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "coffeescript": "^2.0.2",
