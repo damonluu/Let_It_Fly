@@ -65,7 +65,6 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 				$scope.setUpName($scope,str);
 			}
 		},50);
-
 		$scope.setUpName = function($scope, userID){
 			$scope.name = "";
 			console.log(userID);
@@ -91,6 +90,13 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 	        	console.log("something is wrong");
 	        })
 		};
+		$scope.onClick = function($scope, userID){
+			console.log('click');
+			if( Data.getData().role == 1){
+				window.location.href ="http://localhost:1600/ridermap.html";
+			}
+			else window.location.href= "http://localhost:1600/drivermap.html";
+		};
 	});
 
 dashboard.controller('ProfileController', function($scope, $http, Data){
@@ -98,11 +104,12 @@ dashboard.controller('ProfileController', function($scope, $http, Data){
 });
 
 dashboard.controller('CurrentRideController',function($scope, $http, Data){
+
    if($scope.role == "Driver"){
    	  $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
    }
    else {
       $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
    }
- 
+
 });
