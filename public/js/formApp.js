@@ -78,7 +78,11 @@
 				users.password = user.password;
 				users.phonenumber = user.phoneNumber;
 				users.email = user.email;
+<<<<<<< HEAD
 				if(user.rider == 'driver'){
+=======
+				if(user.role === 'driver'){
+>>>>>>> dc21d0d5e5c151c9f1537edad25dcd0c18da046c
 					users.rider = "FALSE";
 				}
 				else {

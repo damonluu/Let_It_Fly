@@ -5,7 +5,7 @@ body {
 
 
 body{
-	background:  #7b4397;
+  background:  #7b4397;
 /*background: url("../img/bg-pattern.png"), -webkit-linear-gradient(to left, #7b4397, #dc2430);
   background: url("../img/bg-pattern.png"), linear-gradient(to left, #7b4397, #dc2430); }*/
   background: -webkit-linear-gradient(to left, #5AB9EA, #8860D0);
@@ -40,8 +40,8 @@ body{
         padding-top: 20px;
         font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
         font-weight: 100;
-  		letter-spacing: 1px;
-  		border-top-left-radius: 3px;
+      letter-spacing: 1px;
+      border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     }
     
@@ -158,8 +158,8 @@ body{
   }
 }
 .panel-default{
-	background-color: white;
-	/*border-color: rgba(92, 123, 229, 59);*/
+  background-color: white;
+  /*border-color: rgba(92, 123, 229, 59);*/
 }
 .panel-default > .panel-heading {
     color: white;
@@ -167,7 +167,7 @@ body{
     background-color: rgba(114, 179, 228, 81);
     opacity: 30%;
     border-color: #8860D0; 
-	font-weight: 50;}
+  font-weight: 50;}
 .panel-heading {
     padding: 10px 15px;
 
@@ -200,7 +200,7 @@ body{
       color: #4A90E2 ;
       top: 70px;
       
-  	  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+      font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
 
     }
 }*/
@@ -261,4 +261,7 @@ h6 {
   margin-left: auto;
   margin-right:auto;
 
+}
+#requestA {
+  color: white;
 }
