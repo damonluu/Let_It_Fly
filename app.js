@@ -83,7 +83,8 @@ io.on('connection', function(socket){
 
 	//data for request ride: rider id, rider long, rider lat,
 	socket.on('ride request', function(data){
-
+		console.log('notifying the driver');
+		io.emit("new rider", data);
 	});
 
 });

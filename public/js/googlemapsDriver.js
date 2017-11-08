@@ -28,7 +28,7 @@ function AutocompleteDirectionsHandler(map) {
 function activeDriver() {
   alert("You are now Active. An Alert will appear when you are matched");
   var driverInfo = {
-    id: 1001,
+    id: 1002,
     lat: driverOriginLat,
     long: driverOriginLng,
     available: true
@@ -62,8 +62,8 @@ function activeDriver() {
 
 
 //hard code pickup at scu and desination at sfo for now
-function directionToRider() {
-  calculateAndDisplayRoute(37.3496, -121.9390, 37.7749, -122.4194);
+function directionToRider(data) {
+  calculateAndDisplayRoute(data.riderLat, data.riderLng, data.destinationLat, data.destinationLng);
 }
 
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {

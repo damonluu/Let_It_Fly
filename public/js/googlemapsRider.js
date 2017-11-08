@@ -269,6 +269,8 @@ function validAirportPlace() {
 
 var riderOriginLat;
 var riderOriginLng;
+var riderDestLat;
+var riderDestLng;
 
 function getRiderOriginLatLong() {
   return [riderOriginLat, riderOriginLng];
@@ -310,6 +312,8 @@ function details(origin_PlaceId, destination_PlaceId) {
     if (status == google.maps.GeocoderStatus.OK) {
       formData["latDestination"] = results[0].geometry.location.lat();
       formData["lngDestination"] = results[0].geometry.location.lng();
+      riderDestLat = results[0].geometry.location.lat();
+      riderDestLng = results[0].geometry.location.lng();
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
@@ -367,7 +371,13 @@ confirmButton.onclick = function() {
   displayStepByStep();
   findClosestDriverMarker();
   setTimeout(function() {
-    test()
+    var driverID = test();
+    var driverData = {'driverID': driverID, 'riderLat': riderOriginLat, 
+    'riderLng': riderOriginLng, 'destinationLat': riderDestLat,
+    'destinationLng': riderDestLng};
+    console.log('closet driver data');
+    console.log(driverData);
+    notifyDriver(driverData);
   }, 2000);
 
 }

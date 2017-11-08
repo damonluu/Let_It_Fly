@@ -7,6 +7,12 @@ function getMapView(){
 	socket.emit('rider view');
 };
 
+//modify this method later to pass the data to insert into rides table
+function notifyDriver(data){
+	console.log('notidying driver');
+	socket.emit('ride request', data);
+}
+
 socket.on('map view', function (data){
 	console.log("got a response")
 	console.log(data);

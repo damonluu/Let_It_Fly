@@ -180,6 +180,9 @@ function test() {
   console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
   console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
   stopAutoUpdate();
+
+  var resultData = closestDriverID;
+  return resultData;
 }
 
 // var confirmButton = document.getElementById('confirm');
@@ -216,7 +219,6 @@ function findClosestDriverMarker() {
       // console.log("Closest Distance: " + closestDistance);
     });
   }
-
 }
 
 // function insertPaloAlto() {
