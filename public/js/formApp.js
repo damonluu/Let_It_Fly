@@ -78,7 +78,7 @@
 				users.password = user.password;
 				users.phonenumber = user.phoneNumber;
 				users.email = user.email;
-				if(user.rider === 'driver'){
+				if(user.role === 'driver'){
 					users.rider = "FALSE";
 				}
 				else {

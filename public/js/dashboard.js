@@ -8,6 +8,7 @@ dashboard.config(function($routeProvider) {
 			})
 			.when('/currentride:id', {
 				templateUrl : 'pages/dashboard/currentride.html',
+				controller: 'CurrentRideController'
 			})
 			.when('/pastride:id', {
 				templateUrl : 'pages/dashboard/pastride.html',
@@ -19,7 +20,7 @@ dashboard.config(function($routeProvider) {
               redirectTo: '/userID:id',
               templateUrl: 'pages/dashboard/homepage.html',
             });
-});
+		});
 dashboard.factory('Data',function()	{
 	var data = {
 		id : '',
@@ -79,9 +80,13 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 	            $scope.name = response.data[0].firstName + " " + response.data[0].lastName;
 	            $scope.email = response.data[0].email;
 	            if(response.data[0].rider == 1){
-	            	$scope.role = "Driver";
+	            	$scope.role = "Rider";
+	            	$scope.function = "Request Ride";
 	            }
-	            else $scope.role = "Rider";
+	            else {
+	            	$scope.role = "Driver";
+	            	$scope.function = "Start Driving";
+	            }
 	        }).catch(function(response) {
 	        	console.log("something is wrong");
 	        })
@@ -92,7 +97,12 @@ dashboard.controller('ProfileController', function($scope, $http, Data){
 	
 });
 
-$scope.requestRide = function(){
-	console.log("requestRide button clicked");
-       window.location = "dashboard#/currentride:id";
- }
+dashboard.controller('CurrentRideController',function($scope, $http, Data){
+   if($scope.role == "Driver"){
+   	  $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
+   }
+   else {
+      $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
+   }
+ 
+});
