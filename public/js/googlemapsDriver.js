@@ -28,7 +28,7 @@ function AutocompleteDirectionsHandler(map) {
 function activeDriver() {
   alert("You are now Active. An Alert will appear when you are matched");
   var driverInfo = {
-    id: 1000,
+    id: 1001,
     lat: driverOriginLat,
     long: driverOriginLng,
     available: true

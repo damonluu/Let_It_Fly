@@ -132,6 +132,7 @@ function removeMarkersExcept(driverId) {
 }
 
 function reloadMarkers() {
+  console.log('reloadMarkers() called');
   removeMarkers();
   // Call set markers to re-add markers
   setMarkers(driverArray);

@@ -69,12 +69,13 @@ io.on('connection', function(socket){
 
 	//data should contain: driver id, current long, current lat
 	socket.on('new driver', function(data){
-    console.log(data);
+		console.log('new driver available');
+    	console.log(data);
 		db_connection.getConnection(function(err, c){
-      var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
+      	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
 			c.query(queryInsert,  function(err, result, feilds){
 				if(err) throw err;
-				io.emit("map view", result);
+				io.emit("update map", result);
 				console.log(result);
 			});
 		});
