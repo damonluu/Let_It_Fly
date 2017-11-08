@@ -8,7 +8,7 @@ function AutocompleteDirectionsHandler(map) {
   this.originPlaceId = null;
   var originInput = document.getElementById('origin-input');
   var submitButton = document.getElementById('submit-button');
-  // var findRiderButton = document.getElementById('directionToRider-button');
+  var findRiderButton = document.getElementById('directionToRider-button');
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
@@ -18,10 +18,10 @@ function AutocompleteDirectionsHandler(map) {
     });
 
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
+  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(findRiderButton);
 
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
-  // this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(findRiderButton);
 
 }
 
@@ -37,22 +37,27 @@ function activeDriver() {
   console.log(driverOriginLat);
   console.log(driverOriginLng);
   document.getElementById('origin-input').setAttribute("class", "hidden");
-  document.getElementById('submit-button').innerHTML = "Get Direction To Rider";
-  document.getElementById('submit-button').setAttribute("onClick", "javascript: directionToRider();" );
-  $.ajax({
-        url: '/activateDriver',
-        type: 'POST',
-        contentType: "application/json; charset=UTF-8",
-        data: JSON.stringify(driverInfo),
-        success: function(result,status) {
-          console.log('CREATED SUCCESSFULLY');
-          //call insertDriverMarker from markets.js
-          insertNewDriverMarker(1000,driverOriginLat,driverOriginLng);
-          // insertNewDriverMarker('Palo Alto', 37.4419, -122.1430);
-          // insertPaloAlto();
+  document.getElementById('submit-button').setAttribute("class", "hidden");
+  document.getElementById('directionToRider-button').setAttribute("class", "");
 
-        }
-  });
+
+  // document.getElementById('submit-button').innerHTML = "Get Direction To Rider";
+  // document.getElementById('submit-button').setAttribute("onClick", "javascript: directionToRider();" );
+  // $.ajax({
+  //       url: '/activateDriver',
+  //       type: 'POST',
+  //       contentType: "application/json; charset=UTF-8",
+  //       data: JSON.stringify(driverInfo),
+  //       success: function(result,status) {
+  //         console.log('CREATED SUCCESSFULLY');
+  //         //call insertDriverMarker from markets.js
+  //         insertNewDriverMarker(1000,driverOriginLat,driverOriginLng);
+  //         // insertNewDriverMarker('Palo Alto', 37.4419, -122.1430);
+  //         // insertPaloAlto();
+  //
+  //       }
+  // });
+  addDriver(driverInfo);
 }
 
 
@@ -170,6 +175,8 @@ function getAddressFromCoord(lat, lng) {
         }
     });
 }
+
+
 
 google.maps.event.addDomListener(window, 'load', initMap);
 

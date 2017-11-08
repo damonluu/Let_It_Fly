@@ -360,4 +360,14 @@ function initMap() {
   gps(map);
 }
 
+var confirmButton = document.getElementById('confirm');
+confirmButton.onclick = function() {
+  displayStepByStep();
+  findClosestDriverMarker();
+  setTimeout(function() {
+    test()
+  }, 2000);
+
+}
+
 google.maps.event.addDomListener(window, 'load', initMap);

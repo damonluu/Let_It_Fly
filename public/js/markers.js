@@ -37,15 +37,19 @@ function showDriverMarker(map) {
   setMarkers(driverArray);
   // timeOut = setInterval(function() {
   //   reloadMarkers();
-  //   console.log("hello");
+  //   // console.log("hello");
+  //   // console.log(markers);
+  //   console.log("markers");
   //   console.log(markers);
+  //   console.log("driverArray");
+  //   console.log(driverArray);
   // }, 5000);
 }
 
-function insertNewDriverMarker(driverId, lat, lng) {
-  var myLatLng = new google.maps.LatLng(lat, lng);
+function insertNewDriverMarker(driverId, lati, long) {
+  // var myLatLng = new google.maps.LatLng(lat, lng);
   var marker = new google.maps.Marker({
-    position: myLatLng,
+    position: {lat: lati, lng: long},
     map: mymap,
     animation: google.maps.Animation.DROP,
     icon: marker_image,
@@ -53,10 +57,10 @@ function insertNewDriverMarker(driverId, lat, lng) {
   });
   // markers[driverId] = marker;
   // driverArray[driverId] = [lat, lng];
-  markers.push("hello");
-  driverArray.push([driverId, lat, lng]);
+  driverArray.push([driverId, lati, long]);
+  markers.push(marker);
   console.log("Inserted " + driverId + " to markers");
-  console.log(markers);
+  // console.log(markers);
 }
 
 function removeDriverMarker(driverId) {
@@ -89,14 +93,17 @@ function stopAutoUpdate() {
 function setMarkers(locations) {
   for (var i = 0; i < driverArray.length; i++) {
     var drivers = locations[i];
+    console.log(drivers);
+    console.log(drivers[1]);
+    console.log(drivers[2]);
     // console.log(drivers);
-    var myLatLng = new google.maps.LatLng(drivers[1], drivers[2]);
+    //var myLatLng = new google.maps.LatLng(drivers[1], drivers[2]);
     var marker = new google.maps.Marker({
-      position: myLatLng,
+      position: {lat: drivers[1], lng: drivers[2]},
       map: mymap,
       animation: google.maps.Animation.DROP,
       icon: marker_image,
-      title: drivers[0],
+      title: drivers[0].toString(),
     });
 
     // Push marker to markers array
@@ -218,8 +225,12 @@ function findClosestDriverMarker() {
 // // below is for testing
 
 // setTimeout(function() {
-//   insertNewDriverMarker('Sunnyvale', 37.3688, -122.0363);
+//   insertNewDriverMarker('sunnyvale driver', 37.3688, -122.0363);
 // }, 3000);
 // setTimeout(function() {
 //   removeDriverMarker('Hayward');
 // }, 4000);
+
+// setTimeout(function() {
+//   console.log(markers);
+// }, 10000);

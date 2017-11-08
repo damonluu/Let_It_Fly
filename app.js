@@ -61,7 +61,7 @@ io.on('connection', function(socket){
 		db_connection.getConnection(function(err, c){
 			c.query('SELECT * FROM Drivers', function(err, result, feilds){
 				if(err) throw err;
-				socket.emit('map view', result);
+				io.emit('map view', result);
 				console.log(result);
 			});
 		});
@@ -69,10 +69,12 @@ io.on('connection', function(socket){
 
 	//data should contain: driver id, current long, current lat
 	socket.on('new driver', function(data){
+    console.log(data);
 		db_connection.getConnection(function(err, c){
-			c.query('INSERT INTO Drivers(id, long, lat) VALUES(?, ?, ?)', data.id, data.long, data.lat,  function(err, result, feilds){
+      var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
+			c.query(queryInsert,  function(err, result, feilds){
 				if(err) throw err;
-				socket.emit(result);
+				io.emit("map view", result);
 				console.log(result);
 			});
 		});
