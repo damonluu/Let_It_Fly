@@ -9,7 +9,7 @@ function getMapView(){
 
 //modify this method later to pass the data to insert into rides table
 function notifyDriver(data){
-	console.log('notidying driver');
+	console.log('notifying driver');
 	socket.emit('ride request', data);
 }
 
@@ -30,4 +30,3 @@ socket.on('map view', function (data){
 socket.on('update map', function(){
 	getMapView();
 });
-

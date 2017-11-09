@@ -85,10 +85,10 @@ function removeDriverMarker(driverId) {
   // delete driverArray[driverId];
 }
 
-function stopAutoUpdate() {
-  clearTimeout(timeOut);
-  removeMarkersExcept(closestDriverID);
-}
+// function stopAutoUpdate() {
+//   clearTimeout(timeOut);
+//   removeMarkersExcept(closestDriverID);
+// }
 
 function setMarkers(locations) {
   for (var i = 0; i < driverArray.length; i++) {
@@ -179,9 +179,14 @@ function test() {
   console.log("The Closest Driver ID Is: " + closestDriverID);
   console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
   console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
-  stopAutoUpdate();
+  // stopAutoUpdate();
+  removeMarkersExcept(closestDriverID);
 
-  var resultData = closestDriverID;
+  var resultData = [];
+  resultData["closestDriverId"] = closestDriverID;
+  resultData["closestDistance"] = (closestDistance / 1609.34).toFixed(1);
+  resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
+
   return resultData;
 }
 

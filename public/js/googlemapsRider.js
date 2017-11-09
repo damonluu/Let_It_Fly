@@ -188,6 +188,7 @@ function getGeocode(placeid) {
   });
 }
 
+var durationMinutes;
 function calculatePrice(distanceInMeters, durationInSeconds) {
   var baseFare = 2.5;
   var pricePerMinute = 0.24;
@@ -195,7 +196,7 @@ function calculatePrice(distanceInMeters, durationInSeconds) {
 
   // duration is in seconds and distance is in meters, so we have to covert
   // into minutes and miles
-  var durationInMinutes = (durationInSeconds / 60).toFixed(0);
+  durationInMinutes = (durationInSeconds / 60).toFixed(0);
   var distanceInMiles = (distanceInMeters / 1609.34).toFixed(1);
   console.log(durationInMinutes);
   console.log(distanceInMiles);
@@ -206,8 +207,9 @@ function calculatePrice(distanceInMeters, durationInSeconds) {
 }
 
 function modifyModal(durationInMinutes, distanceInMiles, price) {
-  var d = new Date();
-  document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
+  // var d = new Date();
+  // document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
+  document.getElementById('initial').setAttribute("class", "hidden");
   document.getElementById("distance").innerHTML = "Total Distance : " + distanceInMiles + " miles";
   document.getElementById("duration").innerHTML = "Total Duration : " + durationInMinutes + " minutes";
   document.getElementById("price").innerHTML = "Total Calculated Price : $" + price;
@@ -371,14 +373,20 @@ confirmButton.onclick = function() {
   displayStepByStep();
   findClosestDriverMarker();
   setTimeout(function() {
-    var driverID = test();
-    var driverData = {'driverID': driverID, 'riderLat': riderOriginLat, 
+    var closestDriver = test();
+    console.log("closest driver test");
+    console.log(closestDriver);
+    var driverData = {'driverID': closestDriver.closestDriverId, 'riderLat': riderOriginLat,
     'riderLng': riderOriginLng, 'destinationLat': riderDestLat,
     'destinationLng': riderDestLng};
+    var d = new Date();
+    document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+    + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+    document.getElementById('estimate').setAttribute("class", "");
     console.log('closet driver data');
     console.log(driverData);
     notifyDriver(driverData);
-  }, 2000);
+  }, 1500);
 
 }
 
