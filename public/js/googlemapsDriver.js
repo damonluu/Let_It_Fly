@@ -29,8 +29,9 @@ function AutocompleteDirectionsHandler(map) {
 
 function activeDriver() {
   alert("You are now Active. An Alert will appear when you are matched");
+  var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':')+1);
   var driverInfo = {
-    id: 1002,
+    id: driverIdFromURL,
     lat: driverOriginLat,
     long: driverOriginLng,
     available: true

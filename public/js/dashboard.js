@@ -45,7 +45,7 @@ dashboard.factory('Data',function()	{
 
 dashboard.controller('HomepageController', function($scope, $routeParams,$http,$timeout, Data){
 		var first = true;
-		
+
 		$timeout(function(){
 			var str = $routeParams.id;
 			if(!! str){
@@ -92,15 +92,16 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 		};
 		$scope.onClick = function($scope, userID){
 			console.log('click');
+			console.log(Data.getData().id);
 			if( Data.getData().role == 1){
-				window.location.href ="http://localhost:1600/ridermap.html";
+				window.location.href ="http://localhost:1600/ridermap.html#/userID:" + Data.getData().id;
 			}
-			else window.location.href= "http://localhost:1600/drivermap.html";
+			else window.location.href= "http://localhost:1600/drivermap.html#/userID:" + Data.getData().id;
 		};
 	});
 
 dashboard.controller('ProfileController', function($scope, $http, Data){
-	
+
 });
 
 dashboard.controller('CurrentRideController',function($scope, $http, Data){
