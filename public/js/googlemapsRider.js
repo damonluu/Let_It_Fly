@@ -3,6 +3,11 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 var originPID;
 var destinationPID;
 var directionResponse;
+var riderOriginLat;
+var riderOriginLng;
+var riderDestLat;
+var riderDestLng;
+var durationMinutes;
 
 function AutocompleteDirectionsHandler(map) {
   this.map = map;
@@ -32,17 +37,13 @@ function AutocompleteDirectionsHandler(map) {
     // stopAutoUpdate();
   };
 
-
-
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
   this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(destinationInput);
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
-
 }
-
 
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
   var me = this;
@@ -109,21 +110,38 @@ function calculateAndDisplayRoute() {
     }, function(response, status) {
       if (status === 'OK') {
         directionResponse = response;
-        // directionsDisplay.setDirections(response);
-        // console.log("~~~~~~~~~~~~~~~~~~~~~");
-        // console.log("distance: " + response.routes[0].legs[0].distance.text);
-        // console.log("duration: " + response.routes[0].legs[0].duration.text);
-        // console.log("main road taken: " + response.routes[0].summary);
-        // console.log("~~~~~~~~~~~~~~~~~~~~~");
         calculatePrice(response.routes[0].legs[0].distance.value, response.routes[0].legs[0].duration.value);
-        console.log("~~~~~~~~~Test Array~~~~~~~~~~~~~~");
+        // console.log("~~~~~~~~~Test Array~~~~~~~~~~~~~~");
         console.log(details(response.geocoded_waypoints[0].place_id, response.geocoded_waypoints[1].place_id));
-        // console.log(response.geocoded_waypoints[0].place_id);
-        // console.log(testGeocode(response.geocoded_waypoints[0].place_id));
       } else {
         window.alert('Directions request failed due to ' + status);
       }
     });
+}
+
+function calculateAndDisplayRoute2(driverLat, driverLng) {
+  var waypts = [];
+        waypts.push({
+          location: {lat: riderOriginLat, lng: riderOriginLng},
+          stopover: true
+        });
+  directionsService.route({
+    origin: {lat: driverLat, lng: driverLng},
+    waypoints: waypts,
+    destination: {lat: riderDestLat, lng: riderDestLng},
+    travelMode: 'DRIVING'
+  }, function(response, status) {
+
+
+    // console.log(response);
+    if (status === 'OK') {
+      // alert("Here are the directions to the Rider" );
+      // alert(address);
+      directionsDisplay.setDirections(response);
+    } else {
+      window.alert('Directions request failed due to ' + status);
+    }
+  });
 }
 
 function getAddressFromLatLang(lat, lng, geocoder) {
@@ -155,8 +173,6 @@ function findCounty(results) {
   var county = filtered_array.length ? filtered_array[0].long_name : "";
   if (!validCounty(county)) {
     alert("Out of County Boundaries, Please Enter a Different location");
-    //document.getElementById('origin-input').value = "";
-    //document.getElementById('destination-input').value = "";
     location.reload();
   }
   return county;
@@ -188,7 +204,6 @@ function getGeocode(placeid) {
   });
 }
 
-var durationMinutes;
 function calculatePrice(distanceInMeters, durationInSeconds) {
   var baseFare = 2.5;
   var pricePerMinute = 0.24;
@@ -253,32 +268,9 @@ function validAirportPlace() {
   return valid;
 }
 
-// function testGeocode(placeId) {
-//     var position = {};
-//     console.log("testing geocode post");
-//     $.ajax({
-//         url: 'https://maps.googleapis.com/maps/api/geocode/json?place_id=' + placeId + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
-//         //type: 'POST',
-//         success: function(result, status) {
-//             position[0] = result.results[0].geometry.location.lat;
-//             position[1] = result.results[0].geometry.location.lng;
-//         }
-//     });
-//     return position;
-// }
-
-// returns the distance between two places in meters
-
-var riderOriginLat;
-var riderOriginLng;
-var riderDestLat;
-var riderDestLng;
-
 function getRiderOriginLatLong() {
   return [riderOriginLat, riderOriginLng];
 }
-
-
 
 function details(origin_PlaceId, destination_PlaceId) {
   var formData = {};
@@ -383,6 +375,7 @@ confirmButton.onclick = function() {
     document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
     + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
     document.getElementById('estimate').setAttribute("class", "");
+    calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
     console.log('closet driver data');
     console.log(driverData);
     notifyDriver(driverData);
