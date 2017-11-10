@@ -4,33 +4,21 @@ var mymap;
 var driverArray = [];
 var riderCurrentLat;
 var riderCurrentLng;
+var closestDistance = 999999;
+var closestDriverID = 'IfYouSeeThisMarkerSomethingWentWrong';
+var closestDriverMinutes = 9999;
+var closestDriverLat;
+var closestDriverLng;
 
 var marker_image = new google.maps.MarkerImage(
   "img/map/vanMed.png"
 );
-
-// var driverArray = [
-//   ['SJSU', 37.3352, -121.8811],
-//   ['Milpitas', 37.4323, -121.8996],
-//   ['Hayward', 37.6688, -122.0808],
-//   ['San Mateo', 37.5630, -122.3255],
-//   ['Palo Alto', 37.4419, -122.1430]
-// ];
 
 function retrieveRiderOriginLatLong() {
   var latLng = getRiderOriginLatLong();
   riderCurrentLat = latLng[0];
   riderCurrentLng = latLng[1];
 }
-
-
-// driverArray['SJSU'] = [37.3352, -121.8811];
-// driverArray['Milpitas'] = [37.4323, -121.8996];
-// driverArray['Hayward'] = [37.6688, -122.0808];
-// driverArray.push(["SJSU", 37.3352, -121.8811]);
-// driverArray.push(["Milpitas", 37.4323, -121.8996]);
-// driverArray.push(["Hayward", 37.6688, -122.0808]);
-
 
 function showDriverMarker(map) {
   mymap = map;
@@ -85,10 +73,10 @@ function removeDriverMarker(driverId) {
   // delete driverArray[driverId];
 }
 
-function stopAutoUpdate() {
-  clearTimeout(timeOut);
-  removeMarkersExcept(closestDriverID);
-}
+// function stopAutoUpdate() {
+//   clearTimeout(timeOut);
+//   removeMarkersExcept(closestDriverID);
+// }
 
 function setMarkers(locations) {
   for (var i = 0; i < driverArray.length; i++) {
@@ -140,10 +128,6 @@ function reloadMarkers() {
 
 
 function distanceBetweenTwoCoord(originLat, originLng, destinationLat, destinationLng) {
-  // console.log(originLat);
-  // console.log(originLng);
-  // console.log(destinationLat);
-  // console.log(destinationLng);
   var dfd = $.Deferred();
   var service = new google.maps.DistanceMatrixService();
   service.getDistanceMatrix({
@@ -179,25 +163,18 @@ function test() {
   console.log("The Closest Driver ID Is: " + closestDriverID);
   console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
   console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
-  stopAutoUpdate();
+  // stopAutoUpdate();
+  removeMarkersExcept(closestDriverID);
 
-  var resultData = closestDriverID;
+  var resultData = [];
+  resultData["closestDriverId"] = closestDriverID;
+  resultData["closestDistance"] = (closestDistance / 1609.34).toFixed(1);
+  resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
+  resultData["closestDriverLat"] = closestDriverLat;
+  resultData["closestDriverLng"] = closestDriverLng;
+
   return resultData;
 }
-
-// var confirmButton = document.getElementById('confirm');
-// confirmButton.onclick = function() {
-//   displayStepByStep();
-//   findClosestDriverMarker();
-//   setTimeout(function() {
-//     test()
-//   }, 2000);
-//
-// }
-
-var closestDistance = 999999;
-var closestDriverID = 'hello';
-var closestDriverMinutes = 9999;
 
 function findClosestDriverMarker() {
   retrieveRiderOriginLatLong();
@@ -214,16 +191,14 @@ function findClosestDriverMarker() {
         closestDistance = distanceMatrixResult.distance.value;
         closestDriverID = driverArray[i][0];
         closestDriverMinutes = distanceMatrixResult.duration.value;
+        closestDriverLat = driverArray[i][1];
+        closestDriverLng = driverArray[i][2];
       }
       // console.log("Closest Driver: " + closestDriverID);
       // console.log("Closest Distance: " + closestDistance);
     });
   }
 }
-
-// function insertPaloAlto() {
-//   insertNewDriverMarker('Palo Alto', 37.4419, -122.1430);
-// }
 
 // // below is for testing
 

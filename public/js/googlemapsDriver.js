@@ -2,13 +2,15 @@ var directionsService = new google.maps.DirectionsService();
 var directionsDisplay = new google.maps.DirectionsRenderer();
 var driverOriginLat;
 var driverOriginLng;
+var riderOriginLat;
+var riderOriginLng;
 
 function AutocompleteDirectionsHandler(map) {
   this.map = map;
   this.originPlaceId = null;
   var originInput = document.getElementById('origin-input');
   var submitButton = document.getElementById('submit-button');
-  var findRiderButton = document.getElementById('directionToRider-button');
+  // var findRiderButton = document.getElementById('directionToRider-button');
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
@@ -18,7 +20,7 @@ function AutocompleteDirectionsHandler(map) {
     });
 
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(findRiderButton);
+  // this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(findRiderButton);
 
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
@@ -27,8 +29,9 @@ function AutocompleteDirectionsHandler(map) {
 
 function activeDriver() {
   alert("You are now Active. An Alert will appear when you are matched");
+  var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':')+1);
   var driverInfo = {
-    id: 1002,
+    id: driverIdFromURL,
     lat: driverOriginLat,
     long: driverOriginLng,
     available: true
@@ -38,7 +41,7 @@ function activeDriver() {
   console.log(driverOriginLng);
   document.getElementById('origin-input').setAttribute("class", "hidden");
   document.getElementById('submit-button').setAttribute("class", "hidden");
-  document.getElementById('directionToRider-button').setAttribute("class", "");
+  // document.getElementById('directionToRider-button').setAttribute("class", "");
 
 
   // document.getElementById('submit-button').innerHTML = "Get Direction To Rider";
@@ -105,9 +108,6 @@ function getGeocode(placeid) {
   });
 }
 
-var riderOriginLat;
-var riderOriginLng;
-
 function getRiderOriginLatLong() {
   return [riderOriginLat, riderOriginLng];
 }
@@ -163,7 +163,6 @@ function calculateAndDisplayRoute(riderLat, riderLng, destinationLat, destinatio
   });
 }
 
-
 function getAddressFromCoord(lat, lng) {
     $.ajax({
         url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+ lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
@@ -175,8 +174,6 @@ function getAddressFromCoord(lat, lng) {
         }
     });
 }
-
-
 
 google.maps.event.addDomListener(window, 'load', initMap);
 
