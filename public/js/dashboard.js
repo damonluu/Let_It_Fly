@@ -80,11 +80,11 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 	            $scope.email = response.data[0].email;
 	            if(response.data[0].rider == 1){
 	            	$scope.role = "Rider";
-	            	$scope.function = "Request Ride";
+	            	$scope.function = "REQUEST RIDE";
 	            }
 	            else {
 	            	$scope.role = "Driver";
-	            	$scope.function = "Start Driving";
+	            	$scope.function = "START DRIVING";
 	            }
 	        }).catch(function(response) {
 	        	console.log("something is wrong");
