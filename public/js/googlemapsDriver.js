@@ -10,7 +10,8 @@ function AutocompleteDirectionsHandler(map) {
   this.originPlaceId = null;
   var originInput = document.getElementById('origin-input');
   var submitButton = document.getElementById('submit-button');
-  // var findRiderButton = document.getElementById('directionToRider-button');
+  var pickedUpButton = document.getElementById('pickedUpRider-button');
+  var completeRideButton = document.getElementById('completeRide-button');
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
@@ -20,11 +21,31 @@ function AutocompleteDirectionsHandler(map) {
     });
 
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-  // this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(findRiderButton);
-
+  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(pickedUpButton);
+  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(completeRideButton);
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
   this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
 
+}
+
+function pickedUpButtonClicked() {
+  // document.getElementById('pickedUpRider-button').setAttribute("class", "hidden");
+  document.getElementById('pickedUpRider-button').innerHTML = "Rider Information";
+  document.getElementById('pickedUpRider-button').setAttribute("onClick", "javascript: modifyModal();" );
+  document.getElementById('completeRide-button').setAttribute("class", "");
+}
+
+function modifyModal() {
+//   // var d = new Date();
+//   // document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
+//   document.getElementById('initial').setAttribute("class", "hidden");
+//   document.getElementById("distance").innerHTML = "Total Distance : " + distanceInMiles + " miles";
+//   document.getElementById("duration").innerHTML = "Total Duration : " + durationInMinutes + " minutes";
+//   document.getElementById("price").innerHTML = "Total Calculated Price : $" + price;
+//   document.getElementById('confirm').setAttribute("class", "btn-confirm");
+//   document.getElementById('decline').setAttribute("class", "btn-decline");
+//   document.getElementById('close').setAttribute("class", "hidden");
+  location.href = "#openModal";
 }
 
 function activeDriver() {
@@ -41,7 +62,8 @@ function activeDriver() {
   console.log(driverOriginLng);
   document.getElementById('origin-input').setAttribute("class", "hidden");
   document.getElementById('submit-button').setAttribute("class", "hidden");
-  // document.getElementById('directionToRider-button').setAttribute("class", "");
+  document.getElementById('pickedUpRider-button').setAttribute("class", "");
+
 
 
   // document.getElementById('submit-button').innerHTML = "Get Direction To Rider";
@@ -131,7 +153,7 @@ function initMap() {
 
   //lets origin and destination text box auto complete to a place/address
   new AutocompleteDirectionsHandler(map);
-  // showDriverMarker(map);
+  showDriverMarker(map);
 
   //uses currentLocation.js to add gps button and marker to current locaion
   gps(map);

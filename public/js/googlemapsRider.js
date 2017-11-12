@@ -379,7 +379,7 @@ confirmButton.onclick = function() {
     console.log('closet driver data');
     console.log(driverData);
     notifyDriver(driverData);
-  }, 1500);
+  }, 2000);
 
 }
 
