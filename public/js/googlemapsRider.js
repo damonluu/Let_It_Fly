@@ -357,6 +357,7 @@ function initMap() {
   //uses currentLocation.js to add gps button and marker to current locaion
   gps(map);
 
+  //socketRider.js function
   getMapView();
 }
 
