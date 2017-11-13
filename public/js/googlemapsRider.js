@@ -357,6 +357,7 @@ function initMap() {
   //uses currentLocation.js to add gps button and marker to current locaion
   gps(map);
 
+  //socketRider.js function
   getMapView();
 }
 
@@ -379,7 +380,7 @@ confirmButton.onclick = function() {
     console.log('closet driver data');
     console.log(driverData);
     notifyDriver(driverData);
-  }, 1500);
+  }, 2000);
 
 }
 

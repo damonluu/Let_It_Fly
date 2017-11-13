@@ -17,9 +17,9 @@ h2, p {
   z-index: 99;
   background-color: white;
   float:right;
-  width:72%;
-  max-width: 375px;
-  min-width: 200px;
+  /*width:50%;*/
+  max-width: 25% !important;
+  min-width: 20% !important;
   max-height: 80%;
   display: inline;
   font-family: 'Roboto', sans-serif;
@@ -59,7 +59,7 @@ html, body {
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
   width: 32%;
-  max-width: 400px;
+  max-width: 300px;
   min-width: 230px;
   display: grid;
 }
@@ -79,7 +79,7 @@ html, body {
   margin-left: 10px;
   /*padding: 10px 11px 0 13px;*/
   width: 32%;
-  max-width: 400px;
+  max-width: 300px;
   min-width: 230px;
   display: grid;
 

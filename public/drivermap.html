@@ -12,14 +12,35 @@
   <input id="origin-input" class="controls" type="text" placeholder="Enter your origin location">
   <!-- <input id="pickup-input" class="controls" type="text" placeholder="Enter a pickup location"> -->
   <!-- <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location"> -->
+  <!-- <a href="#openModal"><button type="submit" id="test">test</button></a> -->
+
   <button type="submit" id="submit-button" onclick="activeDriver()">Set As Active Driver</button>
-  <!-- <button type="submit" id="directionToRider-button" class = "hidden" onclick="directionToRider()">Get Direction To Rider</button> -->
+  <button type="submit" id="pickedUpRider-button" class = "hidden" onclick="pickedUpButtonClicked()">Picked Up Rider</button>
+  <button type="submit" id="completeRide-button" class = "hidden">Ride Complete</button>
+
 
   <!-- socket io test -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <script type="text/javascript" src="js/socketDriver.js"></script>
   <div id="map"></div>
   <div id="directionsPanel"></div>
+
+  <div id="openModal" class="modalDialog">
+    <div>
+      <a id="close" href="#close" title="Close" class="close">X</a>
+      <h2>Ride Details</h2>
+      <p id="initial">Waiting For Rider...</p>
+      <p id="ridername"></p>
+      <p id="riderlocation"></p>
+      <p id="address"></p>
+      <p id="distancefromrider"></p>
+      <p id="durationfromrider"></p>
+      <a href="#close"><button id="confirm" type="button" class="hidden" data-dismiss="modal" onclick="">Confirm Ride</button></a>
+      <a href="#close"><button id="decline" type="button" class="hidden">Decline Ride</button></a>
+
+    </div>
+  </div>
+
 
   <script src="jquery/jquery-3.2.1.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0&libraries=places"></script>

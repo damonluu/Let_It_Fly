@@ -12,6 +12,8 @@ function addDriver(data){
   console.log(data.long);
   console.log(data.available);
   driverID = data.id;
+  insertNewDriverMarker(data.id, data.lat, data.long)
+  console.log("test");
   socket.emit("new driver", data);
 }
 
