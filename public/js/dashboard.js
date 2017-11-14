@@ -16,6 +16,10 @@ dashboard.config(function($routeProvider) {
 			.when('/userID:id', {
 				templateUrl : 'pages/dashboard/homepage.html',
 			})
+			.when('/service:id',{
+				templateUrl : 'pages/dashboard/service.html',
+				controller: 'CurrentRideController'
+			})
 			.otherwise({
               redirectTo: '/userID:id',
               templateUrl: 'pages/dashboard/homepage.html',
@@ -43,7 +47,7 @@ dashboard.factory('Data',function()	{
 	};
 })
 
-dashboard.controller('HomepageController', function($scope, $routeParams,$http,$timeout, Data){
+dashboard.controller('HomepageController', function($scope, $location, $routeParams,$http,$timeout, Data){
 		var first = true;
 
 		$timeout(function(){
@@ -56,10 +60,16 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 				if(first){
 					var a = document.getElementById('sidebar').getElementsByTagName('a'),
 					length = a.length;
+					var dropdown = document.getElementById('navbarResponsive').getElementsByTagName('a');
+					var buttonRequest = document.getElementById('linkRequest');
 					for(var i = 0; i < length; i++){
 						a[i].href += $routeParams.id;
+						dropdown[i].href += $routeParams.id;
+						console.log(dropdown[i].href);
 						console.log(a[i].href);
 					}
+					dropdown[4].href += $routeParams.id;
+					buttonRequest.href += $routeParams.id;
 					first = false;
 				}
 				$scope.setUpName($scope,str);
@@ -81,22 +91,16 @@ dashboard.controller('HomepageController', function($scope, $routeParams,$http,$
 	            if(response.data[0].rider == 1){
 	            	$scope.role = "Rider";
 	            	$scope.function = "REQUEST RIDE";
+	            	$scope.serviceTitle = " Rider Mode: " + Data.getData().firstName;
 	            }
 	            else {
 	            	$scope.role = "Driver";
 	            	$scope.function = "START DRIVING";
+	            	$scope.serviceTitle = " Driver Mode:  " + Data.getData().firstName;
 	            }
 	        }).catch(function(response) {
 	        	console.log("something is wrong");
 	        })
-		};
-		$scope.onClick = function($scope, userID){
-			console.log('click');
-			console.log(Data.getData().id);
-			if( Data.getData().role == 1){
-				window.location.href ="http://localhost:1600/ridermap.html#/userID:" + Data.getData().id;
-			}
-			else window.location.href= "http://localhost:1600/drivermap.html#/userID:" + Data.getData().id;
 		};
 	});
 
@@ -105,7 +109,6 @@ dashboard.controller('ProfileController', function($scope, $http, Data){
 });
 
 dashboard.controller('CurrentRideController',function($scope, $http, Data){
-
    if($scope.role == "Driver"){
    	  $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
    }
