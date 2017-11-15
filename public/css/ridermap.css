@@ -8,6 +8,7 @@ h2, p {
 #map {
   height: 100%;
   position: relative;
+  z-index:1;
 }
 
 #directionsPanel {
@@ -37,31 +38,21 @@ html, body {
   padding: 0;
 }
 
-/*.controls {
-  margin-top: 20px;
-  border: 1px solid transparent;
-  border-radius: 20px;
-  clear: both;
-  box-sizing: border-box;
-  height: 40px;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}*/
-
 .controls {
   margin-top: 20px;
   border: 1px solid transparent;
-  border-radius: 20px;
+  border-radius: 5px;
   clear: both;
   box-sizing: border-box;
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index:2;
 }
 
 #origin-input,
 #destination-input {
-  background-color: #ffbb66;
+  background-color: #FFFFFF;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
@@ -69,10 +60,7 @@ html, body {
   margin-left: 10px;
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
-  width: 32%;
-  max-width: 300px;
-  min-width: 230px;
-  display: grid;
+  width: 40%;
 }
 
 #origin-input:focus,
@@ -82,23 +70,19 @@ html, body {
 
 
 #submit-button {
-  background-color: #ffbb66;
+  background-color: #5AB9EA;
+  color: white;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
   text-align: center;
   margin-left: 10px;
   /*padding: 10px 11px 0 13px;*/
-  width: 32%;
-  max-width: 300px;
-  min-width: 230px;
-  display: grid;
-
+  width: 20%;
   margin-top: 20px;
-  /*border: 1px solid transparent;*/
-  border-radius: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
   clear: both;
-  box-sizing: border-box;
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -158,7 +142,7 @@ html, body {
 }
 
 .btn-confirm, .btn-decline {
-  background-color: #ffbb66;
+  background-color: #5AB9EA;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
@@ -176,7 +160,7 @@ html, body {
 }
 
 .btn-confirm:hover , .btn-decline:hover, #submit-button:hover {
-  background: #c18e26;
+  background: #8860D0;
 }
 
 .hidden {

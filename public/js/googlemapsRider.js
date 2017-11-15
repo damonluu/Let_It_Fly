@@ -62,9 +62,9 @@ function AutocompleteDirectionsHandler(map) {
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
   this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(destinationInput);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(originInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(destinationInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
 }
 
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
@@ -368,7 +368,7 @@ function initMap() {
     MapOptions: true,
     mapTypeControlOptions: {
       style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      position: google.maps.ControlPosition.TOP_LEFT
+      position: google.maps.ControlPosition.BOTTOM_LEFT
     },
   });
 

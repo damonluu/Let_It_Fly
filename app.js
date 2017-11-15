@@ -81,8 +81,11 @@ io.on('connection', function(socket){
 		});
 	});
 
-	//data for request ride: rider id, rider long, rider lat,
+	//data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
 	socket.on('ride request', function(data){
+		// db_connection.getConnection(function(err, c){
+		// 	var queryInsert = 'INSERT INTO Rides VALUE (' + data.driverID + ', ' + data.riderID + ', ' + data.destinationLat + ', ' + data.destinationLng + ', ' + data.riderLat + ', ' + data.riderLng + ', ' + data.price + ', FALSE, ' + data.duration + ')';
+		// })
 		console.log('notifying the driver');
 		io.emit("new rider", data);
 	});
