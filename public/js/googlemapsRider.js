@@ -32,8 +32,30 @@ function AutocompleteDirectionsHandler(map) {
     });
 
   submitButton.onclick = function() {
-    location.href = "#openModal";
     calculateAndDisplayRoute();
+
+    setTimeout(function() {
+      findClosestDriverMarker();
+    }, 2000);
+    setTimeout(function() {
+      var closestDriver = test();
+      document.getElementById("driverMinutesAway").setAttribute("class", "");
+      document.getElementById("driverMinutesAway").innerHTML = "Closest Driver is " + closestDriver.closestDriverMinutes + " minutes away";
+      var d = new Date();
+      document.getElementById("estimateDriverArrival").innerHTML = "Estimated Time For Driver To Arrive: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+      + (closestDriver.closestDriverMinutes * 60 * 1000));
+      document.getElementById('estimateDriverArrival').setAttribute("class", "");
+      document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+      + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+      document.getElementById('estimate').setAttribute("class", "");
+      // document.getElementById("duration").innerHTML = "Total Ride Duration : " + durationInMinutes + " minutes";
+      // document.getElementById("price").innerHTML = "Total Calculated Price : $" + price;
+      // document.getElementById('confirm').setAttribute("class", "btn-confirm");
+      // document.getElementById('decline').setAttribute("class", "btn-decline");
+      // document.getElementById('close').setAttribute("class", "hidden");
+      location.href = "#openModal";
+    }, 3000);
+
     // stopAutoUpdate();
   };
 
@@ -225,8 +247,8 @@ function modifyModal(durationInMinutes, distanceInMiles, price) {
   // var d = new Date();
   // document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
   document.getElementById('initial').setAttribute("class", "hidden");
-  document.getElementById("distance").innerHTML = "Total Distance : " + distanceInMiles + " miles";
-  document.getElementById("duration").innerHTML = "Total Duration : " + durationInMinutes + " minutes";
+  document.getElementById("distance").innerHTML = "Your Ride Distance : " + distanceInMiles + " miles";
+  document.getElementById("duration").innerHTML = "Your Ride Duration : " + durationInMinutes + " minutes";
   document.getElementById("price").innerHTML = "Total Calculated Price : $" + price;
   document.getElementById('confirm').setAttribute("class", "btn-confirm");
   document.getElementById('decline').setAttribute("class", "btn-decline");
@@ -350,6 +372,10 @@ function initMap() {
     },
   });
 
+  //show traffic
+  var trafficLayer = new google.maps.TrafficLayer();
+  trafficLayer.setMap(map);
+
   //lets origin and destination text box auto complete to a place/address
   new AutocompleteDirectionsHandler(map);
   showDriverMarker(map);
@@ -363,19 +389,30 @@ function initMap() {
 
 var confirmButton = document.getElementById('confirm');
 confirmButton.onclick = function() {
+  document.getElementById('driverMinutesAway').setAttribute("class", "hidden");
+  document.getElementById('estimateDriverArrival').setAttribute("class", "hidden");
   displayStepByStep();
-  findClosestDriverMarker();
+  // findClosestDriverMarker();
   setTimeout(function() {
     var closestDriver = test();
+
+    //check if driver is within 30 minutes if not, alert no drivers
+    if(closestDriver.closestDriverMinutes > 30) {
+      alert("No driver 30 minutes or less away from you");
+      location.reload();
+      return;
+    }
+
+
     console.log("closest driver test");
     console.log(closestDriver);
     var driverData = {'driverID': closestDriver.closestDriverId, 'riderLat': riderOriginLat,
     'riderLng': riderOriginLng, 'destinationLat': riderDestLat,
     'destinationLng': riderDestLng};
     var d = new Date();
-    document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
-    + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-    document.getElementById('estimate').setAttribute("class", "");
+    // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+    // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+    // document.getElementById('estimate').setAttribute("class", "");
     calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
     console.log('closet driver data');
     console.log(driverData);
@@ -384,4 +421,55 @@ confirmButton.onclick = function() {
 
 }
 
+function trafficTest2(oLat, oLng, dLat, dLng) {
+  var d = new Date();
+  $.ajax({
+    url: 'https://maps.googleapis.com/maps/api/distancematrix/json?origins=' + oLat + ',' + oLng + '&destinations=' + dLat + ',' + dLng
+    + '&departure_time=' + d.getTime() + '&traffic_model=best_guess' +'&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+    method: 'POST',
+    success: function(result, status) {
+      // console.log(status);
+      // console.log(result);
+      // console.log(status + " : " + result.results[0].formatted_address);
+      // alert("The Rider is at " + address + "\nHere are the directions to reach them.")
+    }
+  });
+}
+
+function trafficTest(originLat, originLng, destinationLat, destinationLng) {
+  var dfd = $.Deferred();
+  var service = new google.maps.DistanceMatrixService();
+  service.getDistanceMatrix({
+    origins: [{
+      lat: originLat,
+      lng: originLng
+    }],
+    destinations: [{
+      lat: destinationLat,
+      lng: destinationLng
+    }],
+    travelMode: 'DRIVING',
+    traffic_model: 'best_guess',
+    unitSystem: google.maps.UnitSystem.METRIC
+  }, callback);
+
+  function callback(response, status) {
+    if (status == 'OK') {
+      // distanceBetweenTwo = response.rows[0].elements[0].distance.value;
+      // var duration = response.rows[0].elements[0].duration.value;
+      // console.log(distanceBetweenTwo);
+      console.log(response);
+      dfd.resolve(response);
+    } else {
+      dfd.reject(status);
+    }
+  }
+  // console.log(distanceBetweenTwo);
+  // console.log(test);
+  // return distanceBetweenTwo;
+  return dfd.promise();
+}
+
 google.maps.event.addDomListener(window, 'load', initMap);
+
+// getTravelTimeInTraffic(37.3352, -121.8811, 37.7749, -122.4194);

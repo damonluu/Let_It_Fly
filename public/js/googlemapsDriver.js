@@ -36,6 +36,7 @@ function pickedUpButtonClicked() {
 }
 
 function modifyModal() {
+  // call function to retrieve rider information 
   //   // var d = new Date();
   //   // document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
   //   document.getElementById('initial').setAttribute("class", "hidden");
@@ -151,6 +152,10 @@ function initMap() {
     },
   });
 
+  //show traffic
+  var trafficLayer = new google.maps.TrafficLayer();
+  trafficLayer.setMap(map);
+
   //lets origin and destination text box auto complete to a place/address
   new AutocompleteDirectionsHandler(map);
   showDriverMarker(map);
@@ -199,7 +204,7 @@ function getAddressFromCoord(lat, lng) {
     url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
     method: 'POST',
     success: function(result, status) {
-      var address = result.results[0].formatted_address;;
+      var address = result.results[0].formatted_address;
       // console.log(status + " : " + result.results[0].formatted_address);
       alert("The Rider is at " + address + "\nHere are the directions to reach them.")
     }
@@ -271,20 +276,20 @@ function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, ca
       alert("Geocode was not successful for the following reason: " + status);
     }
   });
-// },2000);
+  // },2000);
   return dfd.promise();
 }
 
 
-function checkCarpoolResult (originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
+function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
-      console.log(result);
-      if(result) {
-        console.log("can carpool");
-      } else {
-        console.log("cannot carpool");
-      }
-    });
+    console.log(result);
+    if (result) {
+      console.log("can carpool");
+    } else {
+      console.log("cannot carpool");
+    }
+  });
 
 }
 
@@ -298,6 +303,9 @@ google.maps.event.addDomListener(window, 'load', initMap);
 // setTimeout(function() {
 //   console.log(checkCarpoolfunction(37.3352, -121.8811, 37.4323, -121.8996, 37.7749, -122.4194));
 // }, 2000);
+
+//https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+//https://maps.googleapis.com/maps/api/distancematrix/json?origins=latlng='37.3352, -121.8811'&destinations=390+W+el+camino+real,+Sunnyvale,+CA&departure_time=1541202457&traffic_model=best_guess&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0
 
 
 checkCarpoolResult(37.3352, -121.8811, 37.4611, -122.1394, 37.7749, -122.4194);
