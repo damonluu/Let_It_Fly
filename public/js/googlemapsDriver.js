@@ -13,7 +13,13 @@ function AutocompleteDirectionsHandler(map) {
   var pickedUpButton = document.getElementById('pickedUpRider-button');
   var completeRideButton = document.getElementById('completeRide-button');
   directionsDisplay.setMap(map);
-  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+  // directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+
+  directionsDisplay = new google.maps.DirectionsRenderer({
+    draggable: true,
+    map: map,
+    panel: document.getElementById('right-panel')
+  });
 
   var originAutocomplete = new google.maps.places.Autocomplete(
     originInput, {
@@ -36,7 +42,7 @@ function pickedUpButtonClicked() {
 }
 
 function modifyModal() {
-  // call function to retrieve rider information 
+  // call function to retrieve rider information
   //   // var d = new Date();
   //   // document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
   //   document.getElementById('initial').setAttribute("class", "hidden");
@@ -50,44 +56,28 @@ function modifyModal() {
 }
 
 function activeDriver() {
-  alert("You are now Active. An Alert will appear when you are matched");
-  var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
-  var driverInfo = {
-    id: driverIdFromURL,
-    lat: driverOriginLat,
-    long: driverOriginLng,
-    available: true
-  };
-  console.log(driverInfo);
-  console.log(driverOriginLat);
-  console.log(driverOriginLng);
-  document.getElementById('origin-input').setAttribute("class", "hidden");
-  document.getElementById('submit-button').setAttribute("class", "hidden");
-  document.getElementById('pickedUpRider-button').setAttribute("class", "");
-
-
-
-  // document.getElementById('submit-button').innerHTML = "Get Direction To Rider";
-  // document.getElementById('submit-button').setAttribute("onClick", "javascript: directionToRider();" );
-  // $.ajax({
-  //       url: '/activateDriver',
-  //       type: 'POST',
-  //       contentType: "application/json; charset=UTF-8",
-  //       data: JSON.stringify(driverInfo),
-  //       success: function(result,status) {
-  //         console.log('CREATED SUCCESSFULLY');
-  //         //call insertDriverMarker from markets.js
-  //         insertNewDriverMarker(1000,driverOriginLat,driverOriginLng);
-  //         // insertNewDriverMarker('Palo Alto', 37.4419, -122.1430);
-  //         // insertPaloAlto();
-  //
-  //       }
-  // });
-  addDriver(driverInfo);
+  var checkInput = document.getElementById("origin-input").value;
+  if (checkInput == "" || checkInput.length == 0 || checkInput == null) {
+    alert("Please enter your location first");
+  } else {
+    alert("You are now Active. An Alert will appear when you are matched");
+    var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+    var driverInfo = {
+      id: driverIdFromURL,
+      lat: driverOriginLat,
+      long: driverOriginLng,
+      available: true
+    };
+    console.log(driverInfo);
+    console.log(driverOriginLat);
+    console.log(driverOriginLng);
+    document.getElementById('origin-input').setAttribute("class", "hidden");
+    document.getElementById('submit-button').setAttribute("class", "hidden");
+    document.getElementById('pickedUpRider-button').setAttribute("class", "");
+    addDriver(driverInfo);
+  }
 }
 
-
-//hard code pickup at scu and desination at sfo for now
 function directionToRider(data) {
   calculateAndDisplayRoute(data.riderLat, data.riderLng, data.destinationLat, data.destinationLng);
 }
