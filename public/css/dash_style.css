@@ -402,7 +402,7 @@ h6 {
 
 }
 
-              input.hidden {
+input.hidden {
     position: absolute;
     left: -9999px;
 }

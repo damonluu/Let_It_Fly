@@ -25,9 +25,6 @@
     offset: 54
   });
 
-  $('#navbarResponsive').click(function(){
-    $('#dashboard .navbar-collapse').collapse('hide');
-  });
   // Collapse the navbar when page is scrolled
   $(window).scroll(function() {
     if ($("#mainNav").offset().top > 100) {
