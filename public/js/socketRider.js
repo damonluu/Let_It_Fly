@@ -49,6 +49,39 @@ socket.on('update map', function(){
 
 socket.on('search carpool', function(data){
 	console.log('searching for carpool.....');
+	console.log("data coming into search carpool");
+	console.log(data);
+	console.log(data[0].start_lat);
+	console.log(data[0].start_long);
+	console.log(data[0].dest_lat);
+	console.log(data[0].dest_long);
+	console.log(data[0].driverid);
+	checkCarpoolFunction(data[0].start_lat, data[0].start_long, data[0].dest_lat, data[0].dest_long)
+	setTimeout(function() {
+		var canCarpool = returnCarpoolBoolean();
+		console.log(canCarpool);
+
+		if(canCarpool) {
+			//notify driver for carpool
+			getRiderInfoCarpool(data[0].driverid);
+		} else {
+			//find closest marker and notify
+			var closest = getRiderInfo();
+		}
+	},2000);
+
+	// data that comes in
+	// driverid: 1000,
+	// riderid: 1001,
+	// dest_long: 37.6213129,
+	// dest_lat: -122.3789554,
+	// start_long: 37.4418834,
+	// start_lat: -122.14301949999998,
+	// cost: 43.85,
+	// carpool: 0,
+	// time: 22 } ]
+
+
 	//carpool logic
 	//-notifyDriver
 });

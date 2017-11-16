@@ -15,7 +15,7 @@ var marker_image = new google.maps.MarkerImage(
 );
 
 // function retrieveRiderOriginLatLong() {
- 
+
 // }
 
 function showDriverMarker(map) {
@@ -35,7 +35,10 @@ function showDriverMarker(map) {
 function insertNewDriverMarker(driverId, lati, long) {
   // var myLatLng = new google.maps.LatLng(lat, lng);
   var marker = new google.maps.Marker({
-    position: {lat: lati, lng: long},
+    position: {
+      lat: lati,
+      lng: long
+    },
     map: mymap,
     animation: google.maps.Animation.DROP,
     icon: marker_image,
@@ -85,7 +88,10 @@ function setMarkers(locations) {
     // console.log(drivers);
     //var myLatLng = new google.maps.LatLng(drivers[1], drivers[2]);
     var marker = new google.maps.Marker({
-      position: {lat: drivers[1], lng: drivers[2]},
+      position: {
+        lat: drivers[1],
+        lng: drivers[2]
+      },
       map: mymap,
       animation: google.maps.Animation.DROP,
       icon: marker_image,
@@ -203,82 +209,150 @@ function findClosestDriverMarker() {
   }
 }
 
-function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
-  var dfd = new $.Deferred();
-  var formData = {};
-  var directionsService = new google.maps.DirectionsService();
-
-  var waypts = [];
-  waypts.push({
-    location: {
-      lat: carpoolOriginLat,
-      lng: carpoolOriginLng
-    },
-    stopover: true
-  });
-
-  var directionsRequest = {
-    origin: {
-      lat: originalRiderOriginLat,
-      lng: originalRiderOriginLng
-    },
-    waypoints: waypts,
-    destination: {
-      lat: bothDestinationLat,
-      lng: bothDestinationLng
-    },
-    travelMode: "DRIVING"
+function carpoolHelper(theDriverId) {
+  var latLng = getRiderOriginLatLong();
+  riderCurrentLat = latLng[0];
+  riderCurrentLng = latLng[1];
+  // console.log("HERE");
+  // console.log(latLng);
+  console.log("in carpoolHelper");
+  console.log(riderCurrentLat);
+  console.log(riderCurrentLng);
+  // console.log(driverLat);
+  // console.log(driverLng);
+  console.log(driverArray);
+  for (var i = 0; i < driverArray.length; i++) {
+    if (driverArray[i][0] == theDriverId) {
+      closestDriverLat = driverArray[i][1];
+      closestDriverLng = driverArray[i][2];
+      break;
+    }
   }
-  // setTimeout(function () {
-  directionsService.route(directionsRequest, function(response, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-      var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-      directionsRequest = {
-        origin: {
-          lat: originalRiderOriginLat,
-          lng: originalRiderOriginLng
-        },
-        destination: {
-          lat: bothDestinationLat,
-          lng: bothDestinationLng
-        },
-        travelMode: "DRIVING"
-      }
-      directionsService.route(directionsRequest, function(response, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-          var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-          // console.log(temp);
-          // console.log(temp2);
-          // console.log(temp2 - temp);
-          // console.log(Math.abs(temp2 - temp));
-          if (Math.abs(temp2 - temp) > 2) {
-            dfd.resolve(false);
-          } else {
-            dfd.resolve(true);
-          }
+  console.log(closestDriverLat);
+  console.log(closestDriverLng);
+  distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, closestDriverLat, closestDriverLng).then(function(response) {
+    var results = response.rows[0].elements;
+    return results[0];
+  }).done(function(distanceMatrixResult) {
+    //var myString = "distance is: " + distanceMatrixResult;
+    // do something with your string now
+    console.log(distanceMatrixResult);
+    closestDriverId = theDriverId;
+    closestDistance = distanceMatrixResult.distance.value;
+    closestDriverMinutes = distanceMatrixResult.duration.value;
 
-        } else {
-          alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
+
+
+
+    // console.log("Closest Driver: " + closestDriverID);
+    // console.log("Closest Distance: " + closestDistance);
   });
-  // },2000);
-  return dfd.promise();
 }
 
-function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
-  checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
-    console.log(result);
-    if (result) {
-      console.log("can carpool");
-    } else {
-      console.log("cannot carpool");
-    }
-  });
+function test2(theDriverId) {
+  console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
+  console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
+  // stopAutoUpdate();
+  // removeMarkersExcept(closestDriverID);
 
+  var resultData = [];
+  resultData["closestDriverId"] = theDriverId;
+  resultData["closestDistance"] = (closestDistance / 1609.34).toFixed(1);
+  resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
+  resultData["closestDriverLat"] = closestDriverLat;
+  resultData["closestDriverLng"] = closestDriverLng;
+  return resultData;
 }
+
+
+
+// when using this, might have to set interval 2000 ms for the function that wants to use this result
+// function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
+//   var latLng = getRiderOriginLatLong();
+//   var dfd = new $.Deferred();
+//   setTimeout(function() {
+//   riderCurrentLat = latLng[0];
+//   riderCurrentLng = latLng[1];
+//   console.log("HERE");
+//   console.log(latLng);
+//
+//   var formData = {};
+//   var directionsService = new google.maps.DirectionsService();
+//
+//   var waypts = [];
+//   waypts.push({
+//     location: {
+//       lat: riderCurrentLat,
+//       lng: riderCurrentLng
+//     },
+//     stopover: true
+//   });
+//
+//   var directionsRequest = {
+//     origin: {
+//       lat: originalRiderOriginLat,
+//       lng: originalRiderOriginLng
+//     },
+//     waypoints: waypts,
+//     destination: {
+//       lat: bothDestinationLat,
+//       lng: bothDestinationLng
+//     },
+//     travelMode: "DRIVING"
+//   }
+//   // setTimeout(function () {
+//   directionsService.route(directionsRequest, function(response, status) {
+//     if (status == google.maps.GeocoderStatus.OK) {
+//       formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+//       var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+//       directionsRequest = {
+//         origin: {
+//           lat: originalRiderOriginLat,
+//           lng: originalRiderOriginLng
+//         },
+//         destination: {
+//           lat: bothDestinationLat,
+//           lng: bothDestinationLng
+//         },
+//         travelMode: "DRIVING"
+//       }
+//       directionsService.route(directionsRequest, function(response, status) {
+//         if (status == google.maps.GeocoderStatus.OK) {
+//           formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+//           var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+//           // console.log(temp);
+//           // console.log(temp2);
+//           // console.log(temp2 - temp);
+//           // console.log(Math.abs(temp2 - temp));
+//           if (Math.abs(temp2 - temp) > 2) {
+//             dfd.resolve(false);
+//           } else {
+//             dfd.resolve(true);
+//           }
+//
+//         } else {
+//           alert("Geocode was not successful for the following reason: " + status);
+//         }
+//       });
+//     } else {
+//       alert("Geocode was not successful for the following reason: " + status);
+//     }
+//   });
+//   // },2000);
+//
+//   }, 3000);
+//   return dfd.promise();
+// }
+//
+//
+// function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
+//   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
+//     console.log(result);
+//     if (result) {
+//       console.log("can carpool");
+//     } else {
+//       console.log("cannot carpool");
+//     }
+//   });
+//
+// }

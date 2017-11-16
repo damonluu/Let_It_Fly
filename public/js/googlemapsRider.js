@@ -59,8 +59,9 @@ function AutocompleteDirectionsHandler(map) {
       //   document.getElementById('estimate').setAttribute("class", "");
       //   location.href = "#openModal";
       // }, 3000);
-
+      setTimeout(function() {
       searchDriver();
+      }, 3000);
 
     }
   };
@@ -332,7 +333,7 @@ function getRiderOriginLatLong() {
 
 function details(origin_PlaceId, destination_PlaceId) {
   var formData = {};
-  var directionsService = new google.maps.DirectionsService();
+  // var directionsService = new google.maps.DirectionsService();
   var directionsRequest = {
     origin: {
       placeId: origin_PlaceId
@@ -433,39 +434,75 @@ confirmButton.onclick = function() {
   //findClosestDriverMarker();
   console.log("Confirm button clicked");
   setTimeout(function() {
-    var closestDriver = test();
+    if(!carpool) {
+      var closestDriver = test(); //for carpool use test2()
 
-    //check if driver is within 30 minutes if not, alert no drivers
-    if (closestDriver.closestDriverMinutes > 30) {
-      alert("No driver 30 minutes or less away from you");
-      location.reload();
-      return;
+      //check if driver is within 30 minutes if not, alert no drivers
+      if (closestDriver.closestDriverMinutes > 30) {
+        alert("No driver 30 minutes or less away from you");
+        location.reload();
+        return;
+      }
+      ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+
+      console.log("closest driver test");
+      console.log(closestDriver);
+      var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+
+      var driverData = {
+        'driverID': closestDriver.closestDriverId,
+        'riderLat': riderOriginLat,
+        'riderLng': riderOriginLng,
+        'destinationLat': riderDestLat,
+        'destinationLng': riderDestLng,
+        'riderID': riderIdFromURL,
+        'cost': totalPrice,
+        'carpool': false,
+        'duration': durationInMinutes
+      };
+      // var d = new Date();
+      // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+      // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+      // document.getElementById('estimate').setAttribute("class", "");
+      calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
+      console.log('closet driver data');
+      console.log(driverData);
+      notifyDriver(driverData);
+    } else { //carpool
+      var closestDriver = test2(theDriverId); //for carpool use test2()
+
+      //check if driver is within 30 minutes if not, alert no drivers
+      if (closestDriver.closestDriverMinutes > 30) {
+        alert("No driver 30 minutes or less away from you");
+        location.reload();
+        return;
+      }
+      ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+
+      console.log("closest driver test carpool");
+      console.log(closestDriver);
+      var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+
+      var driverData = {
+        'driverID': closestDriver.closestDriverId,
+        'riderLat': riderOriginLat,
+        'riderLng': riderOriginLng,
+        'destinationLat': riderDestLat,
+        'destinationLng': riderDestLng,
+        'riderID': riderIdFromURL,
+        'cost': totalPrice,
+        'carpool': false,
+        'duration': durationInMinutes
+      };
+      // var d = new Date();
+      // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+      // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+      // document.getElementById('estimate').setAttribute("class", "");
+      calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
+      console.log('closet driver data');
+      console.log(driverData);
+      notifyDriver(driverData);
     }
-    ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
-
-    console.log("closest driver test");
-    console.log(closestDriver);
-    var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
-
-    var driverData = {
-      'driverID': closestDriver.closestDriverId,
-      'riderLat': riderOriginLat,
-      'riderLng': riderOriginLng,
-      'destinationLat': riderDestLat,
-      'destinationLng': riderDestLng,
-      'riderID': riderIdFromURL,
-      'cost': totalPrice,
-      'carpool': false,
-      'duration': durationInMinutes
-    };
-    // var d = new Date();
-    // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
-    // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-    // document.getElementById('estimate').setAttribute("class", "");
-    calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
-    console.log('closet driver data');
-    console.log(driverData);
-    notifyDriver(driverData);
   }, 500); //not necessary but just in case
 }
 
@@ -490,15 +527,15 @@ function getRiderInfo() {
       var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
 
       var driverData = {
-        'driverID': closestDriver.closestDriverId,
-        'riderLat': riderOriginLat,
-        'riderLng': riderOriginLng,
-        'destinationLat': riderDestLat,
-        'destinationLng': riderDestLng,
-        'riderID': riderIdFromURL,
-        'cost': totalPrice,
-        'carpool': false,
-        'duration': durationInMinutes,
+          'driverID': closestDriver.closestDriverId,
+          'riderLat': riderOriginLat,
+          'riderLng': riderOriginLng,
+          'destinationLat': riderDestLat,
+          'destinationLng': riderDestLng,
+          'riderID': riderIdFromURL,
+          'cost': totalPrice,
+          'carpool': false,
+          'duration': durationInMinutes,
         'closestDriverMinutes':closestDriver.closestDriverMinutes
       };
       // var d = new Date();
@@ -512,5 +549,167 @@ function getRiderInfo() {
       return driverData;
   }, 3000);
 }
+
+var theDriverId;
+
+function getRiderInfoCarpool(theDriverId) {
+  console.log("inside getRiderInfoCarpool");
+  // console.log(driverLat);
+  // console.log(driverLng);
+  this.theDriverId = theDriverId
+  console.log(theDriverId);
+  setTimeout(function() {
+    carpoolHelper(theDriverId);
+  }, 2000);
+  setTimeout(function() {
+    var closestDriver = test2(theDriverId);
+    removeMarkersExcept(theDriverId);
+    console.log(closestDriver);
+    console.log("GET CARPOOL RIDER INFO: " + closestDriver);
+    //check if driver is within 30 minutes if not, alert no drivers
+    if (closestDriver.closestDriverMinutes > 30) {
+      alert("Carpool fail, driver is too far away");
+      location.reload();
+      return;
+    }
+    ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+
+    console.log("closest driver test");
+    console.log(closestDriver);
+    var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+
+    var driverData = {
+      'driverID': theDriverId,
+      'riderLat': riderOriginLat,
+      'riderLng': riderOriginLng,
+      'destinationLat': riderDestLat,
+      'destinationLng': riderDestLng,
+      'riderID': riderIdFromURL,
+      'cost': totalPrice,
+      'carpool': false,
+      'duration': durationInMinutes,
+      'closestDriverMinutes': closestDriver.closestDriverMinutes
+    };
+    // var d = new Date();
+    // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
+    // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+    // document.getElementById('estimate').setAttribute("class", "");
+    // calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
+    console.log('closet driver data');
+    console.log(driverData);
+    displayModal(driverData);
+    return driverData;
+  }, 3000);
+}
+
+var carpool = false;
+
+// when using this, might have to set interval 2000 ms for the function that wants to use this result
+function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
+  // var dfd = new $.Deferred();
+    console.log("data coming into checkCarpoolFunction");
+    console.log(originalRiderOriginLat);
+    console.log(originalRiderOriginLng);
+    console.log(bothDestinationLat);
+    console.log(bothDestinationLng);
+    console.log(riderOriginLat);
+    console.log(riderOriginLng);
+  var formData = {};
+  // var directionsService = new google.maps.DirectionsService();
+
+  var waypts = [];
+  waypts.push({
+    location: {
+      lat: riderOriginLat,
+      lng: riderOriginLng
+    },
+    stopover: true
+  });
+
+  var directionsRequest = {
+    origin: {
+      lat: originalRiderOriginLat,
+      lng: originalRiderOriginLng
+    },
+    waypoints: waypts,
+    destination: {
+      lat: bothDestinationLat,
+      lng: bothDestinationLng
+    },
+    travelMode: "DRIVING"
+  }
+  // setTimeout(function () {
+  directionsService.route(directionsRequest, function(response, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      // console.log("level2");
+      formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+      var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+      directionsRequest = {
+        origin: {
+          lat: originalRiderOriginLat,
+          lng: originalRiderOriginLng
+        },
+        destination: {
+          lat: bothDestinationLat,
+          lng: bothDestinationLng
+        },
+        travelMode: "DRIVING"
+      }
+      // console.log("level2end");
+      directionsService.route(directionsRequest, function(response, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+          var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+          // console.log(temp);
+          // console.log(temp2);
+          // console.log(temp2 - temp);
+          // console.log(Math.abs(temp2 - temp));
+          // console.log("level3");
+          if (Math.abs(temp2 - temp) > 2) {
+            // dfd.resolve(false);
+            console.log("cannot carpool");
+            carpool = false;
+          } else {
+            // dfd.resolve(true);
+            console.log("can carpool");
+            carpool = true;
+          }
+
+        } else {
+          alert("Geocode was not successful for the following reason2: " + status);
+        }
+      });
+    } else {
+      alert("Geocode was not successful for the following reason1: " + status);
+    }
+  });
+  // },2000);
+  // return dfd.promise();
+}
+
+function returnCarpoolBoolean() {
+  return carpool;
+}
+
+
+// function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
+//   console.log("data coming into checkCarpoolResult");
+//   console.log(originalRiderOriginLat);
+//   console.log(originalRiderOriginLng);
+//   console.log(bothDestinationLat);
+//   console.log(bothDestinationLng);
+//   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
+//     console.log(result);
+//     if (result) {
+//       console.log("can carpool");
+//     } else {
+//       console.log("cannot carpool");
+//     }
+//     return result;
+//   });
+//
+// }
+
+
 
 google.maps.event.addDomListener(window, 'load', initMap);

@@ -63,7 +63,7 @@ io.on('connection', function(socket){
 				if(err) throw err;
 				console.log(result);
 				io.emit('map view', result);
-				
+
 			});
 		});
 	});
@@ -86,7 +86,7 @@ io.on('connection', function(socket){
 	//Add the first rider
 	socket.on('ride request', function(data){
 		db_connection.getConnection(function(err, c){
-			var queryInsertRide = 'INSERT INTO Rides VALUE (' + data.driverID + ', ' + data.riderID + ', ' + data.destinationLat + ', ' + data.destinationLng + ', ' + data.riderLat + ', ' + data.riderLng + ', ' + data.cost + ', ' + data.carpool +', ' + data.duration + ')';
+			var queryInsertRide = 'INSERT INTO Rides VALUE (' + data.driverID + ', ' + data.riderID + ', ' + data.destinationLng + ', ' + data.destinationLat + ', ' + data.riderLng + ', ' + data.riderLat + ', ' + data.cost + ', ' + data.carpool +', ' + data.duration + ')';
 			console.log(queryInsertRide);
 			c.query(queryInsertRide,  function(err, result, feilds){
 				if(err) throw err;
@@ -100,7 +100,7 @@ io.on('connection', function(socket){
 	//Remove the driver on both views once the driver clicks ride completed
 	socket.on('remove driver', function(data){
 		db_connection.getConnection(function(err, c){
-			var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id ; 
+			var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id ;
 			c.query(queryRemove,  function(err, result, feilds){
 				if(err) throw err;
 				console.log(result);
@@ -108,7 +108,7 @@ io.on('connection', function(socket){
 				io.emit("ride completed",result);
 			});
 		});
-		
+
 	});
 
 //data: riderId, rider-lat, rider-long, dest-lat, dest-long
