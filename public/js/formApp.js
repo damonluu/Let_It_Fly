@@ -12,9 +12,8 @@
 		cardnumber: '',
 		cvv: '',
 		month: '',
-		year: ''
+		year: '' 
 	});
-
 	formApp.config(function($routeProvider) {
 		$routeProvider
 			// route for the about page
