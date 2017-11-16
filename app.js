@@ -113,6 +113,7 @@ io.on('connection', function(socket){
 
 //data: riderId, rider-lat, rider-long, dest-lat, dest-long
 	socket.on('active rides', function(data){
+		console.log(data);
 		db_connection.getConnection(function(err, c){
 			c.query("SELECT * FROM Rides", function(err, result, feilds){
 				if(err) throw err;
