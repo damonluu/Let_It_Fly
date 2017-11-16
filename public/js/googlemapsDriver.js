@@ -199,7 +199,7 @@ function calculateAndDisplayRoute(riderLat, riderLng, destinationLat, destinatio
 
 function getAddressFromCoord(lat, lng) {
   $.ajax({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDWtUUs81A2lUp2GbIj-h2NsecX2KZNgSg',
     method: 'POST',
     success: function(result, status) {
       var address = result.results[0].formatted_address;

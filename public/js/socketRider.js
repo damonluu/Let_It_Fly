@@ -17,9 +17,9 @@ function notifyDriver(data){
 	socket.emit('ride request', data);
 }
 
-function searchDriver(){
+function searchDriver(data){
 	console.log('looking for driver');
-	socket.emit('active rides');
+	socket.emit('active rides',data);
 }
 
 socket.on('map view', function (data){
@@ -48,27 +48,32 @@ socket.on('update map', function(){
 });
 
 socket.on('search carpool', function(data){
-	console.log('searching for carpool.....');
-	console.log("data coming into search carpool");
-	console.log(data);
-	console.log(data[0].start_lat);
-	console.log(data[0].start_long);
-	console.log(data[0].dest_lat);
-	console.log(data[0].dest_long);
-	console.log(data[0].driverid);
-	checkCarpoolFunction(data[0].start_lat, data[0].start_long, data[0].dest_lat, data[0].dest_long)
-	setTimeout(function() {
-		var canCarpool = returnCarpoolBoolean();
-		console.log(canCarpool);
 
-		if(canCarpool) {
-			//notify driver for carpool
-			getRiderInfoCarpool(data[0].driverid);
-		} else {
-			//find closest marker and notify
-			var closest = getRiderInfo();
-		}
-	},2000);
+	// if(data.riderID ==riderID){
+ 		console.log('searching for carpool.....');
+		console.log("data coming into search carpool");
+		console.log(data);
+		console.log(data[0].start_lat);
+		console.log(data[0].start_long);
+		console.log(data[0].dest_lat);
+		console.log(data[0].dest_long);
+		console.log(data[0].driverid);
+		checkCarpoolFunction(data[0].start_lat, data[0].start_long, data[0].dest_lat, data[0].dest_long)
+		setTimeout(function() {
+			var canCarpool = returnCarpoolBoolean();
+			console.log(canCarpool);
+
+			if(canCarpool) {
+				//notify driver for carpool
+				getRiderInfoCarpool(data[0].driverid);
+			} else {
+				//find closest marker and notify
+				var closest = getRiderInfo();
+			}
+		},2000);
+ // 	}
+
+
 
 	// data that comes in
 	// driverid: 1000,
@@ -87,10 +92,13 @@ socket.on('search carpool', function(data){
 });
 
 socket.on('find nearest', function(data){
-	console.log('find nearest driver...');
-	// setTimeout(function() {
+	// if(data.riderID ==riderID){
+		console.log('find nearest driver...');
+		console.log(data);
+		// setTimeout(function() {
 		var closest = getRiderInfo();
-	// },2000);
+		// },2000);
+	// }
 
 	//1.find closest driver
 	//2.Notify the closest driver

@@ -8,6 +8,7 @@ var riderOriginLng;
 var riderDestLat;
 var riderDestLng;
 var durationMinutes;
+var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
 
 function AutocompleteDirectionsHandler(map) {
   this.map = map;
@@ -59,9 +60,18 @@ function AutocompleteDirectionsHandler(map) {
       //   document.getElementById('estimate').setAttribute("class", "");
       //   location.href = "#openModal";
       // }, 3000);
-      setTimeout(function() {
-      searchDriver();
-      }, 3000);
+
+      var riderInfo = {
+      'riderID': riderIdFromURL,
+      'riderLat': riderOriginLat,
+      'riderLng': riderOriginLng,
+      'destinationLat': riderDestLat,
+      'destinationLng': riderDestLng
+    };
+
+    setTimeout(function() {
+    searchDriver(riderInfo);
+    }, 3000);
 
     }
   };
@@ -524,7 +534,6 @@ function getRiderInfo() {
 
       console.log("closest driver test");
       console.log(closestDriver);
-      var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
 
       var driverData = {
           'driverID': closestDriver.closestDriverId,
