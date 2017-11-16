@@ -41,7 +41,7 @@ socket.on('ride completed', function(data){
   	removeDriverMarker(data.id);
   	alert('Ride Completed');
   }
-}); 
+});
 
 socket.on('update map', function(){
 	getMapView(riderID);
@@ -55,10 +55,10 @@ socket.on('search carpool', function(data){
 
 socket.on('find nearest', function(data){
 	console.log('find nearest driver...');
-	setTimeout(function() {
+	// setTimeout(function() {
 		var closest = getRiderInfo();
-	},5000);
+	// },2000);
 
-	//1.find closest driver 
+	//1.find closest driver
 	//2.Notify the closest driver
 })

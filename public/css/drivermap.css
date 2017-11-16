@@ -5,14 +5,14 @@
  }
 
 
-/*#map {
+#map {
   height: 100%;
   position: relative;
 }
 
 #directionsPanel {
   position: absolute;
-  top: 200px;
+  top: 120px;
   left: 15px;
   z-index: 99;
   background-color: white;
@@ -27,7 +27,7 @@
   padding: 0px 15px 0px 15px;
   opacity: .9;
   overflow: auto;
-}*/
+}
 
 html, body {
   height: 100%;
@@ -160,7 +160,7 @@ html, body {
 }
 
 /*Stuff for step by step directions on right side of map*/
-#right-panel {
+/*#right-panel {
   font-family: 'Roboto', 'sans-serif';
   line-height: 30px;
   padding-left: 10px;
@@ -196,4 +196,4 @@ html, body {
 .panel {
   height: 100%;
   overflow: auto;
-}
+}*/

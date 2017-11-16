@@ -13,13 +13,13 @@ function AutocompleteDirectionsHandler(map) {
   var pickedUpButton = document.getElementById('pickedUpRider-button');
   var completeRideButton = document.getElementById('completeRide-button');
   directionsDisplay.setMap(map);
-  // directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-  directionsDisplay = new google.maps.DirectionsRenderer({
-    draggable: true,
-    map: map,
-    panel: document.getElementById('right-panel')
-  });
+  // directionsDisplay = new google.maps.DirectionsRenderer({
+  //   draggable: true,
+  //   map: map,
+  //   panel: document.getElementById('right-panel')
+  // });
 
   var originAutocomplete = new google.maps.places.Autocomplete(
     originInput, {
@@ -46,7 +46,7 @@ function completeRideButtonClicked(){
   var driverInfo = {
     id: driverIdFromURL
   };
-  removeDriver(driverInfo); 
+  removeDriver(driverInfo);
 }
 
 function modifyModal() {

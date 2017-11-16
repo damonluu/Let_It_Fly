@@ -5,13 +5,13 @@ h2, p {
   text-align: center;
 }
 
-/*#map {
-  height: 70%;
+#map {
+  height: 100%;
   position: relative;
   z-index:1;
 }
 
-/*#directionsPanel {
+#directionsPanel {
   position: absolute;
   top: 120px;
   left: 15px;
@@ -28,7 +28,7 @@ h2, p {
   padding: 0px 15px 0px 15px;
   opacity: .9;
   overflow: auto;
-}*/
+}
 
 /* Optional: Makes the sample page fill the window. */
 
@@ -167,7 +167,7 @@ html, body {
 }
 
 /*Stuff for step by step directions on right side of map*/
-#right-panel {
+/*#right-panel {
   font-family: 'Roboto', 'sans-serif';
   line-height: 30px;
   padding-left: 10px;
@@ -203,4 +203,4 @@ html, body {
 .panel {
   height: 100%;
   overflow: auto;
-}
+}*/
