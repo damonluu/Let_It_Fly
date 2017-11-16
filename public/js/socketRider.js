@@ -55,6 +55,10 @@ socket.on('search carpool', function(data){
 
 socket.on('find nearest', function(data){
 	console.log('find nearest driver...');
+	setTimeout(function() {
+		var closest = getRiderInfo();
+	},5000);
+
 	//1.find closest driver 
 	//2.Notify the closest driver
 })

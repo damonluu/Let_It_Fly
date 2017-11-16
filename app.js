@@ -117,7 +117,8 @@ io.on('connection', function(socket){
 			c.query("SELECT * FROM Rides", function(err, result, feilds){
 				if(err) throw err;
 				console.log(result);
-				if(result.RowDataPacket == null){
+				console.log(result.length > 0);
+				if(result.length == 0){
 					console.log("no active ride");
 					io.emit('find nearest', data);
 				} else{

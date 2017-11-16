@@ -14,11 +14,9 @@ var marker_image = new google.maps.MarkerImage(
   "img/map/vanMed.png"
 );
 
-function retrieveRiderOriginLatLong() {
-  var latLng = getRiderOriginLatLong();
-  riderCurrentLat = latLng[0];
-  riderCurrentLng = latLng[1];
-}
+// function retrieveRiderOriginLatLong() {
+ 
+// }
 
 function showDriverMarker(map) {
   mymap = map;
@@ -177,7 +175,12 @@ function test() {
 }
 
 function findClosestDriverMarker() {
-  retrieveRiderOriginLatLong();
+  // retrieveRiderOriginLatLong();
+  var latLng = getRiderOriginLatLong();
+  riderCurrentLat = latLng[0];
+  riderCurrentLng = latLng[1];
+  console.log("HERE");
+  console.log(latLng);
   // for (var driver in driverArray) {
   for (let i = 0; i < driverArray.length; i++) {
     distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, driverArray[i][1], driverArray[i][2]).then(function(response) {
