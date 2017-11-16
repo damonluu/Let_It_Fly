@@ -246,6 +246,8 @@ function getGeocode(placeid) {
   });
 }
 
+var totalPrice;
+
 function calculatePrice(distanceInMeters, durationInSeconds) {
   var baseFare = 2.5;
   var pricePerMinute = 0.24;
@@ -259,8 +261,8 @@ function calculatePrice(distanceInMeters, durationInSeconds) {
   console.log(distanceInMiles);
 
   //total will show price of 15 dollar minimum
-  var total = Math.max(baseFare + (durationInMinutes * pricePerMinute) + ((distanceInMiles - 2) * pricePerMile), 15).toFixed(2);
-  modifyModal(durationInMinutes, distanceInMiles, total);
+  totalPrice = Math.max(baseFare + (durationInMinutes * pricePerMinute) + ((distanceInMiles - 2) * pricePerMile), 15).toFixed(2);
+  modifyModal(durationInMinutes, distanceInMiles, totalPrice);
 }
 
 function modifyModal(durationInMinutes, distanceInMiles, price) {
@@ -422,15 +424,22 @@ confirmButton.onclick = function() {
       location.reload();
       return;
     }
+    ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
 
     console.log("closest driver test");
     console.log(closestDriver);
+    var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+
     var driverData = {
       'driverID': closestDriver.closestDriverId,
       'riderLat': riderOriginLat,
       'riderLng': riderOriginLng,
       'destinationLat': riderDestLat,
-      'destinationLng': riderDestLng
+      'destinationLng': riderDestLng,
+      'riderID:': riderIdFromURL,
+      'cost': totalPrice,
+      'carpool': false,
+      'duration': durationInMinutes
     };
     // var d = new Date();
     // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
