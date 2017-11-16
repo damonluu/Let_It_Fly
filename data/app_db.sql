@@ -58,8 +58,8 @@ CREATE TABLE `PastRides` (
   `start_lat` double NOT NULL,
   `cost` double NOT NULL,
   `carpool` tinyint(1) NOT NULL,
-  `time` datetime NOT NULL,
-  PRIMARY KEY (`riderid`,`time`),
+  `time` int(11),
+  PRIMARY KEY (`riderid`,`driverid`),
   CONSTRAINT `pastrides_ibfk_1` FOREIGN KEY (`riderid`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -120,8 +120,8 @@ CREATE TABLE `Rides` (
   `start_lat` double NOT NULL,
   `cost` double NOT NULL,
   `carpool` tinyint(1) NOT NULL,
-  `time` datetime NOT NULL,
-  PRIMARY KEY (`driverid`,`riderid`,`time`),
+  `time` int(11) NOT NULL,
+  PRIMARY KEY (`driverid`,`riderid`),
   KEY `riderid` (`riderid`),
   CONSTRAINT `rides_ibfk_1` FOREIGN KEY (`driverid`) REFERENCES `DRIVERS` (`id`),
   CONSTRAINT `rides_ibfk_2` FOREIGN KEY (`riderid`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE

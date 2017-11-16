@@ -17,6 +17,13 @@ function addDriver(data){
   socket.emit("new driver", data);
 }
 
+function removeDriver(data){
+  console.log("Remove Driver: " + data.id);
+  removeDriverMarker(data.id);
+  socket.emit("remove driver", data);
+}
+
+
 socket.on("new rider", function(data){
 	if(data.driverID == driverID){
 		console.log('got new notification');

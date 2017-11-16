@@ -95,7 +95,7 @@ html, body {
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(192, 200, 228, 0.7);
     z-index: 99999;
     opacity:0;
     -webkit-transition: opacity 400ms ease-in;
@@ -113,10 +113,8 @@ html, body {
     margin: 10% auto;
     padding: 5px 20px 13px 20px;
     border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
+    background: #FFFFFF;
+    color: #545454;
 }
 
 .close {
@@ -138,29 +136,30 @@ html, body {
     box-shadow: 1px 1px 3px #000;
 }
 .close:hover {
-    background: #00d9ff;
+    background: #5680E9;
 }
 
 .btn-confirm, .btn-decline {
   background-color: #5AB9EA;
+  color: white;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
   text-align: center;
   margin-left: 27px;
-  max-width: 60%;
-  min-width: 40%;
+  /*padding: 10px 11px 0 13px;*/
+  width: 40%;
   margin-top: 0px;
-  border-radius: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
   box-sizing: border-box;
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  display: inline-block;
 }
 
 .btn-confirm:hover , .btn-decline:hover, #submit-button:hover {
-  background: #8860D0;
+  background: #5680E9;
 }
 
 .hidden {

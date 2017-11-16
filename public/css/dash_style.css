@@ -388,7 +388,7 @@ h6 {
 #logout{
   margin-left:35%;
 }
-#linkRequest {
+#linkRequest, #buttonDashboard{
   color: white;
   text-decoration:none;
   text-align: center;

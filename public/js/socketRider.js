@@ -1,16 +1,25 @@
 
 var socket = io();
 var map;
+var riderID;
 
-function getMapView(){
+function getMapView(newId){
 	console.log('initialize socket io-client');
+	riderID = newId;
+	console.log(riderID);
 	socket.emit('rider view');
 };
 
 //modify this method later to pass the data to insert into rides table
 function notifyDriver(data){
 	console.log('notifying driver');
+	console.log(data);
 	socket.emit('ride request', data);
+}
+
+function searchDriver(){
+	console.log('looking for driver');
+	socket.emit('active rides');
 }
 
 socket.on('map view', function (data){
@@ -27,6 +36,25 @@ socket.on('map view', function (data){
   }
 });
 
+socket.on('ride completed', function(data){
+  if(data.riderID = riderID){
+  	removeDriverMarker(data.id);
+  	alert('Ride Completed');
+  }
+}); 
+
 socket.on('update map', function(){
-	getMapView();
+	getMapView(riderID);
 });
+
+socket.on('search carpool', function(data){
+	console.log('searching for carpool.....');
+	//carpool logic
+	//-notifyDriver
+});
+
+socket.on('find nearest', function(data){
+	console.log('find nearest driver...');
+	//1.find closest driver 
+	//2.Notify the closest driver
+})

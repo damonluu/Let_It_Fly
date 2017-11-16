@@ -35,6 +35,14 @@ function pickedUpButtonClicked() {
   document.getElementById('completeRide-button').setAttribute("class", "");
 }
 
+function completeRideButtonClicked(){
+  var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+  var driverInfo = {
+    id: driverIdFromURL
+  };
+  removeDriver(driverInfo); 
+}
+
 function modifyModal() {
   // call function to retrieve rider information 
   //   // var d = new Date();

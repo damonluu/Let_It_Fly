@@ -200,15 +200,82 @@ function findClosestDriverMarker() {
   }
 }
 
-// // below is for testing
+function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
+  var dfd = new $.Deferred();
+  var formData = {};
+  var directionsService = new google.maps.DirectionsService();
 
-// setTimeout(function() {
-//   insertNewDriverMarker('sunnyvale driver', 37.3688, -122.0363);
-// }, 3000);
-// setTimeout(function() {
-//   removeDriverMarker('Hayward');
-// }, 4000);
+  var waypts = [];
+  waypts.push({
+    location: {
+      lat: carpoolOriginLat,
+      lng: carpoolOriginLng
+    },
+    stopover: true
+  });
 
-// setTimeout(function() {
-//   console.log(markers);
-// }, 10000);
+  var directionsRequest = {
+    origin: {
+      lat: originalRiderOriginLat,
+      lng: originalRiderOriginLng
+    },
+    waypoints: waypts,
+    destination: {
+      lat: bothDestinationLat,
+      lng: bothDestinationLng
+    },
+    travelMode: "DRIVING"
+  }
+  // setTimeout(function () {
+  directionsService.route(directionsRequest, function(response, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+      var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+      directionsRequest = {
+        origin: {
+          lat: originalRiderOriginLat,
+          lng: originalRiderOriginLng
+        },
+        destination: {
+          lat: bothDestinationLat,
+          lng: bothDestinationLng
+        },
+        travelMode: "DRIVING"
+      }
+      directionsService.route(directionsRequest, function(response, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+          var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+          // console.log(temp);
+          // console.log(temp2);
+          // console.log(temp2 - temp);
+          // console.log(Math.abs(temp2 - temp));
+          if (Math.abs(temp2 - temp) > 2) {
+            dfd.resolve(false);
+          } else {
+            dfd.resolve(true);
+          }
+
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+  // },2000);
+  return dfd.promise();
+}
+
+function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
+  checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
+    console.log(result);
+    if (result) {
+      console.log("can carpool");
+    } else {
+      console.log("cannot carpool");
+    }
+  });
+
+}
