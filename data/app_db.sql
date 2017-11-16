@@ -36,11 +36,11 @@ CREATE TABLE `Drivers` (
 -- Dumping data for table `Drivers`
 --
 
-LOCK TABLES `Drivers` WRITE;
-/*!40000 ALTER TABLE `Drivers` DISABLE KEYS */;
-INSERT INTO `Drivers` VALUES (1000,-121.88632860000001,37.3382082,1),(1001,-121.98857190000001,37.5482697,1),(1002,-122.04382980000003,37.5933918,1);
-/*!40000 ALTER TABLE `Drivers` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `Drivers` WRITE;
+-- /*!40000 ALTER TABLE `Drivers` DISABLE KEYS */;
+-- INSERT INTO `Drivers` VALUES (1000,-121.88632860000001,37.3382082,1),(1001,-121.98857190000001,37.5482697,1),(1002,-122.04382980000003,37.5933918,1);
+-- /*!40000 ALTER TABLE `Drivers` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Table structure for table `PastRides`
@@ -58,8 +58,8 @@ CREATE TABLE `PastRides` (
   `start_lat` double NOT NULL,
   `cost` double NOT NULL,
   `carpool` tinyint(1) NOT NULL,
-  `time` datetime NOT NULL,
-  PRIMARY KEY (`riderid`,`time`),
+  `time` int(11),
+  PRIMARY KEY (`riderid`,`driverid`),
   CONSTRAINT `pastrides_ibfk_1` FOREIGN KEY (`riderid`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -120,8 +120,8 @@ CREATE TABLE `Rides` (
   `start_lat` double NOT NULL,
   `cost` double NOT NULL,
   `carpool` tinyint(1) NOT NULL,
-  `time` datetime NOT NULL,
-  PRIMARY KEY (`driverid`,`riderid`,`time`),
+  `time` int(11) NOT NULL,
+  PRIMARY KEY (`driverid`,`riderid`),
   KEY `riderid` (`riderid`),
   CONSTRAINT `rides_ibfk_1` FOREIGN KEY (`driverid`) REFERENCES `DRIVERS` (`id`),
   CONSTRAINT `rides_ibfk_2` FOREIGN KEY (`riderid`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE

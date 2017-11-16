@@ -388,7 +388,7 @@ h6 {
 #logout{
   margin-left:35%;
 }
-#linkRequest {
+#linkRequest, #buttonDashboard{
   color: white;
   text-decoration:none;
   text-align: center;
@@ -402,7 +402,7 @@ h6 {
 
 }
 
-              input.hidden {
+input.hidden {
     position: absolute;
     left: -9999px;
 }
@@ -415,3 +415,12 @@ h6 {
 	border:2px solid #03b1ce ;}
 	.tital{ font-size:16px; font-weight:500;}
 	 .bot-border{ border-bottom:1px #f8f8f8 solid;  margin:5px 0  5px 0}
+
+#siteloader object{
+  height: 100% !important;
+  width: 100% !important;
+}
+
+#siteloader {
+  height: 650px !important;
+}

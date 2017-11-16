@@ -36,46 +36,42 @@ function AutocompleteDirectionsHandler(map) {
       placeIdOnly: true
     });
 
-  submitButton.onclick = function() {
+ submitButton.onclick = function() {
     var checkInput1 = document.getElementById("origin-input").value;
     var checkInput2 = document.getElementById("destination-input").value;
     if (checkInput1 == "" || checkInput1.length == 0 || checkInput1 == null || checkInput2 == "" || checkInput2.length == 0 || checkInput2 == null) {
       alert("Please enter your location first");
     } else {
-      calculateAndDisplayRoute();
+      // calculateAndDisplayRoute();
 
-      setTimeout(function() {
-        findClosestDriverMarker();
-      }, 2000);
-      setTimeout(function() {
-        var closestDriver = test();
-        document.getElementById("driverMinutesAway").setAttribute("class", "");
-        document.getElementById("driverMinutesAway").innerHTML = "Closest Driver is " + closestDriver.closestDriverMinutes + " minutes away";
-        var d = new Date();
-        document.getElementById("estimateDriverArrival").innerHTML = "Estimated Time For Driver To Arrive: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
-          (closestDriver.closestDriverMinutes * 60 * 1000));
-        document.getElementById('estimateDriverArrival').setAttribute("class", "");
-        document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
-          (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-        document.getElementById('estimate').setAttribute("class", "");
-        // document.getElementById("duration").innerHTML = "Total Ride Duration : " + durationInMinutes + " minutes";
-        // document.getElementById("price").innerHTML = "Total Calculated Price : $" + price;
-        // document.getElementById('confirm').setAttribute("class", "btn-confirm");
-        // document.getElementById('decline').setAttribute("class", "btn-decline");
-        // document.getElementById('close').setAttribute("class", "hidden");
-        location.href = "#openModal";
-      }, 3000);
+      // setTimeout(function() {
+      //   findClosestDriverMarker();
+      // }, 2000);
+      // setTimeout(function() {
+      //   var closestDriver = test();
+      //   document.getElementById("driverMinutesAway").setAttribute("class", "");
+      //   document.getElementById("driverMinutesAway").innerHTML = "Closest Driver is " + closestDriver.closestDriverMinutes + " minutes away";
+      //   var d = new Date();
+      //   document.getElementById("estimateDriverArrival").innerHTML = "Estimated Time For Driver To Arrive: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
+      //     (closestDriver.closestDriverMinutes * 60 * 1000));
+      //   document.getElementById('estimateDriverArrival').setAttribute("class", "");
+      //   document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
+      //     (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+      //   document.getElementById('estimate').setAttribute("class", "");
+      //   location.href = "#openModal";
+      // }, 3000);
 
-      // stopAutoUpdate();
+      searchDriver();
+
     }
   };
 
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
   this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(destinationInput);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(originInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(destinationInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
 }
 
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
@@ -245,6 +241,7 @@ function getGeocode(placeid) {
     }
   });
 }
+var totalPrice;
 
 var totalPrice;
 
@@ -390,7 +387,7 @@ function initMap() {
     MapOptions: true,
     mapTypeControlOptions: {
       style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      position: google.maps.ControlPosition.TOP_LEFT
+      position: google.maps.ControlPosition.BOTTOM_LEFT
     },
   });
 
@@ -405,8 +402,10 @@ function initMap() {
   //uses currentLocation.js to add gps button and marker to current locaion
   gps(map);
 
+  var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+  var riderInfo = riderIdFromURL;
   //socketRider.js function
-  getMapView();
+  getMapView(riderInfo);
 }
 
 var confirmButton = document.getElementById('confirm');
@@ -454,5 +453,3 @@ confirmButton.onclick = function() {
 }
 
 google.maps.event.addDomListener(window, 'load', initMap);
-
-// getTravelTimeInTraffic(37.3352, -121.8811, 37.7749, -122.4194);

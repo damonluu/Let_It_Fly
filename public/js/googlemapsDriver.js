@@ -27,10 +27,10 @@ function AutocompleteDirectionsHandler(map) {
     });
 
   this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(pickedUpButton);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(completeRideButton);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(originInput);
-  this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(submitButton);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(pickedUpButton);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(completeRideButton);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(originInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
 
 }
 
@@ -39,6 +39,14 @@ function pickedUpButtonClicked() {
   document.getElementById('pickedUpRider-button').innerHTML = "Rider Information";
   document.getElementById('pickedUpRider-button').setAttribute("onClick", "javascript: modifyModal();");
   document.getElementById('completeRide-button').setAttribute("class", "");
+}
+
+function completeRideButtonClicked(){
+  var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+  var driverInfo = {
+    id: driverIdFromURL
+  };
+  removeDriver(driverInfo); 
 }
 
 function modifyModal() {
@@ -138,7 +146,7 @@ function initMap() {
     MapOptions: true,
     mapTypeControlOptions: {
       style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-      position: google.maps.ControlPosition.TOP_LEFT
+      position: google.maps.ControlPosition.BOTTOM_LEFT
     },
   });
 
