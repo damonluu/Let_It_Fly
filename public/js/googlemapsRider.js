@@ -436,7 +436,7 @@ confirmButton.onclick = function() {
       'riderLng': riderOriginLng,
       'destinationLat': riderDestLat,
       'destinationLng': riderDestLng,
-      'riderID:': riderIdFromURL,
+      'riderID': riderIdFromURL,
       'cost': totalPrice,
       'carpool': false,
       'duration': durationInMinutes
