@@ -21,4 +21,8 @@ router
   .route('/getID')
   .get(ctrlUser.getUserByID);
 
+router
+  .route('/getPayment')
+  .get(ctrlPayment.getPaymentByID);
+
 module.exports = router;

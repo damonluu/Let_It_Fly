@@ -52,7 +52,16 @@ body{
      margin-left: 25px;
      margin-right:25px;
   }
+
+/*following two are for profile page*/
+#dashboard .tital{ 
+    font-size:16px; 
+    font-weight:500;
 }
+#dashboard .bot-border{ 
+    border-bottom:1px #f8f8f8 solid;  
+    margin:5px 0  5px 0
+}	
 
 .navbar {
   border-bottom-left-radius:0; /*Change bootstrap default border-radius for menu*/
@@ -257,7 +266,7 @@ body{
   background-color: white;
   border-left: 1px solid #e7e7e7;
   border-top: 1px solid #e7e7e7;
-  color: rgba(122, 133, 211, 79);
+  color: #7F71CD;/*rgba(122, 133, 211, 79);*/
   /*font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';*/
 }
 h1,
@@ -269,7 +278,7 @@ h6 {
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
   font-weight: 300;
   letter-spacing: 1px;
-  border-bottom: 1px solid #e7e7e7; 
+  border-bottom: 1px solid #e7e7e7;
    }
 
 #logout {
@@ -384,6 +393,16 @@ h6 {
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
     /*border-radius: 20px;*/
 
+}
+
+#firstcolumn{
+    line-height: 30px;
+    color: #7F71CD;
+}
+
+#secondcolumn{
+    line-height: 30px;
+    color: #7F71CD;
 }
 #logout{
   margin-left:35%;
