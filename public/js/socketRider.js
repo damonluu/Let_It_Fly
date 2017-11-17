@@ -72,20 +72,28 @@ console.log(riderID);
 		console.log(data[0].dest_lat);
 		console.log(data[0].dest_long);
 		console.log(data[0].driverid);
-		checkCarpoolFunction(data[0].start_lat, data[0].start_long, data[0].dest_lat, data[0].dest_long)
-		setTimeout(function() {
-			var canCarpool = returnCarpoolBoolean();
-			console.log(canCarpool);
-
-			if(canCarpool) {
-				//notify driver for carpool
+		var checkCarpoolFunctionPromise = checkCarpoolFunction(data[0].start_lat, data[0].start_long, data[0].dest_lat, data[0].dest_long);
+		checkCarpoolFunctionPromise.then(function(result) {
+			console.log(result);
+			if(result) {
 				getRiderInfoCarpool(data[0].driverid);
-				// notifyOthersOfCarpool(data);
 			} else {
-				//find closest marker and notify
 				var closest = getRiderInfo();
 			}
-		},2000);
+		});
+		// setTimeout(function() {
+		// 	var canCarpool = returnCarpoolBoolean();
+		// 	console.log(canCarpool);
+		//
+		// 	if(canCarpool) {
+		// 		//notify driver for carpool
+		// 		getRiderInfoCarpool(data[0].driverid);
+		// 		// notifyOthersOfCarpool(data);
+		// 	} else {
+		// 		//find closest marker and notify
+		// 		var closest = getRiderInfo();
+		// 	}
+		// },2000);
  	}
 
 

@@ -1,5 +1,4 @@
 var markers = [];
-var timeOut = 5000;
 var mymap;
 var driverArray = [];
 var riderCurrentLat;
@@ -13,10 +12,6 @@ var closestDriverLng;
 var marker_image = new google.maps.MarkerImage(
   "img/map/vanMed.png"
 );
-
-// function retrieveRiderOriginLatLong() {
-
-// }
 
 function showDriverMarker(map) {
   mymap = map;
@@ -165,6 +160,8 @@ function test() {
 
 function findClosestDriverMarker() {
   // retrieveRiderOriginLatLong();
+  var deferred = $.Deferred();
+
   var latLng = getRiderOriginLatLong();
   riderCurrentLat = latLng[0];
   riderCurrentLng = latLng[1];
@@ -172,38 +169,37 @@ function findClosestDriverMarker() {
   console.log(latLng);
   // for (var driver in driverArray) {
   for (let i = 0; i < driverArray.length; i++) {
-    distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, driverArray[i][1], driverArray[i][2]).then(function(response) {
-      var results = response.rows[0].elements;
-      return results[0];
-    }).done(function(distanceMatrixResult) {
-      //var myString = "distance is: " + distanceMatrixResult;
-      // do something with your string now
-      console.log(distanceMatrixResult);
-      if (distanceMatrixResult.distance.value < closestDistance) {
-        closestDistance = distanceMatrixResult.distance.value;
+    var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, driverArray[i][1], driverArray[i][2]);
+    distanceBetweenTwoCoordPromise.then(function(result) {
+      if (result.rows[0].elements[0].distance.value < closestDistance) {
+        closestDistance = result.rows[0].elements[0].distance.value;
         closestDriverID = driverArray[i][0];
-        closestDriverMinutes = distanceMatrixResult.duration.value;
+        closestDriverMinutes = result.rows[0].elements[0].duration.value;
         closestDriverLat = driverArray[i][1];
         closestDriverLng = driverArray[i][2];
       }
-      // console.log("Closest Driver: " + closestDriverID);
-      // console.log("Closest Distance: " + closestDistance);
+      var results = result.rows[0].elements[0];
+      // return results[0];
+      deferred.resolve(results);
     });
   }
+  return deferred.promise();
 }
 
 function carpoolHelper(theDriverId) {
+  var deferred = $.Deferred();
+
   var latLng = getRiderOriginLatLong();
   riderCurrentLat = latLng[0];
   riderCurrentLng = latLng[1];
   // console.log("HERE");
   // console.log(latLng);
-  console.log("in carpoolHelper");
-  console.log(riderCurrentLat);
-  console.log(riderCurrentLng);
+  // console.log("in carpoolHelper");
+  // console.log(riderCurrentLat);
+  // console.log(riderCurrentLng);
   // console.log(driverLat);
   // console.log(driverLng);
-  console.log(driverArray);
+  // console.log(driverArray);
   for (var i = 0; i < driverArray.length; i++) {
     if (driverArray[i][0] == theDriverId) {
       closestDriverLat = driverArray[i][1];
@@ -213,23 +209,15 @@ function carpoolHelper(theDriverId) {
   }
   console.log(closestDriverLat);
   console.log(closestDriverLng);
-  distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, closestDriverLat, closestDriverLng).then(function(response) {
-    var results = response.rows[0].elements;
-    return results[0];
-  }).done(function(distanceMatrixResult) {
-    //var myString = "distance is: " + distanceMatrixResult;
-    // do something with your string now
-    console.log(distanceMatrixResult);
+
+  var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, closestDriverLat, closestDriverLng);
+  distanceBetweenTwoCoordPromise.then(function(result) {
     closestDriverId = theDriverId;
-    closestDistance = distanceMatrixResult.distance.value;
-    closestDriverMinutes = distanceMatrixResult.duration.value;
-
-
-
-
-    // console.log("Closest Driver: " + closestDriverID);
-    // console.log("Closest Distance: " + closestDistance);
+    closestDistance = result.rows[0].elements[0].distance.value;
+    closestDriverMinutes = result.rows[0].elements[0].duration.value;
+    deferred.resolve(result);
   });
+  return deferred.promise();
 }
 
 function test2(theDriverId) {

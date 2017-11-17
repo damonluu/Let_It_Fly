@@ -39,20 +39,32 @@ function AutocompleteDirectionsHandler(map) {
     if (checkInput1 == "" || checkInput1.length == 0 || checkInput1 == null || checkInput2 == "" || checkInput2.length == 0 || checkInput2 == null) {
       alert("Please enter your location first");
     } else {
-      calculateAndDisplayRoute();
-      var riderInfo = {
-        'riderID': riderIdFromURL,
-        'riderLat': riderOriginLat,
-        'riderLng': riderOriginLng,
-        'destinationLat': riderDestLat,
-        'destinationLng': riderDestLng
+      var promise = calculateAndDisplayRoute();
+      promise.then(function(result) {
+        var riderInfo = {
+          'riderID': riderIdFromURL,
+          'riderLat': riderOriginLat,
+          'riderLng': riderOriginLng,
+          'destinationLat': riderDestLat,
+          'destinationLng': riderDestLng
 
-      };
-      // searchDriver(riderInfo);
-      // this time out is necessary or else carpool breaks sometimes
-      setTimeout(function() {
+        };
         searchDriver(riderInfo);
-      }, 1500);
+      });
+
+      // var riderInfo = {
+      //   'riderID': riderIdFromURL,
+      //   'riderLat': riderOriginLat,
+      //   'riderLng': riderOriginLng,
+      //   'destinationLat': riderDestLat,
+      //   'destinationLng': riderDestLng
+      //
+      // };
+      // // searchDriver(riderInfo);
+      // // this time out is necessary or else carpool breaks sometimes
+      // setTimeout(function() {
+      //   searchDriver(riderInfo);
+      // }, 3000);
 
     }
   };
@@ -139,6 +151,8 @@ function modalAfterConfirm() {
 // this function converts origin place id and destination place id into the distance and duration of the trip
 // so it can be used to calculate the price. it also calls details which converts place ids into long lat
 function calculateAndDisplayRoute() {
+  var deferred = $.Deferred();
+
   directionsService.route({
     origin: {
       'placeId': originPID
@@ -153,10 +167,13 @@ function calculateAndDisplayRoute() {
       calculatePrice(response.routes[0].legs[0].distance.value, response.routes[0].legs[0].duration.value);
       // console.log("~~~~~~~~~Test Array~~~~~~~~~~~~~~");
       console.log(details(response.geocoded_waypoints[0].place_id, response.geocoded_waypoints[1].place_id));
+      deferred.resolve("hello");
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
+
+  return deferred.promise();
 }
 
 // this function is the one that shows the rider step by step directions from the driver's location, to them, to their destination
@@ -377,6 +394,10 @@ confirmButton.onclick = function() {
   displayStepByStep();
   //findClosestDriverMarker();
   console.log("Confirm button clicked");
+
+
+
+
   setTimeout(function() {
     if (!carpool) {
       var closestDriver = test(); //for carpool use test2()
@@ -446,42 +467,78 @@ confirmButton.onclick = function() {
 // this function will find the closest driver, set the driverData, update the modal
 // that updates the box that the rider sees after their click on submit
 function getRiderInfo() {
-  setTimeout(function() {
-    findClosestDriverMarker();
-  }, 2000);
-  setTimeout(function() {
-    var closestDriver = test();
-    console.log(closestDriver);
-    console.log("GET RIDER INFO: " + closestDriver);
-    //check if driver is within 30 minutes if not, alert no drivers
-    if (closestDriver.closestDriverMinutes > 30) {
-      alert("No driver 30 minutes or less away from you");
-      location.reload();
-      return;
-    }
-    ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+  // setTimeout(function() {
+  //   findClosestDriverMarker();
+  // }, 2000);
 
-    console.log("closest driver test");
-    console.log(closestDriver);
+  var findClosestDriverMarkerPromise = findClosestDriverMarker();
+  findClosestDriverMarkerPromise.then(function(result) {
+      var closestDriver = test();
+      console.log(closestDriver);
+      console.log("GET RIDER INFO: " + closestDriver);
+      //check if driver is within 30 minutes if not, alert no drivers
+      if (closestDriver.closestDriverMinutes > 30) {
+        alert("No driver 30 minutes or less away from you");
+        location.reload();
+        return;
+      }
+      ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
 
-    var driverData = {
-      'driverID': closestDriver.closestDriverId,
-      'riderLat': riderOriginLat,
-      'riderLng': riderOriginLng,
-      'destinationLat': riderDestLat,
-      'destinationLng': riderDestLng,
-      'riderID': riderIdFromURL,
-      'cost': totalPrice,
-      'carpool': false,
-      'duration': durationInMinutes,
-      'closestDriverMinutes': closestDriver.closestDriverMinutes
-    };
+      console.log("closest driver test");
+      console.log(closestDriver);
 
-    console.log('closet driver data');
-    console.log(driverData);
-    displayModal(driverData);
-    return driverData;
-  }, 3000);
+      var driverData = {
+        'driverID': closestDriver.closestDriverId,
+        'riderLat': riderOriginLat,
+        'riderLng': riderOriginLng,
+        'destinationLat': riderDestLat,
+        'destinationLng': riderDestLng,
+        'riderID': riderIdFromURL,
+        'cost': totalPrice,
+        'carpool': false,
+        'duration': durationInMinutes,
+        'closestDriverMinutes': closestDriver.closestDriverMinutes
+      };
+
+      console.log('closet driver data');
+      console.log(driverData);
+      displayModal(driverData);
+      return driverData;
+  });
+
+  // setTimeout(function() {
+  //   var closestDriver = test();
+  //   console.log(closestDriver);
+  //   console.log("GET RIDER INFO: " + closestDriver);
+  //   //check if driver is within 30 minutes if not, alert no drivers
+  //   if (closestDriver.closestDriverMinutes > 30) {
+  //     alert("No driver 30 minutes or less away from you");
+  //     location.reload();
+  //     return;
+  //   }
+  //   ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+  //
+  //   console.log("closest driver test");
+  //   console.log(closestDriver);
+  //
+  //   var driverData = {
+  //     'driverID': closestDriver.closestDriverId,
+  //     'riderLat': riderOriginLat,
+  //     'riderLng': riderOriginLng,
+  //     'destinationLat': riderDestLat,
+  //     'destinationLng': riderDestLng,
+  //     'riderID': riderIdFromURL,
+  //     'cost': totalPrice,
+  //     'carpool': false,
+  //     'duration': durationInMinutes,
+  //     'closestDriverMinutes': closestDriver.closestDriverMinutes
+  //   };
+  //
+  //   console.log('closet driver data');
+  //   console.log(driverData);
+  //   displayModal(driverData);
+  //   return driverData;
+  // }, 3000);
 }
 
 // this function will find the closest driver, set the driverData, update the modal
@@ -490,10 +547,9 @@ function getRiderInfoCarpool(theDriverId) {
   console.log("inside getRiderInfoCarpool");
   this.theDriverId = theDriverId
   console.log(theDriverId);
-  setTimeout(function() {
-    carpoolHelper(theDriverId);
-  }, 2000);
-  setTimeout(function() {
+
+  var carpoolHelperPromise = carpoolHelper(theDriverId);
+  carpoolHelperPromise.then(function(result) {
     var closestDriver = test2(theDriverId);
     removeMarkersExcept(theDriverId);
     console.log(closestDriver);
@@ -526,7 +582,44 @@ function getRiderInfoCarpool(theDriverId) {
     console.log(driverData);
     displayModal(driverData);
     return driverData;
-  }, 3000);
+  });
+  // setTimeout(function() {
+  //   carpoolHelper(theDriverId);
+  // }, 2000);
+  // setTimeout(function() {
+  //   var closestDriver = test2(theDriverId);
+  //   removeMarkersExcept(theDriverId);
+  //   console.log(closestDriver);
+  //   console.log("GET CARPOOL RIDER INFO: " + closestDriver);
+  //   //check if driver is within 30 minutes if not, alert no drivers
+  //   if (closestDriver.closestDriverMinutes > 30) {
+  //     alert("Carpool fail, driver is too far away");
+  //     location.reload();
+  //     return;
+  //   }
+  //   ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+  //
+  //   console.log("closest driver test");
+  //   console.log(closestDriver);
+  //
+  //   var driverData = {
+  //     'driverID': theDriverId,
+  //     'riderLat': riderOriginLat,
+  //     'riderLng': riderOriginLng,
+  //     'destinationLat': riderDestLat,
+  //     'destinationLng': riderDestLng,
+  //     'riderID': riderIdFromURL,
+  //     'cost': totalPrice,
+  //     'carpool': false,
+  //     'duration': durationInMinutes,
+  //     'closestDriverMinutes': closestDriver.closestDriverMinutes
+  //   };
+  //
+  //   console.log('closet driver data');
+  //   console.log(driverData);
+  //   displayModal(driverData);
+  //   return driverData;
+  // }, 3000);
 }
 
 var carpool = false;
@@ -535,7 +628,7 @@ var carpool = false;
 // probably really hard to fix because async within aysnc
 // when using this, might have to set interval 2000 ms for the function that wants to use this result
 function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
-  // var dfd = new $.Deferred();
+  var deferred = $.Deferred();
   console.log("data coming into checkCarpoolFunction");
   console.log(originalRiderOriginLat);
   console.log(originalRiderOriginLng);
@@ -591,9 +684,11 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
           if (Math.abs(temp2 - temp) > 2) {
             console.log("cannot carpool");
             carpool = false;
+            deferred.resolve(false);
           } else {
             console.log("can carpool");
             carpool = true;
+            deferred.resolve(true);
           }
 
         } else {
@@ -605,7 +700,7 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
     }
   });
   // },2000);
-  // return dfd.promise();
+  return deferred.promise();
 }
 
 function returnCarpoolBoolean() {
