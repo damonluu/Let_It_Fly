@@ -38,3 +38,18 @@ module.exports.checkCard = function(req, res) {
     	res.status(200).send(data); return res.end(); 
     }
 };
+
+module.exports.getPaymentByID = function(req, res) {
+    if(req.query != null){
+      console.log("Get Payment By ID: " + data);
+      var data = req.query;
+      db_connection.getConnection(function(err, c){
+          var queryGetPayment = 'SELECT * FROM PAYMENTS WHERE ID = ' + data.id;
+          console.log(queryGetPayment);
+          c.query(queryGetPayment, function (err, result, fields){
+            c.release();  
+            res.status(200).json(result); return res.end(); });
+    });
+    }
+    
+};

@@ -72,9 +72,7 @@ dashboard.controller('HomepageController', function($scope, $location, $routePar
 					buttonRequest.href += $routeParams.id;
 					first = false;
 				}
-                $scope.setUpPayment($scope, str);
 				$scope.setUpName($scope,str);
-                
 			}
 		},50);
 		$scope.setUpName = function($scope, userID){
@@ -106,30 +104,33 @@ dashboard.controller('HomepageController', function($scope, $location, $routePar
 	        	console.log("something is wrong");
 	        })
 		};
-         $scope.setUpPayment = function($scope, userID){
+	});
+
+dashboard.controller('ProfileController', function($scope, $http, Data,$timeout){
+		$timeout(function(){
+	        $scope.setUpPayment($scope,Data.getData().id);
+			console.log(Data.getData().id);
+		},50);
+		 $scope.setUpPayment = function($scope, userID){
             console.log(userID);
             $http({
-                url: '/getID',
+                url: '/getPayment',
                 method: 'GET',
-                params: {id: userID }
+                params: { id: userID }
             }).then(function(response){
-                console.log("posted successfully");
-                $scope.type = response.payment[0].type;
-                $scope.cardnumber = response.payment[0].cardNum;
-                $scope.cvv = response.payment[0].cvv;
-                $scope.month = response.payment[0].expMonth;
-                $scope.year = response.payment[0].expYear;
-                $scope.cardholder = response.payment[0].name;
+                console.log(response.data[0]);
+                $scope.type = response.data[0].type;
+                $scope.cardnumber = response.data[0].cardNum;
+                $scope.cvv = response.data[0].cvv;
+                $scope.month = response.data[0].expMonth;
+                $scope.year = response.data[0].expYear;
+                $scope.cardholder = response.data[0].name;
                 
             }).catch(function(response){
                 console.log("something is wrong");
             })
         };
-	});
-
-dashboard.controller('ProfileController', function($scope, $http, Data){
-	
-         
+     
 });
 
 dashboard.controller('CurrentRideController',function($scope, $http, Data){
