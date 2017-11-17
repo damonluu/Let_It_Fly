@@ -432,6 +432,7 @@ function initMap() {
 
   var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
   var riderInfo = riderIdFromURL;
+  console.log(riderInfo);
   //socketRider.js function
   getMapView(riderInfo);
 }
@@ -501,7 +502,7 @@ confirmButton.onclick = function() {
         'destinationLng': riderDestLng,
         'riderID': riderIdFromURL,
         'cost': totalPrice,
-        'carpool': false,
+        'carpool': true,
         'duration': durationInMinutes
       };
       // var d = new Date();
@@ -511,6 +512,7 @@ confirmButton.onclick = function() {
       calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
       console.log('closet driver data');
       console.log(driverData);
+      notifyOthersOfCarpool(driverData);
       notifyDriver(driverData);
     }
   }, 500); //not necessary but just in case

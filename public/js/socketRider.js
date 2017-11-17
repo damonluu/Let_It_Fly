@@ -22,6 +22,18 @@ function searchDriver(data){
 	socket.emit('active rides',data);
 }
 
+function notifyOthersOfCarpool(data) {
+	socket.emit('notify carpool', data);
+}
+
+socket.on('second rider', function(data) {
+	if(data.riderID != riderID) {
+		console.log("second rider socket socketrider");
+		alert("There will be a second rider joining you, you will receive $5 off your ride");
+	}
+
+});
+
 socket.on('map view', function (data){
 	console.log("got a response")
 	console.log(data);
@@ -48,8 +60,10 @@ socket.on('update map', function(){
 });
 
 socket.on('search carpool', function(data){
-
-	// if(data.riderID ==riderID){
+console.log("in search carpool");
+console.log(data[0].riderid);
+console.log(riderID);
+	if(data[0].riderid != riderID){
  		console.log('searching for carpool.....');
 		console.log("data coming into search carpool");
 		console.log(data);
@@ -66,12 +80,13 @@ socket.on('search carpool', function(data){
 			if(canCarpool) {
 				//notify driver for carpool
 				getRiderInfoCarpool(data[0].driverid);
+				// notifyOthersOfCarpool(data);
 			} else {
 				//find closest marker and notify
 				var closest = getRiderInfo();
 			}
 		},2000);
- // 	}
+ 	}
 
 
 
@@ -92,13 +107,13 @@ socket.on('search carpool', function(data){
 });
 
 socket.on('find nearest', function(data){
-	// if(data.riderID ==riderID){
+	if(data.riderID ==riderID){
 		console.log('find nearest driver...');
 		console.log(data);
 		// setTimeout(function() {
 		var closest = getRiderInfo();
 		// },2000);
-	// }
+	}
 
 	//1.find closest driver
 	//2.Notify the closest driver

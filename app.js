@@ -124,11 +124,17 @@ io.on('connection', function(socket){
 					io.emit('find nearest', data);
 				} else{
 					console.log("look for carpool");
+          console.log(result);
 					io.emit('search carpool', result);
 				}
 			})
 		});
 	});
+
+  socket.on('notify carpool', function(data) {
+    console.log("app js notify carpool");
+    io.emit('second rider', data);
+  });
 
 	// //Add the second rider
 	// socket.on('add carpool', function(data){
