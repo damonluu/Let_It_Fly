@@ -120,8 +120,8 @@ dashboard.controller('ProfileController', function($scope, $http, Data,$timeout)
             }).then(function(response){
                 console.log(response.data[0]);
                 $scope.type = response.data[0].type;
-                $scope.cardnumber = response.data[0].cardNum;
-                $scope.cvv = response.data[0].cvv;
+                num = response.data[0].cardNum.toString();
+                $scope.cardnumber = "xxxx-xxxx-xxxx-" + num.slice(11,15);
                 $scope.month = response.data[0].expMonth;
                 $scope.year = response.data[0].expYear;
                 $scope.cardholder = response.data[0].name;
