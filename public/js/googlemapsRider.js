@@ -9,6 +9,9 @@ var riderDestLat;
 var riderDestLng;
 var durationMinutes;
 var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+var d = new Date();
+var totalPrice;
+var theDriverId;
 
 function AutocompleteDirectionsHandler(map) {
   this.map = map;
@@ -18,15 +21,8 @@ function AutocompleteDirectionsHandler(map) {
   var originInput = document.getElementById('origin-input');
   var destinationInput = document.getElementById('destination-input');
   var submitButton = document.getElementById('submit-button');
-  // this.directionsService = new google.maps.DirectionsService;
-  // var directionsDisplay = new google.maps.DirectionsRenderer;
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
-  // directionsDisplay = new google.maps.DirectionsRenderer({
-  //   draggable: true,
-  //   map: map,
-  //   panel: document.getElementById('right-panel')
-  // });
 
   var originAutocomplete = new google.maps.places.Autocomplete(
     originInput, {
@@ -37,41 +33,26 @@ function AutocompleteDirectionsHandler(map) {
       placeIdOnly: true
     });
 
- submitButton.onclick = function() {
+  submitButton.onclick = function() {
     var checkInput1 = document.getElementById("origin-input").value;
     var checkInput2 = document.getElementById("destination-input").value;
     if (checkInput1 == "" || checkInput1.length == 0 || checkInput1 == null || checkInput2 == "" || checkInput2.length == 0 || checkInput2 == null) {
       alert("Please enter your location first");
     } else {
       calculateAndDisplayRoute();
-
-
-      // var closestDriver = test();
-      // setTimeout(function() {
-      //   calculateAndDisplayRoute();
-      //   document.getElementById("driverMinutesAway").setAttribute("class", "");
-      //   document.getElementById("driverMinutesAway").innerHTML = "Closest Driver is " + closestDriver.closestDriverMinutes + " minutes away";
-      //   var d = new Date();
-      //   document.getElementById("estimateDriverArrival").innerHTML = "Estimated Time For Driver To Arrive: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
-      //     (closestDriver.closestDriverMinutes * 60 * 1000));
-      //   document.getElementById('estimateDriverArrival').setAttribute("class", "");
-      //   document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
-      //     (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-      //   document.getElementById('estimate').setAttribute("class", "");
-      //   location.href = "#openModal";
-      // }, 3000);
-
       var riderInfo = {
-      'riderID': riderIdFromURL,
-      'riderLat': riderOriginLat,
-      'riderLng': riderOriginLng,
-      'destinationLat': riderDestLat,
-      'destinationLng': riderDestLng
-    };
+        'riderID': riderIdFromURL,
+        'riderLat': riderOriginLat,
+        'riderLng': riderOriginLng,
+        'destinationLat': riderDestLat,
+        'destinationLng': riderDestLng
 
-    setTimeout(function() {
-    searchDriver(riderInfo);
-    }, 3000);
+      };
+      // searchDriver(riderInfo);
+      // this time out is necessary or else carpool breaks sometimes
+      setTimeout(function() {
+        searchDriver(riderInfo);
+      }, 1500);
 
     }
   };
@@ -84,24 +65,20 @@ function AutocompleteDirectionsHandler(map) {
   this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
 }
 
-function displayModal(closestDriver){
-  //  setTimeout(function() {
-        // calculateAndDisplayRoute();
-        document.getElementById("driverMinutesAway").setAttribute("class", "");
-        document.getElementById("driverMinutesAway").innerHTML = "Closest Driver is " + closestDriver.closestDriverMinutes + " minutes away";
-        var d = new Date();
-        document.getElementById("estimateDriverArrival").innerHTML = "Estimated Time For Driver To Arrive: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
-          (closestDriver.closestDriverMinutes * 60 * 1000));
-        document.getElementById('estimateDriverArrival').setAttribute("class", "");
-        document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
-          (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-        document.getElementById('estimate').setAttribute("class", "");
-        location.href = "#openModal";
-  //  }, 3000);
+// this function is used for making the modal box appear to show how far the closest driver is, estimate their arrival time
+function displayModal(closestDriver) {
+  document.getElementById("driverMinutesAway").setAttribute("class", "");
+  document.getElementById("driverMinutesAway").innerHTML = "Closest Driver is " + closestDriver.closestDriverMinutes + " minutes away";
+  document.getElementById("estimateDriverArrival").innerHTML = "Estimated Time For Driver To Arrive: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
+    (closestDriver.closestDriverMinutes * 60 * 1000));
+  document.getElementById('estimateDriverArrival').setAttribute("class", "");
+  document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
+    (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
+  document.getElementById('estimate').setAttribute("class", "");
+  location.href = "#openModal";
 }
 
-
-
+// dont touch this, its to guess the address you type in and check if at least origin/destination is an airport
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
   var me = this;
   autocomplete.bindTo('bounds', this.map);
@@ -114,17 +91,18 @@ AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(aut
     }
     if (mode === 'ORIG') {
       me.originPlaceId = place.place_id;
-      getGeocode(me.originPlaceId);
+      // getGeocode(me.originPlaceId);
 
     } else {
       me.destinationPlaceId = place.place_id;
-      getGeocode(me.destinationPlaceId);
+      // getGeocode(me.destinationPlaceId);
     }
     checkValidAirport(me.originPlaceId, me.destinationPlaceId);
   });
 
 }
 
+// this function is used to check whether the origin or destination is an airport, reloads if none are airports
 function checkValidAirport(originPlaceId, destinationPlaceId) {
   if (!originPlaceId || !destinationPlaceId) {
     return;
@@ -140,6 +118,8 @@ function checkValidAirport(originPlaceId, destinationPlaceId) {
   }
 };
 
+// this function will display the turn by turn diretions on the map and get rid of the origin/destination input boxes
+// also rename the button from "submit" to "ride details", and change it's onclick to open modal to see current ride details
 function displayStepByStep() {
   directionsDisplay.setDirections(directionResponse);
   document.getElementById('origin-input').setAttribute("class", "hidden");
@@ -148,6 +128,7 @@ function displayStepByStep() {
   document.getElementById('submit-button').setAttribute("onClick", "javascript: modalAfterConfirm();");
 };
 
+// this gets called after the rider clicks on "ride details" button, it removes the confirm/decline button and opens the modal
 function modalAfterConfirm() {
   document.getElementById('confirm').setAttribute("class", "hidden");
   document.getElementById('decline').setAttribute("class", "hidden");
@@ -155,6 +136,8 @@ function modalAfterConfirm() {
   location.href = "#openModal";
 }
 
+// this function converts origin place id and destination place id into the distance and duration of the trip
+// so it can be used to calculate the price. it also calls details which converts place ids into long lat
 function calculateAndDisplayRoute() {
   directionsService.route({
     origin: {
@@ -176,6 +159,7 @@ function calculateAndDisplayRoute() {
   });
 }
 
+// this function is the one that shows the rider step by step directions from the driver's location, to them, to their destination
 function calculateAndDisplayRoute2(driverLat, driverLng) {
   var waypts = [];
   waypts.push({
@@ -197,12 +181,7 @@ function calculateAndDisplayRoute2(driverLat, driverLng) {
     },
     travelMode: 'DRIVING'
   }, function(response, status) {
-
-
-    // console.log(response);
     if (status === 'OK') {
-      // alert("Here are the directions to the Rider" );
-      // alert(address);
       directionsDisplay.setDirections(response);
     } else {
       window.alert('Directions request failed due to ' + status);
@@ -210,28 +189,7 @@ function calculateAndDisplayRoute2(driverLat, driverLng) {
   });
 }
 
-function getAddressFromLatLang(lat, lng, geocoder) {
-  //console.log("Entering getAddressFromLatLang()");
-  var latLng = new google.maps.LatLng(lat, lng);
-  geocoder.geocode({
-    'latLng': latLng
-  }, function(results, status) {
-    //console.log("After getting address");
-    //console.log(results);
-    if (status == google.maps.GeocoderStatus.OK) {
-      if (results[0]) {
-        console.log(results[0].formatted_address);
-        console.log("County: " + findCounty(results));
-        //alert(results[0].formatted_address);
-      }
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
-
-  });
-  //console.log("Exiting getAddressFromLatLang()");
-}
-
+// parse results to find county, refreshes map if county is not san mateo, santa clara, or alameda
 function findCounty(results) {
   var filtered_array = results[0].address_components.filter(function(address_component) {
     return address_component.types.includes("administrative_area_level_2");
@@ -244,35 +202,12 @@ function findCounty(results) {
   return county;
 }
 
+// helper function for county check
 function validCounty(county) {
   return county == 'Alameda County' || county == 'San Mateo County' || county == 'Santa Clara County';
 }
 
-function getGeocode(placeid) {
-  //array to store the latitude and longitude
-  var loc = [];
-  // create a new Geocoder object
-  var geocoder = new google.maps.Geocoder();
-  geocoder.geocode({
-    'placeId': placeid
-  }, function(results, status) {
-    // and this is function which processes response
-    if (status == google.maps.GeocoderStatus.OK) {
-      loc[0] = results[0].geometry.location.lat();
-      loc[1] = results[0].geometry.location.lng();
-
-      //alert(loc); // the place where loc contains geocoded coordinates
-      getAddressFromLatLang(loc[0], loc[1], geocoder);
-
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
-  });
-}
-var totalPrice;
-
-var totalPrice;
-
+// function to calculate price using distance and duration and then modifys the modal box using the info
 function calculatePrice(distanceInMeters, durationInSeconds) {
   var baseFare = 2.5;
   var pricePerMinute = 0.24;
@@ -290,9 +225,8 @@ function calculatePrice(distanceInMeters, durationInSeconds) {
   modifyModal(durationInMinutes, distanceInMiles, totalPrice);
 }
 
+// this function modifies the modal box to display the estimated price, distance, duration with confirm / decline button
 function modifyModal(durationInMinutes, distanceInMiles, price) {
-  // var d = new Date();
-  // document.getElementById("estimate").innerHTML = "Estimated Arrival : " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) + (durationInMinutes * 60 * 1000));
   document.getElementById('initial').setAttribute("class", "hidden");
   document.getElementById("distance").innerHTML = "Your Ride Distance : " + distanceInMiles + " miles";
   document.getElementById("duration").innerHTML = "Your Ride Duration : " + durationInMinutes + " minutes";
@@ -302,6 +236,7 @@ function modifyModal(durationInMinutes, distanceInMiles, price) {
   document.getElementById('close').setAttribute("class", "hidden");
 }
 
+// this function converts miliseconds to human readable time
 function msToTime(duration) {
   var milliseconds = parseInt((duration % 1000) / 100),
     seconds = parseInt((duration / 1000) % 60),
@@ -337,13 +272,17 @@ function validAirportPlace() {
   return valid;
 }
 
+// functon to pull rider lat long, this is called in another js file
 function getRiderOriginLatLong() {
   return [riderOriginLat, riderOriginLng];
 }
 
+// this function stores and returns an array with the following items
+// origin lat, origin lng, destination lat, destination lng, distance, duration
+// it will also convert the origin/destination place into lat long values and stores
+// them inside riderOriginLat, riderOriginLng, riderDestLat, riderOriginLng
 function details(origin_PlaceId, destination_PlaceId) {
   var formData = {};
-  // var directionsService = new google.maps.DirectionsService();
   var directionsRequest = {
     origin: {
       placeId: origin_PlaceId
@@ -382,11 +321,8 @@ function details(origin_PlaceId, destination_PlaceId) {
     }
   });
 
-
   directionsService.route(directionsRequest, function(response, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      // formData["originPlaceId"] = response.request.origin.placeId;
-      // formData["destinationPlaceId"] = response.request.destination.placeId;
       formData["distance"] = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
       formData["duration"] = (response.routes["0"].legs["0"].duration.value / 60).toFixed(0);
 
@@ -398,12 +334,8 @@ function details(origin_PlaceId, destination_PlaceId) {
 }
 
 
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
+// initializes the google maps so it is viewable
 function initMap() {
-
   //creates a new map object with center at blair island
   var map = new google.maps.Map(document.getElementById('map'), {
     center: {
@@ -430,13 +362,14 @@ function initMap() {
   //uses currentLocation.js to add gps button and marker to current locaion
   gps(map);
 
-  var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
   var riderInfo = riderIdFromURL;
   console.log(riderInfo);
   //socketRider.js function
   getMapView(riderInfo);
 }
 
+// the confirm button click means the rider wants to accept the ride
+//
 var confirmButton = document.getElementById('confirm');
 confirmButton.onclick = function() {
   document.getElementById('driverMinutesAway').setAttribute("class", "hidden");
@@ -445,7 +378,7 @@ confirmButton.onclick = function() {
   //findClosestDriverMarker();
   console.log("Confirm button clicked");
   setTimeout(function() {
-    if(!carpool) {
+    if (!carpool) {
       var closestDriver = test(); //for carpool use test2()
 
       //check if driver is within 30 minutes if not, alert no drivers
@@ -458,7 +391,6 @@ confirmButton.onclick = function() {
 
       console.log("closest driver test");
       console.log(closestDriver);
-      var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
 
       var driverData = {
         'driverID': closestDriver.closestDriverId,
@@ -471,10 +403,7 @@ confirmButton.onclick = function() {
         'carpool': false,
         'duration': durationInMinutes
       };
-      // var d = new Date();
-      // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
-      // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-      // document.getElementById('estimate').setAttribute("class", "");
+
       calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
       console.log('closet driver data');
       console.log(driverData);
@@ -492,7 +421,6 @@ confirmButton.onclick = function() {
 
       console.log("closest driver test carpool");
       console.log(closestDriver);
-      var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
 
       var driverData = {
         'driverID': closestDriver.closestDriverId,
@@ -505,10 +433,7 @@ confirmButton.onclick = function() {
         'carpool': true,
         'duration': durationInMinutes
       };
-      // var d = new Date();
-      // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
-      // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-      // document.getElementById('estimate').setAttribute("class", "");
+
       calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
       console.log('closet driver data');
       console.log(driverData);
@@ -518,55 +443,51 @@ confirmButton.onclick = function() {
   }, 500); //not necessary but just in case
 }
 
+// this function will find the closest driver, set the driverData, update the modal
+// that updates the box that the rider sees after their click on submit
 function getRiderInfo() {
   setTimeout(function() {
-        findClosestDriverMarker();
-      }, 2000);
+    findClosestDriverMarker();
+  }, 2000);
   setTimeout(function() {
-      var closestDriver = test();
-      console.log(closestDriver);
-      console.log("GET RIDER INFO: " + closestDriver);
-      //check if driver is within 30 minutes if not, alert no drivers
-      if (closestDriver.closestDriverMinutes > 30) {
-        alert("No driver 30 minutes or less away from you");
-        location.reload();
-        return;
-      }
-      ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+    var closestDriver = test();
+    console.log(closestDriver);
+    console.log("GET RIDER INFO: " + closestDriver);
+    //check if driver is within 30 minutes if not, alert no drivers
+    if (closestDriver.closestDriverMinutes > 30) {
+      alert("No driver 30 minutes or less away from you");
+      location.reload();
+      return;
+    }
+    ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
 
-      console.log("closest driver test");
-      console.log(closestDriver);
+    console.log("closest driver test");
+    console.log(closestDriver);
 
-      var driverData = {
-          'driverID': closestDriver.closestDriverId,
-          'riderLat': riderOriginLat,
-          'riderLng': riderOriginLng,
-          'destinationLat': riderDestLat,
-          'destinationLng': riderDestLng,
-          'riderID': riderIdFromURL,
-          'cost': totalPrice,
-          'carpool': false,
-          'duration': durationInMinutes,
-        'closestDriverMinutes':closestDriver.closestDriverMinutes
-      };
-      // var d = new Date();
-      // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
-      // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-      // document.getElementById('estimate').setAttribute("class", "");
-      // calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
-      console.log('closet driver data');
-      console.log(driverData);
-      displayModal(driverData);
-      return driverData;
+    var driverData = {
+      'driverID': closestDriver.closestDriverId,
+      'riderLat': riderOriginLat,
+      'riderLng': riderOriginLng,
+      'destinationLat': riderDestLat,
+      'destinationLng': riderDestLng,
+      'riderID': riderIdFromURL,
+      'cost': totalPrice,
+      'carpool': false,
+      'duration': durationInMinutes,
+      'closestDriverMinutes': closestDriver.closestDriverMinutes
+    };
+
+    console.log('closet driver data');
+    console.log(driverData);
+    displayModal(driverData);
+    return driverData;
   }, 3000);
 }
 
-var theDriverId;
-
+// this function will find the closest driver, set the driverData, update the modal
+// that updates the box that the rider sees after their click on submit
 function getRiderInfoCarpool(theDriverId) {
   console.log("inside getRiderInfoCarpool");
-  // console.log(driverLat);
-  // console.log(driverLng);
   this.theDriverId = theDriverId
   console.log(theDriverId);
   setTimeout(function() {
@@ -587,7 +508,6 @@ function getRiderInfoCarpool(theDriverId) {
 
     console.log("closest driver test");
     console.log(closestDriver);
-    var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
 
     var driverData = {
       'driverID': theDriverId,
@@ -601,11 +521,7 @@ function getRiderInfoCarpool(theDriverId) {
       'duration': durationInMinutes,
       'closestDriverMinutes': closestDriver.closestDriverMinutes
     };
-    // var d = new Date();
-    // document.getElementById("estimate").innerHTML = "Estimated Arrival To Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8)
-    // + (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
-    // document.getElementById('estimate').setAttribute("class", "");
-    // calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
+
     console.log('closet driver data');
     console.log(driverData);
     displayModal(driverData);
@@ -615,16 +531,18 @@ function getRiderInfoCarpool(theDriverId) {
 
 var carpool = false;
 
+// the logic stuff to check if carpool is valid, 2 mile thingy
+// probably really hard to fix because async within aysnc
 // when using this, might have to set interval 2000 ms for the function that wants to use this result
 function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
   // var dfd = new $.Deferred();
-    console.log("data coming into checkCarpoolFunction");
-    console.log(originalRiderOriginLat);
-    console.log(originalRiderOriginLng);
-    console.log(bothDestinationLat);
-    console.log(bothDestinationLng);
-    console.log(riderOriginLat);
-    console.log(riderOriginLng);
+  console.log("data coming into checkCarpoolFunction");
+  console.log(originalRiderOriginLat);
+  console.log(originalRiderOriginLng);
+  console.log(bothDestinationLat);
+  console.log(bothDestinationLng);
+  console.log(riderOriginLat);
+  console.log(riderOriginLng);
   var formData = {};
   // var directionsService = new google.maps.DirectionsService();
 
@@ -652,7 +570,6 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
   // setTimeout(function () {
   directionsService.route(directionsRequest, function(response, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      // console.log("level2");
       formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
       var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
       directionsRequest = {
@@ -666,22 +583,15 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
         },
         travelMode: "DRIVING"
       }
-      // console.log("level2end");
+
       directionsService.route(directionsRequest, function(response, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
           var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-          // console.log(temp);
-          // console.log(temp2);
-          // console.log(temp2 - temp);
-          // console.log(Math.abs(temp2 - temp));
-          // console.log("level3");
           if (Math.abs(temp2 - temp) > 2) {
-            // dfd.resolve(false);
             console.log("cannot carpool");
             carpool = false;
           } else {
-            // dfd.resolve(true);
             console.log("can carpool");
             carpool = true;
           }
@@ -701,26 +611,6 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
 function returnCarpoolBoolean() {
   return carpool;
 }
-
-
-// function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
-//   console.log("data coming into checkCarpoolResult");
-//   console.log(originalRiderOriginLat);
-//   console.log(originalRiderOriginLng);
-//   console.log(bothDestinationLat);
-//   console.log(bothDestinationLng);
-//   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
-//     console.log(result);
-//     if (result) {
-//       console.log("can carpool");
-//     } else {
-//       console.log("cannot carpool");
-//     }
-//     return result;
-//   });
-//
-// }
-
 
 
 google.maps.event.addDomListener(window, 'load', initMap);

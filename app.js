@@ -50,8 +50,6 @@ googleMapsClient.distanceMatrix({
   }
 });
 
-
-
 var io = require('socket.io')(server);
 //handling events happen on socket.io
 io.on('connection', function(socket){
@@ -99,12 +97,14 @@ io.on('connection', function(socket){
 
 	//Remove the driver on both views once the driver clicks ride completed
 	socket.on('remove driver', function(data){
+    console.log("Remove Driver: " + data.id);
 		db_connection.getConnection(function(err, c){
 			var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id ;
-			c.query(queryRemove,  function(err, result, feilds){
+      console.log(queryRemove);
+      c.query(queryRemove,  function(err, result, feilds){
 				if(err) throw err;
 				console.log(result);
-				console.log('notifying the rider');
+				console.log('removed successfully');
 				io.emit("ride completed",result);
 			});
 		});

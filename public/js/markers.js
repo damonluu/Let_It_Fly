@@ -21,15 +21,6 @@ var marker_image = new google.maps.MarkerImage(
 function showDriverMarker(map) {
   mymap = map;
   setMarkers(driverArray);
-  // timeOut = setInterval(function() {
-  //   reloadMarkers();
-  //   // console.log("hello");
-  //   // console.log(markers);
-  //   console.log("markers");
-  //   console.log(markers);
-  //   console.log("driverArray");
-  //   console.log(driverArray);
-  // }, 5000);
 }
 
 function insertNewDriverMarker(driverId, lati, long) {
@@ -69,15 +60,7 @@ function removeDriverMarker(driverId) {
       driverArray.splice(i, 1);
     }
   }
-  // markers[driverId].setMap(null);
-  // delete markers[driverId];
-  // delete driverArray[driverId];
 }
-
-// function stopAutoUpdate() {
-//   clearTimeout(timeOut);
-//   removeMarkersExcept(closestDriverID);
-// }
 
 function setMarkers(locations) {
   for (var i = 0; i < driverArray.length; i++) {
@@ -263,96 +246,3 @@ function test2(theDriverId) {
   resultData["closestDriverLng"] = closestDriverLng;
   return resultData;
 }
-
-
-
-// when using this, might have to set interval 2000 ms for the function that wants to use this result
-// function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
-//   var latLng = getRiderOriginLatLong();
-//   var dfd = new $.Deferred();
-//   setTimeout(function() {
-//   riderCurrentLat = latLng[0];
-//   riderCurrentLng = latLng[1];
-//   console.log("HERE");
-//   console.log(latLng);
-//
-//   var formData = {};
-//   var directionsService = new google.maps.DirectionsService();
-//
-//   var waypts = [];
-//   waypts.push({
-//     location: {
-//       lat: riderCurrentLat,
-//       lng: riderCurrentLng
-//     },
-//     stopover: true
-//   });
-//
-//   var directionsRequest = {
-//     origin: {
-//       lat: originalRiderOriginLat,
-//       lng: originalRiderOriginLng
-//     },
-//     waypoints: waypts,
-//     destination: {
-//       lat: bothDestinationLat,
-//       lng: bothDestinationLng
-//     },
-//     travelMode: "DRIVING"
-//   }
-//   // setTimeout(function () {
-//   directionsService.route(directionsRequest, function(response, status) {
-//     if (status == google.maps.GeocoderStatus.OK) {
-//       formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-//       var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-//       directionsRequest = {
-//         origin: {
-//           lat: originalRiderOriginLat,
-//           lng: originalRiderOriginLng
-//         },
-//         destination: {
-//           lat: bothDestinationLat,
-//           lng: bothDestinationLng
-//         },
-//         travelMode: "DRIVING"
-//       }
-//       directionsService.route(directionsRequest, function(response, status) {
-//         if (status == google.maps.GeocoderStatus.OK) {
-//           formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-//           var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-//           // console.log(temp);
-//           // console.log(temp2);
-//           // console.log(temp2 - temp);
-//           // console.log(Math.abs(temp2 - temp));
-//           if (Math.abs(temp2 - temp) > 2) {
-//             dfd.resolve(false);
-//           } else {
-//             dfd.resolve(true);
-//           }
-//
-//         } else {
-//           alert("Geocode was not successful for the following reason: " + status);
-//         }
-//       });
-//     } else {
-//       alert("Geocode was not successful for the following reason: " + status);
-//     }
-//   });
-//   // },2000);
-//
-//   }, 3000);
-//   return dfd.promise();
-// }
-//
-//
-// function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
-//   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
-//     console.log(result);
-//     if (result) {
-//       console.log("can carpool");
-//     } else {
-//       console.log("cannot carpool");
-//     }
-//   });
-//
-// }

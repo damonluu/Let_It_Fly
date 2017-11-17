@@ -15,12 +15,6 @@ function AutocompleteDirectionsHandler(map) {
   directionsDisplay.setMap(map);
   directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-  // directionsDisplay = new google.maps.DirectionsRenderer({
-  //   draggable: true,
-  //   map: map,
-  //   panel: document.getElementById('right-panel')
-  // });
-
   var originAutocomplete = new google.maps.places.Autocomplete(
     originInput, {
       placeIdOnly: true
@@ -34,6 +28,7 @@ function AutocompleteDirectionsHandler(map) {
 
 }
 
+// THIS CHANGES THE BUTTONS AFTER CLICKING PICKED UP
 function pickedUpButtonClicked() {
   // document.getElementById('pickedUpRider-button').setAttribute("class", "hidden");
   document.getElementById('pickedUpRider-button').innerHTML = "Rider Information";
@@ -41,6 +36,7 @@ function pickedUpButtonClicked() {
   document.getElementById('completeRide-button').setAttribute("class", "");
 }
 
+// THIS IS SUPPOSED TO DELETE RIDE FROM RIDES AND TRIGGER WILL MOVE IT TO PAST RIDES
 function completeRideButtonClicked(){
   var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
   var driverInfo = {
@@ -49,6 +45,7 @@ function completeRideButtonClicked(){
   removeDriver(driverInfo);
 }
 
+// THIS IS SUPPOSED TO UPDATE THE RIDER SIDE "view rider info"
 function modifyModal() {
   // call function to retrieve rider information
   //   // var d = new Date();
@@ -63,6 +60,7 @@ function modifyModal() {
   location.href = "#openModal";
 }
 
+// THIS FUNCTION TAKES THE DRIVER ENTERED LOCATION AND INSERTS THEM INTO DB
 function activeDriver() {
   var checkInput = document.getElementById("origin-input").value;
   if (checkInput == "" || checkInput.length == 0 || checkInput == null) {
@@ -209,102 +207,89 @@ function getAddressFromCoord(lat, lng) {
   });
 }
 
-// when using this, might have to set interval 2000 ms for the function that wants to use this result
-function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
-  var dfd = new $.Deferred();
-  var formData = {};
-  var directionsService = new google.maps.DirectionsService();
-
-  var waypts = [];
-  waypts.push({
-    location: {
-      lat: carpoolOriginLat,
-      lng: carpoolOriginLng
-    },
-    stopover: true
-  });
-
-  var directionsRequest = {
-    origin: {
-      lat: originalRiderOriginLat,
-      lng: originalRiderOriginLng
-    },
-    waypoints: waypts,
-    destination: {
-      lat: bothDestinationLat,
-      lng: bothDestinationLng
-    },
-    travelMode: "DRIVING"
-  }
-  // setTimeout(function () {
-  directionsService.route(directionsRequest, function(response, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-      var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-      directionsRequest = {
-        origin: {
-          lat: originalRiderOriginLat,
-          lng: originalRiderOriginLng
-        },
-        destination: {
-          lat: bothDestinationLat,
-          lng: bothDestinationLng
-        },
-        travelMode: "DRIVING"
-      }
-      directionsService.route(directionsRequest, function(response, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-          var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-          // console.log(temp);
-          // console.log(temp2);
-          // console.log(temp2 - temp);
-          // console.log(Math.abs(temp2 - temp));
-          if (Math.abs(temp2 - temp) > 2) {
-            dfd.resolve(false);
-          } else {
-            dfd.resolve(true);
-          }
-
-        } else {
-          alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
-    } else {
-      alert("Geocode was not successful for the following reason: " + status);
-    }
-  });
-  // },2000);
-  return dfd.promise();
-}
-
-
-function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
-  checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
-    console.log(result);
-    if (result) {
-      console.log("can carpool");
-    } else {
-      console.log("cannot carpool");
-    }
-  });
-
-}
-
-
 google.maps.event.addDomListener(window, 'load', initMap);
 
-// setTimeout(function() {
-//   calculateAndDisplayRoute(37.3496, -121.9390, 37.7749, -122.4194);
-// }, 5000);
 
-// setTimeout(function() {
-//   console.log(checkCarpoolfunction(37.3352, -121.8811, 37.4323, -121.8996, 37.7749, -122.4194));
-// }, 2000);
+// CARPOOL CHECK IS NOW IN GOOGLEMAPSRIDER.JS
+// // when using this, might have to set interval 2000 ms for the function that wants to use this result
+// function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
+//   var dfd = new $.Deferred();
+//   var formData = {};
+//   var directionsService = new google.maps.DirectionsService();
+//
+//   var waypts = [];
+//   waypts.push({
+//     location: {
+//       lat: carpoolOriginLat,
+//       lng: carpoolOriginLng
+//     },
+//     stopover: true
+//   });
+//
+//   var directionsRequest = {
+//     origin: {
+//       lat: originalRiderOriginLat,
+//       lng: originalRiderOriginLng
+//     },
+//     waypoints: waypts,
+//     destination: {
+//       lat: bothDestinationLat,
+//       lng: bothDestinationLng
+//     },
+//     travelMode: "DRIVING"
+//   }
+//   // setTimeout(function () {
+//   directionsService.route(directionsRequest, function(response, status) {
+//     if (status == google.maps.GeocoderStatus.OK) {
+//       formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+//       var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
+//       directionsRequest = {
+//         origin: {
+//           lat: originalRiderOriginLat,
+//           lng: originalRiderOriginLng
+//         },
+//         destination: {
+//           lat: bothDestinationLat,
+//           lng: bothDestinationLng
+//         },
+//         travelMode: "DRIVING"
+//       }
+//       directionsService.route(directionsRequest, function(response, status) {
+//         if (status == google.maps.GeocoderStatus.OK) {
+//           formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+//           var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
+//           if (Math.abs(temp2 - temp) > 2) {
+//             dfd.resolve(false);
+//           } else {
+//             dfd.resolve(true);
+//           }
+//
+//         } else {
+//           alert("Geocode was not successful for the following reason: " + status);
+//         }
+//       });
+//     } else {
+//       alert("Geocode was not successful for the following reason: " + status);
+//     }
+//   });
+//   // },2000);
+//   return dfd.promise();
+// }
+//
+//
+// function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
+//   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
+//     console.log(result);
+//     if (result) {
+//       console.log("can carpool");
+//     } else {
+//       console.log("cannot carpool");
+//     }
+//   });
+//
+// }
 
-//https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
-//https://maps.googleapis.com/maps/api/distancematrix/json?origins=latlng='37.3352, -121.8811'&destinations=390+W+el+camino+real,+Sunnyvale,+CA&departure_time=1541202457&traffic_model=best_guess&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0
 
 
-checkCarpoolResult(37.3352, -121.8811, 37.4611, -122.1394, 37.7749, -122.4194);
-checkCarpoolResult(37.3352, -121.8811, 37.4323, -121.8996, 37.7749, -122.4194);
+// checkCarpoolResult(37.3352, -121.8811, 37.4611, -122.1394, 37.7749, -122.4194);
+// checkCarpoolResult(37.3352, -121.8811, 37.4323, -121.8996, 37.7749, -122.4194);
