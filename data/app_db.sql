@@ -167,6 +167,28 @@ INSERT INTO `Users` VALUES (1000,'Christopher','Bush','chris',4822913475,'c@b.co
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+DROP TRIGGER IF EXISTS update_driver;
+DROP TRIGGER IF EXISTS insert_into_pastrides;
+
+delimiter //
+CREATE TRIGGER update_driver 
+AFTER INSERT ON Rides FOR EACH ROW 
+BEGIN
+ UPDATE drivers SET available = FALSE WHERE drivers.ID = NEW.driverid;
+END;//
+delimiter ;
+
+delimiter //
+CREATE TRIGGER insert_into_pastrides 
+AFTER DELETE ON Rides FOR EACH ROW
+BEGIN
+  INSERT INTO PastRides VALUES (OLD.driverid, OLD.riderID, OLD.dest_long, OLD.dest_lat, OLD.start_long, OLD.start_lat, OLD.cost, OLD.carpool, OLD.time);
+  UPDATE drivers SET available = TRUE, current_long = OLD.dest_long, current_lat = OLD.dest_lat;
+END;//
+delimiter ;
+
+
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
