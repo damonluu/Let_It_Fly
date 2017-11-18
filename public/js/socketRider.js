@@ -27,8 +27,9 @@ function notifyOthersOfCarpool(data) {
 }
 
 socket.on('second rider', function(data) {
-	if(data.riderID != riderID) {
+	if(data.rider1 == riderID || data.rider2 == riderID) {
 		console.log("second rider socket socketrider");
+		firstRiderDiscount();
 		alert("There will be a second rider joining you, you will receive $5 off your ride");
 	}
 

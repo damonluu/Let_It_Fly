@@ -125,20 +125,20 @@ dashboard.controller('ProfileController', function($scope, $http, Data,$timeout)
                 $scope.month = response.data[0].expMonth;
                 $scope.year = response.data[0].expYear;
                 $scope.cardholder = response.data[0].name;
-                
+
             }).catch(function(response){
                 console.log("something is wrong");
             })
         };
-     
+
 });
 
 dashboard.controller('CurrentRideController',function($scope, $http, Data){
    if($scope.role == "Driver"){
-   	  $("#siteloader").html('<object data="http://172.20.10.2:1600/drivermap.html">');
+   	  $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
    }
    else {
-      $("#siteloader").html('<object data="http://172.20.10.2:1600/ridermap.html">');
+      $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
    }
 
 });

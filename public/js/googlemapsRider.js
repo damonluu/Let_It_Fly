@@ -369,8 +369,8 @@ function initMap() {
   });
 
   //show traffic
-  var trafficLayer = new google.maps.TrafficLayer();
-  trafficLayer.setMap(map);
+  // var trafficLayer = new google.maps.TrafficLayer();
+  // trafficLayer.setMap(map);
 
   //lets origin and destination text box auto complete to a place/address
   new AutocompleteDirectionsHandler(map);
@@ -581,6 +581,7 @@ function getRiderInfoCarpool(theDriverId) {
     console.log('closet driver data');
     console.log(driverData);
     displayModal(driverData);
+    secondRiderDiscount();
     return driverData;
   });
   // setTimeout(function() {
@@ -705,6 +706,16 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
 
 function returnCarpoolBoolean() {
   return carpool;
+}
+
+function firstRiderDiscount() {
+  totalPrice = totalPrice -5;
+  document.getElementById("price").innerHTML = "Total Calculated Price : $" + totalPrice;
+}
+
+function secondRiderDiscount() {
+  totalPrice = totalPrice -5;
+  document.getElementById("price").innerHTML = "Total Calculated Price : $" + totalPrice;
 }
 
 
