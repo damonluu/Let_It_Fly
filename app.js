@@ -75,24 +75,29 @@ io.on('connection', function(socket){
       	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
 			c.query(queryInsert,  function(err, result, feilds){
 				if(err) throw err;
-				c.release();
 				io.emit("update map");
 				console.log(result);
 			});
+
+			c.release();
 		});
 	});
 
 	//data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
 	//Add the first rider
 	socket.on('ride request', function(data){
+		console.log('ride request ....');
+		console.log(data);
 		db_connection.getConnection(function(err, c){
 			var queryInsertRide = 'INSERT INTO Rides VALUE (' + data.driverID + ', ' + data.riderID + ', ' + data.destinationLng + ', ' + data.destinationLat + ', ' + data.riderLng + ', ' + data.riderLat + ', ' + data.cost + ', ' + data.carpool +', ' + data.duration + ')';
 			console.log(queryInsertRide);
 			c.query(queryInsertRide,  function(err, result, feilds){
 				if(err) throw err;
-				c.release();
 				console.log(result);
 			});
+
+			c.release();
+
 		});
 		console.log('notifying the driver');
 		io.emit("new rider", data);
@@ -138,28 +143,39 @@ io.on('connection', function(socket){
 
   socket.on('notify carpool', function(data) {
     console.log("app js notify carpool");
-    io.emit('second rider', data);
+    console.log(data);
+
+	db_connection.getConnection(function(err, c){
+
+		var queryInsertRide = 'INSERT INTO Rides VALUE (' + data.driverID + ', ' + data.riderID + ', ' + data.destinationLng + ', ' + data.destinationLat + ', ' + data.riderLng + ', ' + data.riderLat + ', ' + data.cost + ', ' + data.carpool +', ' + data.duration + ')';
+			console.log(queryInsertRide);
+			c.query(queryInsertRide,  function(err, result, feilds){
+				if(err) throw err;
+				console.log(result);
+				io.emit("new rider", data);
+			});
+
+		var queryUpdateCarpool = 'UPDATE Rides SET carpool=TRUE WHERE driverid=' + data.driverID;
+
+		var queryGetRider = 'SELECT riderid FROM Rides WHERE driverid=' + data.driverID;
+			c.query(queryGetRider, function(err, result, feilds){
+			if(err) throw err;
+			console.log(result);
+			var rider1 = result[0].riderid;
+			var rider2 = result[1].riderid;
+
+			var returnData = {'driverID': data.driverID, 'rider1': rider1, 'rider2': rider2};
+			console.log(returnData);
+			io.emit('second rider', returnData);	
+		});
+		c.release();
+	})	
+    
   });
 
-	// //Add the second rider
-	// socket.on('add carpool', function(data){
-	// 	db_connection.getConnection(function(err, c){
-	// 		//Add the second rider
-	// 		var queryInsertCarpool = 'INSERT INTO Rides VALUE (' + data.driverID + ', ' + data.riderID + ', ' + data.destinationLat + ', ' + data.destinationLng + ', ' + data.riderLat + ', ' + data.riderLng + ', ' + data.price + ', TRUE, ' + data.duration + ')';
-	// 		c.query(queryInsertCarpool,  function(err, result, feilds){
-	// 				if(err) throw err;
-	// 				console.log(result);
-	// 		});
-	// 		//Alter the first rider's carpool to true
-	// 		var queryUpdate = 'UPDATE RIDES SET CARPOOL = TRUE WHERE DRIVERID = ' + data.driverID;
-	// 		c.query(queryAlter,  function(err, result, feilds){
-	// 				if(err) throw err;
-	// 				console.log(result);
-	// 		});
-	// 	});
-	// 	//Notify the driver that the second rider is added to the queue
-	// 	console.log('notifying the driver');
-	// 	io.emit("new rider", data);
-	// });
+  //update price and carpool boolean from rides table
+  socket.on('carpool update', function(data){
+
+  });
 
 });

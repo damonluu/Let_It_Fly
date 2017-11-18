@@ -77,9 +77,9 @@ console.log(riderID);
 		checkCarpoolFunctionPromise.then(function(result) {
 			console.log(result);
 			if(result) {
-				getRiderInfoCarpool(data[0].driverid);
+				getRiderInfoCarpool(data);
 			} else {
-				var closest = getRiderInfo();
+				var closest = getRiderInfo(data);
 			}
 		});
 		// setTimeout(function() {
@@ -120,7 +120,9 @@ socket.on('find nearest', function(data){
 		console.log('find nearest driver...');
 		console.log(data);
 		// setTimeout(function() {
-		var closest = getRiderInfo();
+		console.log('getting rider info data...');
+		console.log(data);
+		var closest = getRiderInfo(data);
 		// },2000);
 	}
 

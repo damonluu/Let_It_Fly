@@ -158,19 +158,24 @@ function test() {
   return resultData;
 }
 
-function findClosestDriverMarker() {
+function findClosestDriverMarker(data) {
+
   // retrieveRiderOriginLatLong();
   var deferred = $.Deferred();
 
-  var latLng = getRiderOriginLatLong();
-  riderCurrentLat = latLng[0];
-  riderCurrentLng = latLng[1];
+  // var latLng = getRiderOriginLatLong();
+  // riderCurrentLat = latLng[0];
+  // riderCurrentLng = latLng[1];
   console.log("HERE");
-  console.log(latLng);
+  // console.log(latLng);
   // for (var driver in driverArray) {
+
+    console.log(data.riderLat);
+    console.log(data.riderLng);
   for (let i = 0; i < driverArray.length; i++) {
-    var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, driverArray[i][1], driverArray[i][2]);
+    var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
     distanceBetweenTwoCoordPromise.then(function(result) {
+      console.log(result);
       if (result.rows[0].elements[0].distance.value < closestDistance) {
         closestDistance = result.rows[0].elements[0].distance.value;
         closestDriverID = driverArray[i][0];
@@ -186,22 +191,17 @@ function findClosestDriverMarker() {
   return deferred.promise();
 }
 
-function carpoolHelper(theDriverId) {
+function carpoolHelper(data) {
   var deferred = $.Deferred();
 
-  var latLng = getRiderOriginLatLong();
-  riderCurrentLat = latLng[0];
-  riderCurrentLng = latLng[1];
-  // console.log("HERE");
-  // console.log(latLng);
-  // console.log("in carpoolHelper");
-  // console.log(riderCurrentLat);
-  // console.log(riderCurrentLng);
-  // console.log(driverLat);
-  // console.log(driverLng);
-  // console.log(driverArray);
+  // var latLng = getRiderOriginLatLong();
+  // riderCurrentLat = latLng[0];
+  // riderCurrentLng = latLng[1];
+  console.log('carpoolHelper')
+  console.log(driverArray);
+  console.log(data);
   for (var i = 0; i < driverArray.length; i++) {
-    if (driverArray[i][0] == theDriverId) {
+    if (driverArray[i][0] == data[0].driverid) {
       closestDriverLat = driverArray[i][1];
       closestDriverLng = driverArray[i][2];
       break;
@@ -210,9 +210,9 @@ function carpoolHelper(theDriverId) {
   console.log(closestDriverLat);
   console.log(closestDriverLng);
 
-  var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(riderCurrentLat, riderCurrentLng, closestDriverLat, closestDriverLng);
+  var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data[0].start_lat, data[0].start_long, closestDriverLat, closestDriverLng);
   distanceBetweenTwoCoordPromise.then(function(result) {
-    closestDriverId = theDriverId;
+    closestDriverId = data[0].driverid;
     closestDistance = result.rows[0].elements[0].distance.value;
     closestDriverMinutes = result.rows[0].elements[0].duration.value;
     deferred.resolve(result);
