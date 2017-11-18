@@ -54,12 +54,8 @@ conPool.getConnection(function(err, c) {
                   
     	});
 
-        // c.query("", function(err, result, fields){
-        // //this is important to release the connection 
-        // if(err) throw err; 
-        // console.log(result);
-                  
-        // });
+    
+        c.release();
  	}	
  });
 

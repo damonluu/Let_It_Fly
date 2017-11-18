@@ -17,7 +17,9 @@ module.exports.activateDriver = function(req, res) {
      var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
      console.log(queryInsert);
     c.query(queryInsert, function (err, result, fields){
-        if (err) console.log(err);
+        if (err) throw err;
+        c.release();
+        console.log(result);
         res.status(200).json(result);
         return res.end();
     });

@@ -59,6 +59,7 @@ io.on('connection', function(socket){
 		db_connection.getConnection(function(err, c){
 			c.query('SELECT * FROM Drivers', function(err, result, feilds){
 				if(err) throw err;
+				c.release();
 				console.log(result);
 				io.emit('map view', result);
 
@@ -74,6 +75,7 @@ io.on('connection', function(socket){
       	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
 			c.query(queryInsert,  function(err, result, feilds){
 				if(err) throw err;
+				c.release();
 				io.emit("update map");
 				console.log(result);
 			});
@@ -88,6 +90,7 @@ io.on('connection', function(socket){
 			console.log(queryInsertRide);
 			c.query(queryInsertRide,  function(err, result, feilds){
 				if(err) throw err;
+				c.release();
 				console.log(result);
 			});
 		});
@@ -100,9 +103,10 @@ io.on('connection', function(socket){
     console.log("Remove Driver: " + data.id);
 		db_connection.getConnection(function(err, c){
 			var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id ;
-      console.log(queryRemove);
-      c.query(queryRemove,  function(err, result, feilds){
+      		console.log(queryRemove);
+      		c.query(queryRemove,  function(err, result, feilds){
 				if(err) throw err;
+				c.release();
 				console.log(result);
 				console.log('removed successfully');
 				io.emit("ride completed",result);
@@ -117,6 +121,7 @@ io.on('connection', function(socket){
 		db_connection.getConnection(function(err, c){
 			c.query("SELECT * FROM Rides", function(err, result, feilds){
 				if(err) throw err;
+				c.release();
 				console.log(result);
 				console.log(result.length > 0);
 				if(result.length == 0){

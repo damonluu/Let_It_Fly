@@ -61,8 +61,11 @@ function modifyModal() {
 }
 
 // THIS FUNCTION TAKES THE DRIVER ENTERED LOCATION AND INSERTS THEM INTO DB
+var driverOrigin;
 function activeDriver() {
-  var checkInput = document.getElementById("origin-input").value;
+  var getGeocodePromise = getGeocode(driverOrigin);
+  getGeocodePromise.then(function(result){
+     var checkInput = document.getElementById("origin-input").value;
   if (checkInput == "" || checkInput.length == 0 || checkInput == null) {
     alert("Please enter your location first");
   } else {
@@ -82,6 +85,7 @@ function activeDriver() {
     document.getElementById('pickedUpRider-button').setAttribute("class", "");
     addDriver(driverInfo);
   }
+  });
 }
 
 function directionToRider(data) {
@@ -100,13 +104,14 @@ AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(aut
     }
     if (mode === 'ORIG') {
       me.originPlaceId = place.place_id;
-      getGeocode(me.originPlaceId);
+      driverOrigin = me.originPlaceId;
       // console.log(me.originPlaceId);
     }
   });
 }
 
 function getGeocode(placeid) {
+  var deferred = $.Deferred();
   //array to store the latitude and longitude
   var loc = [];
   // create a new Geocoder object
@@ -120,11 +125,13 @@ function getGeocode(placeid) {
       loc[1] = results[0].geometry.location.lng();
       driverOriginLat = results[0].geometry.location.lat();
       driverOriginLng = results[0].geometry.location.lng();
+      deferred.resolve(true);
 
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
   });
+  return deferred.promise();
 }
 
 function getRiderOriginLatLong() {
@@ -149,8 +156,8 @@ function initMap() {
   });
 
   //show traffic
-  var trafficLayer = new google.maps.TrafficLayer();
-  trafficLayer.setMap(map);
+  // var trafficLayer = new google.maps.TrafficLayer();
+  // trafficLayer.setMap(map);
 
   //lets origin and destination text box auto complete to a place/address
   new AutocompleteDirectionsHandler(map);

@@ -19,6 +19,7 @@ module.exports.newUser = function(req, res) {
      console.log(queryInsert);
     c.query(queryInsert, function (err, result, fields){
         if (err) throw err;
+        c.release();
         console.log(result.insertId);
         res.status(200).json(result.insertId);
         return res.end();

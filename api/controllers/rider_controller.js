@@ -18,7 +18,9 @@ module.exports.activateRider = function(req, res) {
       data.cost + ', ' + data.carpool + ', ' + data.time + ')';
     console.log(queryInsert);
     c.query(queryInsert, function(err, result, fields) {
-      if (err) console.log(err);
+      if (err) throw err;
+      c.release();
+      console.log(result);
       res.status(200).json(result);
       return res.end();
     });
