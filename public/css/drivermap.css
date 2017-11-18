@@ -47,9 +47,7 @@ html, body {
   z-index:2;
 }
 
-#origin-input,
-#destination-input,
-#pickup-input {
+#origin-input{
   background-color: #FFFFFF;
   font-family: Roboto;
   font-size: 15px;
@@ -58,7 +56,18 @@ html, body {
   margin-left: 10px;
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
-  width: 40%;
+  width: 30%;
+}
+#driver-seat-input {
+  background-color: #FFFFFF;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  margin-left: 10px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 15%;
 }
 
 #origin-input:focus,
@@ -76,7 +85,7 @@ html, body {
   text-align: center;
   margin-left: 10px;
   /*padding: 10px 11px 0 13px;*/
-  width: 30%;
+  width: 20%;
   margin-top: 20px;
   border: 1px solid transparent;
   border-radius: 5px;

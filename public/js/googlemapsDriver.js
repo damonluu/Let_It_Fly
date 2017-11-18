@@ -10,6 +10,7 @@ function AutocompleteDirectionsHandler(map) {
   this.originPlaceId = null;
   var originInput = document.getElementById('origin-input');
   var submitButton = document.getElementById('submit-button');
+  var seatInput = document.getElementById('driver-seat-input');
   var pickedUpButton = document.getElementById('pickedUpRider-button');
   var completeRideButton = document.getElementById('completeRide-button');
   directionsDisplay.setMap(map);
@@ -24,6 +25,7 @@ function AutocompleteDirectionsHandler(map) {
   this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(pickedUpButton);
   this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(completeRideButton);
   this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(originInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(seatInput);
   this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
 
 }
@@ -45,6 +47,7 @@ function completeRideButtonClicked(){
   removeDriver(driverInfo);
 }
 
+
 // THIS IS SUPPOSED TO UPDATE THE RIDER SIDE "view rider info"
 function modifyModal() {
   // call function to retrieve rider information
@@ -63,6 +66,7 @@ function modifyModal() {
 // THIS FUNCTION TAKES THE DRIVER ENTERED LOCATION AND INSERTS THEM INTO DB
 var driverOrigin;
 function activeDriver() {
+  var availableSeats = document.getElementById("driver-seat-input").value;
   var getGeocodePromise = getGeocode(driverOrigin);
   getGeocodePromise.then(function(result){
      var checkInput = document.getElementById("origin-input").value;
@@ -75,14 +79,16 @@ function activeDriver() {
       id: driverIdFromURL,
       lat: driverOriginLat,
       long: driverOriginLng,
-      available: true
+      available: true,
+      seats: availableSeats
     };
     console.log(driverInfo);
     console.log(driverOriginLat);
     console.log(driverOriginLng);
+    console.log(availableSeats);
     document.getElementById('origin-input').setAttribute("class", "hidden");
     document.getElementById('submit-button').setAttribute("class", "hidden");
-    document.getElementById('pickedUpRider-button').setAttribute("class", "");
+    document.getElementById('driver-seat-input').setAttribute("class", "hidden");
     addDriver(driverInfo);
   }
   });
@@ -212,6 +218,7 @@ function getAddressFromCoord(lat, lng) {
       alert("The Rider is at " + address + "\nHere are the directions to reach them.")
     }
   });
+  document.getElementById('pickedUpRider-button').setAttribute("class", "");
 }
 
 google.maps.event.addDomListener(window, 'load', initMap);

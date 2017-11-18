@@ -12,59 +12,68 @@ var riderIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndex
 var d = new Date();
 var totalPrice;
 var theDriverId;
+var requestSeats;
 
 function AutocompleteDirectionsHandler(map) {
-    this.map = map;
-    this.originPlaceId = null;
-    this.destinationPlaceId = null;
-    this.travelMode = 'DRIVING';
-    var originInput = document.getElementById('origin-input');
-    var destinationInput = document.getElementById('destination-input');
-    var submitButton = document.getElementById('submit-button');
-    directionsDisplay.setMap(map);
-    directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-    var originAutocomplete = new google.maps.places.Autocomplete(
-        originInput, {
-            placeIdOnly: true
-        });
-    var destinationAutocomplete = new google.maps.places.Autocomplete(
-        destinationInput, {
-            placeIdOnly: true
-        });
+  this.map = map;
+  this.originPlaceId = null;
+  this.destinationPlaceId = null;
+  this.travelMode = 'DRIVING';
+  var originInput = document.getElementById('origin-input');
+  var destinationInput = document.getElementById('destination-input');
+  var seatInput = document.getElementById('rider-seat-input');
+  var submitButton = document.getElementById('submit-button');
+  directionsDisplay.setMap(map);
+  directionsDisplay.setPanel(document.getElementById('directionsPanel'));
 
-    submitButton.onclick = function() {
-        var checkInput1 = document.getElementById("origin-input").value;
-        var checkInput2 = document.getElementById("destination-input").value;
-        if (checkInput1 == "" || checkInput1.length == 0 || checkInput1 == null || checkInput2 == "" || checkInput2.length == 0 || checkInput2 == null) {
-            alert("Please enter your location first");
-        } else {
-            var promise = calculateAndDisplayRoute();
-            promise.then(function(result) {
-                var riderInfo = {
-                    'riderID': riderIdFromURL,
-                    'riderLat': riderOriginLat,
-                    'riderLng': riderOriginLng,
-                    'destinationLat': riderDestLat,
-                    'destinationLng': riderDestLng
+  var originAutocomplete = new google.maps.places.Autocomplete(
+    originInput, {
+      placeIdOnly: true
+    });
+  var destinationAutocomplete = new google.maps.places.Autocomplete(
+    destinationInput, {
+      placeIdOnly: true
+    });
 
-                };
-                searchDriver(riderInfo);
-            });
+  submitButton.onclick = function() {
+    var checkInput1 = document.getElementById("origin-input").value;
+    var checkInput2 = document.getElementById("destination-input").value;
+    var checkSeatInput = document.getElementById("rider-seat-input").value;
+    if (checkInput1 == "" || checkInput1.length == 0 || checkInput1 == null || checkInput2 == "" || checkInput2.length == 0 || checkInput2 == null){
+      alert("Please enter your location first");
+    }
+    else if(checkSeatInput == "" || checkSeatInput.length == 0){
+      alert("Please enter the number of your party")
+    } else {
+      requestSeats = checkSeatInput;
+      var promise = calculateAndDisplayRoute();
+      promise.then(function(result) {
+        var riderInfo = {
+          'riderID': riderIdFromURL,
+          'riderLat': riderOriginLat,
+          'riderLng': riderOriginLng,
+          'destinationLat': riderDestLat,
+          'destinationLng': riderDestLng,
+          'seats': checkSeatInput
+        };
+        searchDriver(riderInfo);
+      });
 
-            // var riderInfo = {
-            //   'riderID': riderIdFromURL,
-            //   'riderLat': riderOriginLat,
-            //   'riderLng': riderOriginLng,
-            //   'destinationLat': riderDestLat,
-            //   'destinationLng': riderDestLng
-            //
-            // };
-            // // searchDriver(riderInfo);
-            // // this time out is necessary or else carpool breaks sometimes
-            // setTimeout(function() {
-            //   searchDriver(riderInfo);
-            // }, 3000);
+      // var riderInfo = {
+      //   'riderID': riderIdFromURL,
+      //   'riderLat': riderOriginLat,
+      //   'riderLng': riderOriginLng,
+      //   'destinationLat': riderDestLat,
+      //   'destinationLng': riderDestLng
+      //
+      // };
+      // // searchDriver(riderInfo);
+      // // this time out is necessary or else carpool breaks sometimes
+      // setTimeout(function() {
+      //   searchDriver(riderInfo);
+      // }, 3000);
+
 
         }
     };
@@ -72,9 +81,12 @@ function AutocompleteDirectionsHandler(map) {
     this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
     this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
 
-    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(originInput);
-    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(destinationInput);
-    this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
+
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(originInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(destinationInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(seatInput);
+  this.map.controls[google.maps.ControlPosition.TOP_CENTER].push(submitButton);
+
 }
 
 // this function is used for making the modal box appear to show how far the closest driver is, estimate their arrival time
@@ -133,11 +145,14 @@ function checkValidAirport(originPlaceId, destinationPlaceId) {
 // this function will display the turn by turn diretions on the map and get rid of the origin/destination input boxes
 // also rename the button from "submit" to "ride details", and change it's onclick to open modal to see current ride details
 function displayStepByStep() {
-    directionsDisplay.setDirections(directionResponse);
-    document.getElementById('origin-input').setAttribute("class", "hidden");
-    document.getElementById('destination-input').setAttribute("class", "hidden");
-    document.getElementById('submit-button').innerHTML = "Ride Details";
-    document.getElementById('submit-button').setAttribute("onClick", "javascript: modalAfterConfirm();");
+
+  directionsDisplay.setDirections(directionResponse);
+  document.getElementById('origin-input').setAttribute("class", "hidden");
+  document.getElementById('destination-input').setAttribute("class", "hidden");
+  document.getElementById('rider-seat-input').setAttribute("class", "hidden");
+  document.getElementById('submit-button').innerHTML = "Ride Details";
+  document.getElementById('submit-button').setAttribute("onClick", "javascript: modalAfterConfirm();");
+
 };
 
 // this gets called after the rider clicks on "ride details" button, it removes the confirm/decline button and opens the modal
@@ -587,79 +602,84 @@ confirmButton.onclick = function() {
 // this function will find the closest driver, set the driverData, update the modal
 // that updates the box that the rider sees after their click on submit
 function getRiderInfo(data) {
-    // setTimeout(function() {
-    //   findClosestDriverMarker();
-    // }, 2000);
-    console.log('find closest driiver marker data...');
-    console.log(data);
-    var findClosestDriverMarkerPromise = findClosestDriverMarker(data);
-    findClosestDriverMarkerPromise.then(function(result) {
-        var closestDriver = test();
-        console.log(closestDriver);
-        console.log("GET RIDER INFO: " + closestDriver);
-        //check if driver is within 30 minutes if not, alert no drivers
-        if (closestDriver.closestDriverMinutes > 30) {
-            alert("No driver 30 minutes or less away from you");
-            location.reload();
-            return;
-        }
-        ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+  // setTimeout(function() {
+  //   findClosestDriverMarker();
+  // }, 2000);
+  console.log('find closest driiver marker...');
+  console.log(data);
+  var findClosestDriverMarkerPromise = findClosestDriverMarker(data);
+  findClosestDriverMarkerPromise.then(function(result) {
+      var closestDriver = test();
+      console.log(closestDriver);
+      console.log("GET RIDER INFO: " + closestDriver);
+      //check if driver is within 30 minutes if not, alert no drivers
+      if (closestDriver.closestDriverMinutes > 30) {
+        alert("No driver 30 minutes or less away from you");
+        location.reload();
+        return;
+      }
+      ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
 
-        console.log("closest driver test");
-        console.log(closestDriver);
+      console.log("closest driver test");
+      console.log(closestDriver);
 
-        var driverData = {
-            'driverID': closestDriver.closestDriverId,
-            'riderLat': riderOriginLat,
-            'riderLng': riderOriginLng,
-            'destinationLat': riderDestLat,
-            'destinationLng': riderDestLng,
-            'riderID': riderIdFromURL,
-            'cost': totalPrice,
-            'carpool': false,
-            'duration': durationInMinutes,
-            'closestDriverMinutes': closestDriver.closestDriverMinutes
-        };
-
-        console.log('closet driver data');
+      var driverData = {
+        'driverID': closestDriver.closestDriverId,
+        'riderLat': riderOriginLat,
+        'riderLng': riderOriginLng,
+        'destinationLat': riderDestLat,
+        'destinationLng': riderDestLng,
+        'riderID': riderIdFromURL,
+        'cost': totalPrice,
+        'carpool': false,
+        'duration': durationInMinutes,
+        'closestDriverMinutes': closestDriver.closestDriverMinutes,
+        'seats': closestDriver.availableSeats
+      };
+      if(driverData.seats < requestSeats){
+        alert('Closest driver does not have enough seats');
+      }
+      else {
+         console.log('found closet driver data');
         console.log(driverData);
         displayModal(driverData);
         return driverData;
-    });
+      }
+  });
 
-    // setTimeout(function() {
-    //   var closestDriver = test();
-    //   console.log(closestDriver);
-    //   console.log("GET RIDER INFO: " + closestDriver);
-    //   //check if driver is within 30 minutes if not, alert no drivers
-    //   if (closestDriver.closestDriverMinutes > 30) {
-    //     alert("No driver 30 minutes or less away from you");
-    //     location.reload();
-    //     return;
-    //   }
-    //   ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
-    //
-    //   console.log("closest driver test");
-    //   console.log(closestDriver);
-    //
-    //   var driverData = {
-    //     'driverID': closestDriver.closestDriverId,
-    //     'riderLat': riderOriginLat,
-    //     'riderLng': riderOriginLng,
-    //     'destinationLat': riderDestLat,
-    //     'destinationLng': riderDestLng,
-    //     'riderID': riderIdFromURL,
-    //     'cost': totalPrice,
-    //     'carpool': false,
-    //     'duration': durationInMinutes,
-    //     'closestDriverMinutes': closestDriver.closestDriverMinutes
-    //   };
-    //
-    //   console.log('closet driver data');
-    //   console.log(driverData);
-    //   displayModal(driverData);
-    //   return driverData;
-    // }, 3000);
+  // setTimeout(function() {
+  //   var closestDriver = test();
+  //   console.log(closestDriver);
+  //   console.log("GET RIDER INFO: " + closestDriver);
+  //   //check if driver is within 30 minutes if not, alert no drivers
+  //   if (closestDriver.closestDriverMinutes > 30) {
+  //     alert("No driver 30 minutes or less away from you");
+  //     location.reload();
+  //     return;
+  //   }
+  //   ////data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
+  //
+  //   console.log("closest driver test");
+  //   console.log(closestDriver);
+  //
+  //   var driverData = {
+  //     'driverID': closestDriver.closestDriverId,
+  //     'riderLat': riderOriginLat,
+  //     'riderLng': riderOriginLng,
+  //     'destinationLat': riderDestLat,
+  //     'destinationLng': riderDestLng,
+  //     'riderID': riderIdFromURL,
+  //     'cost': totalPrice,
+  //     'carpool': false,
+  //     'duration': durationInMinutes,
+  //     'closestDriverMinutes': closestDriver.closestDriverMinutes
+  //   };
+  //
+  //   console.log('closet driver data');
+  //   console.log(driverData);
+  //   displayModal(driverData);
+  //   return driverData;
+  // }, 3000);
 }
 
 // this function will find the closest driver, set the driverData, update the modal
@@ -697,14 +717,18 @@ function getRiderInfoCarpool(data) {
             'cost': totalPrice,
             'carpool': false,
             'duration': durationInMinutes,
-            'closestDriverMinutes': closestDriver.closestDriverMinutes
-        };
-
+            'closestDriverMinutes': closestDriver.closestDriverMinutes,
+            'seats': closestDriver.availableSeats
+       };
+      if(driverData.seats < requestSeats){
+        alert('Closest driver does not have enough seats');
+      }else{
         console.log('closet driver data');
         console.log(driverData);
         displayModal(driverData);
         secondRiderDiscount();
         return driverData;
+      }
     });
     // setTimeout(function() {
     //   carpoolHelper(theDriverId);
@@ -743,6 +767,7 @@ function getRiderInfoCarpool(data) {
     //   displayModal(driverData);
     //   return driverData;
     // }, 3000);
+
 }
 
 var carpool = false;

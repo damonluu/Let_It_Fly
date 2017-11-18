@@ -72,7 +72,7 @@ io.on('connection', function(socket){
 		console.log('new driver available');
     	console.log(data);
 		db_connection.getConnection(function(err, c){
-      	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
+      	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ', ' + data.seats + ')';
 			c.query(queryInsert,  function(err, result, feilds){
 				if(err) throw err;
 				io.emit("update map");
@@ -134,7 +134,7 @@ io.on('connection', function(socket){
 					io.emit('find nearest', data);
 				} else{
 					console.log("look for carpool");
-          console.log(result);
+        			console.log(result);
 					io.emit('search carpool', result);
 				}
 			})

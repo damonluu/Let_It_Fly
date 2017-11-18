@@ -8,6 +8,7 @@ var closestDriverID = 'IfYouSeeThisMarkerSomethingWentWrong';
 var closestDriverMinutes = 9999;
 var closestDriverLat;
 var closestDriverLng;
+var availableSeats;
 
 var marker_image = new google.maps.MarkerImage(
   "img/map/vanMed.png"
@@ -18,12 +19,12 @@ function showDriverMarker(map) {
   setMarkers(driverArray);
 }
 
-function insertNewDriverMarker(driverId, lati, long) {
+function insertNewDriverMarker(driverId, lati, long, seats) {
   // var myLatLng = new google.maps.LatLng(lat, lng);
   var marker = new google.maps.Marker({
     position: {
       lat: lati,
-      lng: long
+      lng: long,
     },
     map: mymap,
     animation: google.maps.Animation.DROP,
@@ -32,7 +33,7 @@ function insertNewDriverMarker(driverId, lati, long) {
   });
   // markers[driverId] = marker;
   // driverArray[driverId] = [lat, lng];
-  driverArray.push([driverId, lati, long]);
+  driverArray.push([driverId, lati, long, seats]);
   markers.push(marker);
   console.log("Inserted " + driverId + " to markers");
   // console.log(markers);
@@ -154,6 +155,7 @@ function test() {
   resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
   resultData["closestDriverLat"] = closestDriverLat;
   resultData["closestDriverLng"] = closestDriverLng;
+  resultData["availableSeats"] = availableSeats;
 
   return resultData;
 }
@@ -182,6 +184,7 @@ function findClosestDriverMarker(data) {
         closestDriverMinutes = result.rows[0].elements[0].duration.value;
         closestDriverLat = driverArray[i][1];
         closestDriverLng = driverArray[i][2];
+        availableSeats = driverArray[i][3];
       }
       var results = result.rows[0].elements[0];
       // return results[0];
@@ -194,6 +197,7 @@ function findClosestDriverMarker(data) {
 function carpoolHelper(data) {
   var deferred = $.Deferred();
 
+
   // var latLng = getRiderOriginLatLong();
   // riderCurrentLat = latLng[0];
   // riderCurrentLng = latLng[1];
@@ -204,11 +208,13 @@ function carpoolHelper(data) {
     if (driverArray[i][0] == data[0].driverid) {
       closestDriverLat = driverArray[i][1];
       closestDriverLng = driverArray[i][2];
+      availableSeats = driverArray[i][3];
       break;
     }
   }
   console.log(closestDriverLat);
   console.log(closestDriverLng);
+  console.log(availableSeats);
 
   var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data[0].start_lat, data[0].start_long, closestDriverLat, closestDriverLng);
   distanceBetweenTwoCoordPromise.then(function(result) {
@@ -232,5 +238,6 @@ function test2(theDriverId) {
   resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
   resultData["closestDriverLat"] = closestDriverLat;
   resultData["closestDriverLng"] = closestDriverLng;
+  resultData["availableSeats"] = availableSeats;
   return resultData;
 }

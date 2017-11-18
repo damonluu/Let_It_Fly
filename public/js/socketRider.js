@@ -42,10 +42,11 @@ socket.on('map view', function (data){
 		var driverId = data[i].id;
     	var driverLong = data[i].current_long;
     	var driverLat = data[i].current_lat;
+    	var driverSeats = data[i].seats;
 		console.log(driverId);
 		console.log(driverLong);
 		console.log(driverLat);
-    insertNewDriverMarker(driverId, driverLat, driverLong);
+    insertNewDriverMarker(driverId, driverLat, driverLong, driverSeats);
   }
 });
 
@@ -116,7 +117,7 @@ console.log(riderID);
 });
 
 socket.on('find nearest', function(data){
-	if(data.riderID ==riderID){
+	if(data.riderID == riderID){
 		console.log('find nearest driver...');
 		console.log(data);
 		// setTimeout(function() {
@@ -125,7 +126,5 @@ socket.on('find nearest', function(data){
 		var closest = getRiderInfo(data);
 		// },2000);
 	}
+});
 
-	//1.find closest driver
-	//2.Notify the closest driver
-})

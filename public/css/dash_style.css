@@ -383,14 +383,7 @@ h6 {
             color: #ffffff; } 
 }
 #request {
-  background: rgba(114, 179, 228, 81);
-  color: white;
-  border: none;
-  margin-top: 20px;
-  width: 75%;
-  height: 60px; 
-  margin-left:12%;
-  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
+ 
     /*border-radius: 20px;*/
 
 }
@@ -407,10 +400,21 @@ h6 {
 #logout{
   margin-left:35%;
 }
-#linkRequest, #buttonDashboard{
+#linkRequest{
+  display: block;
+  margin-top: 10%;
+  padding: 20px;
   color: white;
   text-decoration:none;
   text-align: center;
+   background: rgba(114, 179, 228, 81);
+  color: white;
+  border: none;
+  margin-top: 20px;
+  width: 75%;
+  height: 60px; 
+  margin-left:12%;
+  font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
 
 }
 .sider-navbar {
