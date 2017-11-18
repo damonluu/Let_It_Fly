@@ -33,7 +33,8 @@ socket.on("new rider", function(data){
 })
 
 socket.on('second rider', function(data) {
-  if(data.driverID == driverID)
-	console.log("second rider socket socketrider");
-	alert("There will be a second rider, giving you directions to them now");
+  if(data.driverID == driverID) {
+    console.log("second rider socket socketrider");
+    alert("There will be a second rider, giving you directions to them now");
+  }
 });

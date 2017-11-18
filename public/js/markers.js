@@ -8,7 +8,7 @@ var closestDriverID = 'IfYouSeeThisMarkerSomethingWentWrong';
 var closestDriverMinutes = 9999;
 var closestDriverLat;
 var closestDriverLng;
-var availableSeats;
+var availableSeats = -1;
 
 var marker_image = new google.maps.MarkerImage(
   "img/map/vanMed.png"
@@ -128,17 +128,11 @@ function distanceBetweenTwoCoord(originLat, originLng, destinationLat, destinati
 
   function callback(response, status) {
     if (status == 'OK') {
-      // distanceBetweenTwo = response.rows[0].elements[0].distance.value;
-      // var duration = response.rows[0].elements[0].duration.value;
-      // console.log(distanceBetweenTwo);
       dfd.resolve(response);
     } else {
       dfd.reject(status);
     }
   }
-  // console.log(distanceBetweenTwo);
-  // console.log(test);
-  // return distanceBetweenTwo;
   return dfd.promise();
 }
 
@@ -168,17 +162,14 @@ function findClosestDriverMarker(data) {
   // var latLng = getRiderOriginLatLong();
   // riderCurrentLat = latLng[0];
   // riderCurrentLng = latLng[1];
-  console.log("HERE");
-  // console.log(latLng);
-  // for (var driver in driverArray) {
+  console.log("inside findClosestDriverMarker.....");
+  console.log(data);
 
-    console.log(data.riderLat);
-    console.log(data.riderLng);
   for (let i = 0; i < driverArray.length; i++) {
     var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
     distanceBetweenTwoCoordPromise.then(function(result) {
       console.log(result);
-      if (result.rows[0].elements[0].distance.value < closestDistance) {
+      if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
         closestDistance = result.rows[0].elements[0].distance.value;
         closestDriverID = driverArray[i][0];
         closestDriverMinutes = result.rows[0].elements[0].duration.value;
@@ -197,10 +188,6 @@ function findClosestDriverMarker(data) {
 function carpoolHelper(data) {
   var deferred = $.Deferred();
 
-
-  // var latLng = getRiderOriginLatLong();
-  // riderCurrentLat = latLng[0];
-  // riderCurrentLng = latLng[1];
   console.log('carpoolHelper')
   console.log(driverArray);
   console.log(data);
