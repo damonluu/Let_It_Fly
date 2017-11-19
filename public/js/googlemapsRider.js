@@ -43,7 +43,7 @@ function AutocompleteDirectionsHandler(map) {
     if (checkInput1 == "" || checkInput1.length == 0 || checkInput1 == null || checkInput2 == "" || checkInput2.length == 0 || checkInput2 == null) {
       alert("Please enter your location first");
     } else if (checkSeatInput == "" || checkSeatInput.length == 0) {
-      alert("Please enter the number of your party")
+      alert("Please enter the number of seats in your shuttle")
     } else {
       requestSeats = checkSeatInput;
       var promise = calculateAndDisplayRoute();
@@ -128,7 +128,6 @@ function checkValidAirport(originPlaceId, destinationPlaceId) {
 // this function will display the turn by turn diretions on the map and get rid of the origin/destination input boxes
 // also rename the button from "submit" to "ride details", and change it's onclick to open modal to see current ride details
 function displayStepByStep() {
-
   directionsDisplay.setDirections(directionResponse);
   document.getElementById('origin-input').setAttribute("class", "hidden");
   document.getElementById('destination-input').setAttribute("class", "hidden");
@@ -183,22 +182,13 @@ function calculateAndDisplayRoute() {
 function calculateAndDisplayRoute2(driverLat, driverLng) {
   var waypts = [];
   waypts.push({
-    location: {
-      lat: riderOriginLat,
-      lng: riderOriginLng
-    },
+    location: {lat: riderOriginLat, lng: riderOriginLng},
     stopover: true
   });
   directionsService.route({
-    origin: {
-      lat: driverLat,
-      lng: driverLng
-    },
+    origin: {lat: driverLat, lng: driverLng},
     waypoints: waypts,
-    destination: {
-      lat: riderDestLat,
-      lng: riderDestLng
-    },
+    destination: {lat: riderDestLat, lng: riderDestLng},
     travelMode: 'DRIVING'
   }, function(response, status) {
     if (status === 'OK') {
@@ -292,11 +282,6 @@ function validAirportPlace() {
   return valid;
 }
 
-// functon to pull rider lat long, this is called in another js file
-function getRiderOriginLatLong() {
-  return [riderOriginLat, riderOriginLng];
-}
-
 // this function stores and returns an array with the following items
 // origin lat, origin lng, destination lat, destination lng, distance, duration
 // it will also convert the origin/destination place into lat long values and stores
@@ -312,8 +297,7 @@ function details(origin_PlaceId, destination_PlaceId) {
 }
 
 //*******************
-// var formData = {};
-// orign
+//split detail into 3 separate synchronous functions
 var geocoder = new google.maps.Geocoder();
 
 function details1(origin_PlaceId) {
@@ -365,7 +349,6 @@ function details2(origin_PlaceId, destination_PlaceId) {
         alert("Geocode was not successful for the following reason: " + status);
       }
     });
-
   });
   return deferred.promise();
 }
@@ -375,17 +358,11 @@ function details3(origin_PlaceId, destination_PlaceId) {
   var deferred = $.Deferred();
   var details2Promise = details2(origin_PlaceId, destination_PlaceId);
   details2Promise.then(function(result) {
-    console.log("details3 level1");
     var directionsRequest = {
-      origin: {
-        placeId: origin_PlaceId
-      },
-      destination: {
-        placeId: destination_PlaceId
-      },
+      origin: {placeId: origin_PlaceId},
+      destination: {placeId: destination_PlaceId},
       travelMode: "DRIVING"
     };
-    console.log("details3 level2");
 
     directionsService.route(directionsRequest, function(response, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -398,24 +375,16 @@ function details3(origin_PlaceId, destination_PlaceId) {
         alert("Geocode was not successful for the following reason: " + status);
       }
     });
-    console.log("details3 level3");
   });
-  console.log("details3 level4");
   return deferred.promise();
 }
-
-
-
-
 //***************
+
 // initializes the google maps so it is viewable
 function initMap() {
   //creates a new map object with center at blair island
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: 37.5209,
-      lng: -122.2257
-    },
+    center: {lat: 37.5209, lng: -122.2257},
     zoom: 10,
     minZoom: 10,
     MapOptions: true,
@@ -425,7 +394,7 @@ function initMap() {
     },
   });
 
-  //show traffic
+  // show traffic
   // var trafficLayer = new google.maps.TrafficLayer();
   // trafficLayer.setMap(map);
 
@@ -449,16 +418,11 @@ confirmButton.onclick = function() {
   document.getElementById('driverMinutesAway').setAttribute("class", "hidden");
   document.getElementById('estimateDriverArrival').setAttribute("class", "hidden");
   displayStepByStep();
-  //findClosestDriverMarker();
   console.log("Confirm button clicked");
 
-
-
-
-  setTimeout(function() {
+  // setTimeout(function() {
     if (!carpool) {
       var closestDriver = test(); //for carpool use test2()
-
       //check if driver is within 30 minutes if not, alert no drivers
       if (closestDriver.closestDriverMinutes > 30) {
         alert("No driver 30 minutes or less away from you");
@@ -521,15 +485,12 @@ confirmButton.onclick = function() {
       notifyOthersOfCarpool(driverData);
       // notifyDriver(driverData);
     }
-  }, 500); //not necessary but just in case
+  // }, 2000); //not sure if necessary but just in case
 }
 
 // this function will find the closest driver, set the driverData, update the modal
 // that updates the box that the rider sees after their click on submit
 function getRiderInfo(data) {
-  // setTimeout(function() {
-  //   findClosestDriverMarker();
-  // }, 2000);
   console.log('find closest driiver marker...');
   console.log(data);
   var findClosestDriverMarkerPromise = findClosestDriverMarker(data);
@@ -561,7 +522,7 @@ function getRiderInfo(data) {
       'closestDriverMinutes': closestDriver.closestDriverMinutes,
       'seats': closestDriver.availableSeats
     };
-    
+
     if (driverData.seats < requestSeats) {
       //this will never get called
       alert('Closest driver does not have enough seats');
@@ -631,8 +592,6 @@ function getRiderInfoCarpool(data) {
 var carpool = false;
 
 // the logic stuff to check if carpool is valid, 2 mile thingy
-// probably really hard to fix because async within aysnc
-// when using this, might have to set interval 2000 ms for the function that wants to use this result
 function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bothDestinationLat, bothDestinationLng) {
   var deferred = $.Deferred();
   console.log("data coming into checkCarpoolFunction");
@@ -647,39 +606,24 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
 
   var waypts = [];
   waypts.push({
-    location: {
-      lat: riderOriginLat,
-      lng: riderOriginLng
-    },
+    location: {lat: riderOriginLat, lng: riderOriginLng},
     stopover: true
   });
 
   var directionsRequest = {
-    origin: {
-      lat: originalRiderOriginLat,
-      lng: originalRiderOriginLng
-    },
+    origin: {lat: originalRiderOriginLat, lng: originalRiderOriginLng},
     waypoints: waypts,
-    destination: {
-      lat: bothDestinationLat,
-      lng: bothDestinationLng
-    },
+    destination: {lat: bothDestinationLat,lng: bothDestinationLng},
     travelMode: "DRIVING"
   }
-  // setTimeout(function () {
+
   directionsService.route(directionsRequest, function(response, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
       var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
       directionsRequest = {
-        origin: {
-          lat: originalRiderOriginLat,
-          lng: originalRiderOriginLng
-        },
-        destination: {
-          lat: bothDestinationLat,
-          lng: bothDestinationLng
-        },
+        origin: {lat: originalRiderOriginLat, lng: originalRiderOriginLng},
+        destination: {lat: bothDestinationLat, lng: bothDestinationLng},
         travelMode: "DRIVING"
       }
 
@@ -696,7 +640,6 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
             carpool = true;
             deferred.resolve(true);
           }
-
         } else {
           alert("Geocode was not successful for the following reason2: " + status);
         }
@@ -705,7 +648,6 @@ function checkCarpoolFunction(originalRiderOriginLat, originalRiderOriginLng, bo
       alert("Geocode was not successful for the following reason1: " + status);
     }
   });
-  // },2000);
   return deferred.promise();
 }
 
@@ -713,11 +655,13 @@ function returnCarpoolBoolean() {
   return carpool;
 }
 
+// modal i update for price
 function firstRiderDiscount() {
   totalPrice = totalPrice - 5;
   document.getElementById("price").innerHTML = "Total Calculated Price : $" + totalPrice;
 }
 
+// modal ui update for price
 function secondRiderDiscount() {
   totalPrice = totalPrice - 5;
   document.getElementById("price").innerHTML = "Total Calculated Price : $" + totalPrice;

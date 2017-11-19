@@ -4,6 +4,7 @@ var driverOriginLat;
 var driverOriginLng;
 var riderOriginLat;
 var riderOriginLng;
+var driverOrigin;
 
 function AutocompleteDirectionsHandler(map) {
   this.map = map;
@@ -39,7 +40,7 @@ function pickedUpButtonClicked() {
 }
 
 // THIS IS SUPPOSED TO DELETE RIDE FROM RIDES AND TRIGGER WILL MOVE IT TO PAST RIDES
-function completeRideButtonClicked(){
+function completeRideButtonClicked() {
   var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
   var driverInfo = {
     id: driverIdFromURL
@@ -48,7 +49,7 @@ function completeRideButtonClicked(){
 }
 
 
-// THIS IS SUPPOSED TO UPDATE THE RIDER SIDE "view rider info"
+// THIS IS SUPPOSED TO UPDATE THE RIDER STUFF IN  "view rider info"
 function modifyModal() {
   // call function to retrieve rider information
   //   // var d = new Date();
@@ -64,33 +65,34 @@ function modifyModal() {
 }
 
 // THIS FUNCTION TAKES THE DRIVER ENTERED LOCATION AND INSERTS THEM INTO DB
-var driverOrigin;
 function activeDriver() {
   var availableSeats = document.getElementById("driver-seat-input").value;
   var getGeocodePromise = getGeocode(driverOrigin);
-  getGeocodePromise.then(function(result){
-     var checkInput = document.getElementById("origin-input").value;
-  if (checkInput == "" || checkInput.length == 0 || checkInput == null) {
-    alert("Please enter your location first");
-  } else {
-    alert("You are now Active. An Alert will appear when you are matched");
-    var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
-    var driverInfo = {
-      id: driverIdFromURL,
-      lat: driverOriginLat,
-      long: driverOriginLng,
-      available: true,
-      seats: availableSeats
-    };
-    console.log(driverInfo);
-    console.log(driverOriginLat);
-    console.log(driverOriginLng);
-    console.log(availableSeats);
-    document.getElementById('origin-input').setAttribute("class", "hidden");
-    document.getElementById('submit-button').setAttribute("class", "hidden");
-    document.getElementById('driver-seat-input').setAttribute("class", "hidden");
-    addDriver(driverInfo);
-  }
+  getGeocodePromise.then(function(result) {
+    var checkInput = document.getElementById("origin-input").value;
+    if (checkInput == "" || checkInput.length == 0 || checkInput == null) {
+      alert("Please enter your location first");
+    } else if (availableSeats == "" || availableSeats.length == 0) {
+      alert("Please enter the number of your party")
+    } else {
+      alert("You are now Active. An Alert will appear when you are matched");
+      var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);
+      var driverInfo = {
+        id: driverIdFromURL,
+        lat: driverOriginLat,
+        long: driverOriginLng,
+        available: true,
+        seats: availableSeats
+      };
+      console.log(driverInfo);
+      console.log(driverOriginLat);
+      console.log(driverOriginLng);
+      console.log(availableSeats);
+      document.getElementById('origin-input').setAttribute("class", "hidden");
+      document.getElementById('submit-button').setAttribute("class", "hidden");
+      document.getElementById('driver-seat-input').setAttribute("class", "hidden");
+      addDriver(driverInfo);
+    }
   });
 }
 
@@ -140,18 +142,11 @@ function getGeocode(placeid) {
   return deferred.promise();
 }
 
-function getRiderOriginLatLong() {
-  return [riderOriginLat, riderOriginLng];
-}
-
 function initMap() {
 
   //creates a new map object with center at blair island
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {
-      lat: 37.5209,
-      lng: -122.2257
-    },
+    center: {lat: 37.5209, lng: -122.2257},
     zoom: 10,
     minZoom: 10,
     MapOptions: true,
@@ -177,22 +172,13 @@ function calculateAndDisplayRoute(riderLat, riderLng, destinationLat, destinatio
   getAddressFromCoord(riderLat, riderLng)
   var waypts = [];
   waypts.push({
-    location: {
-      lat: riderLat,
-      lng: riderLng
-    },
+    location: {lat: riderLat, lng: riderLng},
     stopover: true
   });
   directionsService.route({
-    origin: {
-      lat: driverOriginLat,
-      lng: driverOriginLng
-    },
+    origin: {lat: driverOriginLat, lng: driverOriginLng},
     waypoints: waypts,
-    destination: {
-      lat: destinationLat,
-      lng: destinationLng
-    },
+    destination: {lat: destinationLat, lng: destinationLng},
     travelMode: 'DRIVING'
   }, function(response, status) {
 
@@ -222,88 +208,3 @@ function getAddressFromCoord(lat, lng) {
 }
 
 google.maps.event.addDomListener(window, 'load', initMap);
-
-
-// CARPOOL CHECK IS NOW IN GOOGLEMAPSRIDER.JS
-// // when using this, might have to set interval 2000 ms for the function that wants to use this result
-// function checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
-//   var dfd = new $.Deferred();
-//   var formData = {};
-//   var directionsService = new google.maps.DirectionsService();
-//
-//   var waypts = [];
-//   waypts.push({
-//     location: {
-//       lat: carpoolOriginLat,
-//       lng: carpoolOriginLng
-//     },
-//     stopover: true
-//   });
-//
-//   var directionsRequest = {
-//     origin: {
-//       lat: originalRiderOriginLat,
-//       lng: originalRiderOriginLng
-//     },
-//     waypoints: waypts,
-//     destination: {
-//       lat: bothDestinationLat,
-//       lng: bothDestinationLng
-//     },
-//     travelMode: "DRIVING"
-//   }
-//   // setTimeout(function () {
-//   directionsService.route(directionsRequest, function(response, status) {
-//     if (status == google.maps.GeocoderStatus.OK) {
-//       formData.carpool = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-//       var temp = ((response.routes["0"].legs["0"].distance.value + response.routes["0"].legs["1"].distance.value) / 1609.34).toFixed(1);
-//       directionsRequest = {
-//         origin: {
-//           lat: originalRiderOriginLat,
-//           lng: originalRiderOriginLng
-//         },
-//         destination: {
-//           lat: bothDestinationLat,
-//           lng: bothDestinationLng
-//         },
-//         travelMode: "DRIVING"
-//       }
-//       directionsService.route(directionsRequest, function(response, status) {
-//         if (status == google.maps.GeocoderStatus.OK) {
-//           formData.direct = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-//           var temp2 = (response.routes["0"].legs["0"].distance.value / 1609.34).toFixed(1);
-//           if (Math.abs(temp2 - temp) > 2) {
-//             dfd.resolve(false);
-//           } else {
-//             dfd.resolve(true);
-//           }
-//
-//         } else {
-//           alert("Geocode was not successful for the following reason: " + status);
-//         }
-//       });
-//     } else {
-//       alert("Geocode was not successful for the following reason: " + status);
-//     }
-//   });
-//   // },2000);
-//   return dfd.promise();
-// }
-//
-//
-// function checkCarpoolResult(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng) {
-//   checkCarpoolfunction(originalRiderOriginLat, originalRiderOriginLng, carpoolOriginLat, carpoolOriginLng, bothDestinationLat, bothDestinationLng).done(function(result) {
-//     console.log(result);
-//     if (result) {
-//       console.log("can carpool");
-//     } else {
-//       console.log("cannot carpool");
-//     }
-//   });
-//
-// }
-
-
-
-// checkCarpoolResult(37.3352, -121.8811, 37.4611, -122.1394, 37.7749, -122.4194);
-// checkCarpoolResult(37.3352, -121.8811, 37.4323, -121.8996, 37.7749, -122.4194);

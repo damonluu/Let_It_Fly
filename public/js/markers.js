@@ -1,8 +1,6 @@
 var markers = [];
 var mymap;
 var driverArray = [];
-var riderCurrentLat;
-var riderCurrentLng;
 var closestDistance = 999999;
 var closestDriverID = 'IfYouSeeThisMarkerSomethingWentWrong';
 var closestDriverMinutes = 9999;
@@ -124,19 +122,17 @@ function reloadMarkers() {
   setMarkers(driverArray);
 }
 
-
 function distanceBetweenTwoCoord(originLat, originLng, destinationLat, destinationLng) {
   var dfd = $.Deferred();
   var service = new google.maps.DistanceMatrixService();
+  console.log("inside distanceBetweenTwoCoord....");
+  console.log(originLat);
+  console.log(originLng);
+  console.log(destinationLat);
+  console.log(destinationLng);
   service.getDistanceMatrix({
-    origins: [{
-      lat: originLat,
-      lng: originLng
-    }],
-    destinations: [{
-      lat: destinationLat,
-      lng: destinationLng
-    }],
+    origins: [{lat: originLat, lng: originLng}],
+    destinations: [{lat: destinationLat, lng: destinationLng}],
     travelMode: 'DRIVING',
     unitSystem: google.maps.UnitSystem.METRIC
   }, callback);
@@ -158,7 +154,7 @@ function test() {
   // stopAutoUpdate();
   removeMarkersExcept(closestDriverID);
 
-  var resultData = [];
+  var resultData = {};
   resultData["closestDriverId"] = closestDriverID;
   resultData["closestDistance"] = (closestDistance / 1609.34).toFixed(1);
   resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
@@ -169,35 +165,51 @@ function test() {
   return resultData;
 }
 
-function findClosestDriverMarker(data) {
-
-  // retrieveRiderOriginLatLong();
+function getClosestDriverData(data) {
   var deferred = $.Deferred();
+  var findClosestDriverMarkerPromise = findClosestDriverMarker(data);
+	findClosestDriverMarkerPromise.then(function(result) {
+    console.log("The Closest Driver ID Is: " + closestDriverID);
+    console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
+    console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
 
-  // var latLng = getRiderOriginLatLong();
-  // riderCurrentLat = latLng[0];
-  // riderCurrentLng = latLng[1];
+    var resultData = {};
+    resultData['closestDriverId'] = closestDriverID;
+    resultData["closestDistance"] = (closestDistance / 1609.34).toFixed(1);
+    resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);
+    resultData["closestDriverLat"] = closestDriverLat;
+    resultData["closestDriverLng"] = closestDriverLng;
+    resultData["availableSeats"] = availableSeats;
+    console.log('inside getClosestDriverData....');
+    console.log(resultData);
+    deferred.resolve(resultData);
+	});
+  return deferred.promise();
+}
+
+function findClosestDriverMarker(data) {
+  var deferred = $.Deferred();
   console.log("inside findClosestDriverMarker.....");
   console.log(data);
 
   for (let i = 0; i < driverArray.length; i++) {
-    var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
-    distanceBetweenTwoCoordPromise.then(function(result) {
-      console.log(result);
-      if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
-        closestDistance = result.rows[0].elements[0].distance.value;
-        closestDriverID = driverArray[i][0];
-        closestDriverMinutes = result.rows[0].elements[0].duration.value;
-        closestDriverLat = driverArray[i][1];
-        closestDriverLng = driverArray[i][2];
-        availableSeats = driverArray[i][3];
-      }
-      var results = result.rows[0].elements[0];
-      // return results[0];
-      deferred.resolve(results);
-    });
-  }
-  return deferred.promise();
+      var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
+      distanceBetweenTwoCoordPromise.then(function(result) {
+        console.log(result);
+        if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
+          closestDistance = result.rows[0].elements[0].distance.value;
+          closestDriverID = driverArray[i][0];
+          closestDriverMinutes = result.rows[0].elements[0].duration.value;
+          closestDriverLat = driverArray[i][1];
+          closestDriverLng = driverArray[i][2];
+          availableSeats = driverArray[i][3];
+        }
+        var results = result.rows[0].elements[0];
+        // return results[0];
+        deferred.resolve(results);
+      });
+    }
+    return deferred.promise();
 }
 
 function carpoolHelper(data) {
@@ -234,7 +246,7 @@ function test2(theDriverId) {
   // stopAutoUpdate();
   // removeMarkersExcept(closestDriverID);
 
-  var resultData = [];
+  var resultData = {};
   resultData["closestDriverId"] = theDriverId;
   resultData["closestDistance"] = (closestDistance / 1609.34).toFixed(1);
   resultData["closestDriverMinutes"] = (closestDriverMinutes / 60).toFixed(0);

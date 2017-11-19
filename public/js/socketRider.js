@@ -14,12 +14,26 @@ function getMapView(newId){
 function notifyDriver(data){
 	console.log('notifying driver');
 	console.log(data);
+	alert("Ride Found, Notifying Your Driver Now");
 	socket.emit('ride request', data);
 }
 
 function searchDriver(data){
 	console.log('looking for driver');
-	socket.emit('active rides',data);
+	console.log(data);
+	var getClosestDriverDataPromise = getClosestDriverData(data);
+	getClosestDriverDataPromise.then(function(result) {
+		console.log('result...');
+		console.log(result);
+		if(result.closestDriverId > 0) {
+			data['closestdriverid'] = result.closestDriverId;
+			socket.emit('find closest', data);
+		} else {
+			alert("No Drivers With Enough Seats");
+			location.reload();
+      return;
+		}
+	});
 }
 
 function notifyOthersOfCarpool(data) {
@@ -94,46 +108,45 @@ console.log(riderID);
 			if(result) {
 				getRiderInfoCarpool(data);
 			} else {
-				var closest = getRiderInfo(data);
+
+				var changedData = {
+		      'driverid': data[0].driverid,
+		      'riderLat': data[0].start_lat,
+		      'riderLng': data[0].start_long,
+		      'destinationLat': data[0].dest_lat,
+		      'destinationLng': data[0].dest_long,
+		      'riderid': data[0].riderid,
+		      'cost': data[0].cost,
+		      'carpool': data[0].carpool,
+		      'duration': data[0].time
+					// ,
+		      // 'seats': ????
+		    };
+
+				var closest = getRiderInfo(changedData);
 			}
 		});
-		// setTimeout(function() {
-		// 	var canCarpool = returnCarpoolBoolean();
-		// 	console.log(canCarpool);
-		//
-		// 	if(canCarpool) {
-		// 		//notify driver for carpool
-		// 		getRiderInfoCarpool(data[0].driverid);
-		// 		// notifyOthersOfCarpool(data);
-		// 	} else {
-		// 		//find closest marker and notify
-		// 		var closest = getRiderInfo();
-		// 	}
-		// },2000);
  	}
 
+	// data that comes in data[0].
+	//   driverid: 1000,
+  //   riderid: 1002,
+  //   dest_long: -122.3789554,
+  //   dest_lat: 37.6213129,
+  //   start_long: -121.88107150000002,
+  //   start_lat: 37.3351874,
+  //   cost: 79.63,
+  //   carpool: 0,
+  //   time: 37 } ]
 
-
-	// data that comes in
-	// driverid: 1000,
-	// riderid: 1001,
-	// dest_long: 37.6213129,
-	// dest_lat: -122.3789554,
-	// start_long: 37.4418834,
-	// start_lat: -122.14301949999998,
-	// cost: 43.85,
-	// carpool: 0,
-	// time: 22 } ]
-
-
-	//carpool logic
-	//-notifyDriver
 });
 
 socket.on('find nearest', function(data){
+	console.log(data);
+	console.log("data.riderId is " + data.riderID);
+	console.log("riderID is " + riderID);
 	if(data.riderID == riderID){
 		console.log('find nearest driver...');
-		console.log(data);
 		// setTimeout(function() {
 		console.log('getting rider info data...');
 		console.log(data);
@@ -141,4 +154,3 @@ socket.on('find nearest', function(data){
 		// },2000);
 	}
 });
-
