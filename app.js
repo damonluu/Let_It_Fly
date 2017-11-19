@@ -72,13 +72,12 @@ io.on('connection', function(socket){
 		console.log('new driver available');
     	console.log(data);
 		db_connection.getConnection(function(err, c){
-      	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ', ' + data.seats + ')';
+      	var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ', ' + data.seats + ',' + data.seats + ')';
 			c.query(queryInsert,  function(err, result, feilds){
 				if(err) throw err;
 				io.emit("update map");
 				console.log(result);
 			});
-
 			c.release();
 		});
 	});
@@ -95,9 +94,8 @@ io.on('connection', function(socket){
 				if(err) throw err;
 				console.log(result);
 			});
-
+			
 			c.release();
-
 		});
 		console.log('notifying the driver');
 		io.emit("new rider", data);
@@ -107,6 +105,13 @@ io.on('connection', function(socket){
 	socket.on('remove driver', function(data){
     console.log("Remove Driver: " + data.id);
 		db_connection.getConnection(function(err, c){
+			var queryUpdateSeat = 'UPDATE DRIVERS SET AVAILABLESEATS = SEATS WHERE ID = ' + data.id;
+			console.log(queryUpdateSeat);
+			c.query(queryRemove,  function(err, result, feilds){
+				if(err) throw err;
+				console.log(result);
+			});
+
 			var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id ;
       		console.log(queryRemove);
       		c.query(queryRemove,  function(err, result, feilds){
@@ -138,6 +143,20 @@ io.on('connection', function(socket){
 					io.emit('search carpool', result);
 				}
 			})
+		});
+	});
+	//approach 2: update markers
+	socket.on('update seats db', function(data){
+		console.log("UPDATE SEATS DB" + data);
+		db_connection.getConnection(function(err, c){
+			var queryUpdateSeat = 'UPDATE Drivers SET AVAILABLESEATS = ' + data[3] + ' WHERE ID = ' + data[0];
+			console.log(queryUpdateSeat);
+			c.query(queryUpdateSeat, function(err, result, fields){
+				if(err) throw err;
+				c.release();
+				io.emit('update seats', data);
+				console.log(result);
+			});
 		});
 	});
 

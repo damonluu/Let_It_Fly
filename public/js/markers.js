@@ -57,6 +57,21 @@ function removeDriverMarker(driverId) {
     }
   }
 }
+//approach 1: update markers
+function updateMarker(driverId, newSeatNumber){
+  console.log("Update " + driverId + "marker");
+  console.log("Updated seasts " + newSeatNumber);
+  var update;
+  console.log(driverArray);
+  for (var i = 0; i < driverArray.length; i++) {
+    if (driverArray[i][0] == driverId) {
+      driverArray[i][3] = newSeatNumber;
+      update = driverArray[i];
+    }
+  }
+  updateSeatIO(update);
+  console.log("Updated Marker: " + driverArray);
+}
 
 function setMarkers(locations) {
   for (var i = 0; i < driverArray.length; i++) {

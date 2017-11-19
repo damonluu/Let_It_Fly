@@ -133,12 +133,13 @@ dashboard.controller('ProfileController', function($scope, $http, Data,$timeout)
 
 });
 
-dashboard.controller('CurrentRideController',function($scope, $http, Data){
-   if($scope.role == "Driver"){
-   	  $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
-   }
-   else {
-      $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
-   }
-
+dashboard.controller('CurrentRideController',function($scope, $http, Data, $timeout){
+   $timeout(function(){
+	   if($scope.role == "Driver"){
+	   	  $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
+	   }
+	   else {
+	      $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
+	   }
+   },100);
 });

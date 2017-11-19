@@ -8,7 +8,7 @@ function getMapView(newId){
 	riderID = newId;
 	console.log(riderID);
 	socket.emit('rider view');
-};
+}
 
 //modify this method later to pass the data to insert into rides table
 function notifyDriver(data){
@@ -26,13 +26,21 @@ function notifyOthersOfCarpool(data) {
 	socket.emit('notify carpool', data);
 }
 
+//approach 2: update database
+function updateSeatIO(data){
+	socket.emit('update seats db', data);
+}
+
+socket.on('update seats',function(data){
+	removeDriverMarker(data.id);
+	getMapView(riderID);
+});
 socket.on('second rider', function(data) {
 	if(data.rider1 == riderID || data.rider2 == riderID) {
 		console.log("second rider socket socketrider");
 		firstRiderDiscount();
 		alert("There will be a second rider joining you, you will receive $5 off your ride");
 	}
-
 });
 
 socket.on('map view', function (data){
@@ -42,11 +50,15 @@ socket.on('map view', function (data){
 		var driverId = data[i].id;
     	var driverLong = data[i].current_long;
     	var driverLat = data[i].current_lat;
-    	var driverSeats = data[i].seats;
+    	var driverSeats = data[i].availableseats;
 		console.log(driverId);
 		console.log(driverLong);
 		console.log(driverLat);
-    insertNewDriverMarker(driverId, driverLat, driverLong, driverSeats);
+		console.log(driverSeats);
+	removeDriverMarker(driverId);
+	if(driverSeats > 0 ){
+		insertNewDriverMarker(driverId, driverLat, driverLong, driverSeats);
+	}
   }
 });
 
@@ -60,6 +72,8 @@ socket.on('ride completed', function(data){
 socket.on('update map', function(){
 	getMapView(riderID);
 });
+
+
 
 socket.on('search carpool', function(data){
 console.log("in search carpool");

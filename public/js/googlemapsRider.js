@@ -479,9 +479,10 @@ confirmButton.onclick = function() {
         'riderID': riderIdFromURL,
         'cost': totalPrice,
         'carpool': false,
-        'duration': durationInMinutes
+        'duration': durationInMinutes,
+        'requestSeats': requestSeats
       };
-
+      updateMarker(closestDriver.closestDriverId, closestDriver.availableSeats - requestSeats);
       calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
       console.log('closet driver data');
       console.log(driverData);
@@ -510,9 +511,10 @@ confirmButton.onclick = function() {
         'riderID': riderIdFromURL,
         'cost': totalPrice,
         'carpool': true,
-        'duration': durationInMinutes
+        'duration': durationInMinutes,
+        'requestSeats': requestSeats
       };
-
+      updateMarker(closestDriver.closestDriverId, closestDriver.availableSeats - requestSeats);
       calculateAndDisplayRoute2(closestDriver.closestDriverLat, closestDriver.closestDriverLng);
       console.log('closet driver data');
       console.log(driverData);
@@ -559,9 +561,12 @@ function getRiderInfo(data) {
       'closestDriverMinutes': closestDriver.closestDriverMinutes,
       'seats': closestDriver.availableSeats
     };
+    
     if (driverData.seats < requestSeats) {
       //this will never get called
       alert('Closest driver does not have enough seats');
+      location.reload();
+      return;
     } else {
       console.log('found closet driver data');
       console.log(driverData);
@@ -611,6 +616,8 @@ function getRiderInfoCarpool(data) {
     };
     if (driverData.seats < requestSeats) {
       alert('Closest driver does not have enough seats');
+      location.reload();
+      return;
     } else {
       console.log('closet driver data');
       console.log(driverData);
