@@ -170,6 +170,8 @@ function getClosestDriverData(data) {
   var findClosestDriverMarkerPromise = findClosestDriverMarker(data);
 	findClosestDriverMarkerPromise.then(function(result) {
     console.log("The Closest Driver ID Is: " + closestDriverID);
+    console.log(closestDistance);
+    console.log(closestDriverMinutes);
     console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
     console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
 
@@ -193,25 +195,26 @@ function findClosestDriverMarker(data) {
   console.log(data);
 
   for (let i = 0; i < driverArray.length; i++) {
-      var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
-      distanceBetweenTwoCoordPromise.then(function(result) {
-        console.log(result);
-        if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
-          closestDistance = result.rows[0].elements[0].distance.value;
-          closestDriverID = driverArray[i][0];
-          closestDriverMinutes = result.rows[0].elements[0].duration.value;
-          closestDriverLat = driverArray[i][1];
-          closestDriverLng = driverArray[i][2];
-          availableSeats = driverArray[i][3];
-        }
-        var results = result.rows[0].elements[0];
-        // return results[0];
+    var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
+    distanceBetweenTwoCoordPromise.then(function(result) {
+      console.log(result);
+      if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
+        closestDistance = result.rows[0].elements[0].distance.value;
+        closestDriverID = driverArray[i][0];
+        closestDriverMinutes = result.rows[0].elements[0].duration.value;
+        closestDriverLat = driverArray[i][1];
+        closestDriverLng = driverArray[i][2];
+        availableSeats = driverArray[i][3];
+      }
+      var results = result.rows[0].elements[0];
+      // return results[0];
+      if(i == driverArray.length-1) {
         deferred.resolve(results);
-      });
-    }
-    return deferred.promise();
+      }
+    });
+  }
+  return deferred.promise();
 }
-
 function carpoolHelper(data) {
   var deferred = $.Deferred();
 

@@ -1,9 +1,9 @@
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
- h2, p {
-   text-align: center;
- }
 
+h2, p {
+  text-align: center;
+}
 
 #map {
   height: 100%;
@@ -16,7 +16,7 @@
   left: 15px;
   z-index: 99;
   background-color: white;
-  float:right;
+  float: right;
   max-width: 25% !important;
   min-width: 20% !important;
   max-height: 80%;
@@ -44,10 +44,10 @@ html, body {
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  z-index:2;
+  z-index: 2;
 }
 
-#origin-input{
+#origin-input {
   background-color: #FFFFFF;
   font-family: Roboto;
   font-size: 15px;
@@ -58,6 +58,7 @@ html, body {
   text-overflow: ellipsis;
   width: 30%;
 }
+
 #driver-seat-input {
   background-color: #FFFFFF;
   font-family: Roboto;
@@ -70,9 +71,7 @@ html, body {
   width: 15%;
 }
 
-#origin-input:focus,
-#destination-input:focus,
-#pickup-input:focus {
+#origin-input:focus, #destination-input:focus, #pickup-input:focus {
   border-color: #4d90fe;
 }
 
@@ -94,7 +93,8 @@ html, body {
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
- #riderInfo-button, #pickedUpRider-button{
+
+#riderInfo-button, #pickedUpRider-button {
   background-color: #5AB9EA;
   color: white;
   font-family: Roboto;
@@ -111,64 +111,69 @@ html, body {
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+
 .hidden {
   display: none !important;
 }
 
 .modalDialog {
-    position: fixed;
-    font-family: Arial, Helvetica, sans-serif;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 99999;
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 99999;
+  opacity: 0;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
 }
+
 .modalDialog:target {
-    opacity:1;
-    pointer-events: auto;
+  opacity: 1;
+  pointer-events: auto;
 }
-.modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
+
+.modalDialog>div {
+  width: 400px;
+  position: relative;
+  margin: 10% auto;
+  padding: 5px 20px 13px 20px;
+  border-radius: 10px;
+  background: #fff;
+  background: -moz-linear-gradient(#fff, #999);
+  background: -webkit-linear-gradient(#fff, #999);
+  background: -o-linear-gradient(#fff, #999);
 }
 
 .close {
-    background: #606061;
-    color: #FFFFFF;
-    line-height: 25px;
-    position: absolute;
-    right: -12px;
-    text-align: center;
-    top: -10px;
-    width: 24px;
-    text-decoration: none;
-    font-weight: bold;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 25px;
+  position: absolute;
+  right: -12px;
+  text-align: center;
+  top: -10px;
+  width: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  box-shadow: 1px 1px 3px #000;
 }
+
 .close:hover {
-    background: #00d9ff;
+  background: #00d9ff;
 }
 
 /*Stuff for step by step directions on right side of map*/
+
 /*#right-panel {
   font-family: 'Roboto', 'sans-serif';
   line-height: 30px;

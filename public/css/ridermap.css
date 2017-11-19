@@ -8,7 +8,7 @@ h2, p {
 #map {
   height: 100%;
   position: relative;
-  z-index:1;
+  z-index: 1;
 }
 
 #directionsPanel {
@@ -17,7 +17,7 @@ h2, p {
   left: 15px;
   z-index: 99;
   background-color: white;
-  float:right;
+  float: right;
   max-width: 25% !important;
   min-width: 20% !important;
   max-height: 80%;
@@ -47,11 +47,10 @@ html, body {
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  z-index:2;
+  z-index: 2;
 }
 
-#origin-input,
-#destination-input {
+#origin-input, #destination-input {
   background-color: #FFFFFF;
   font-family: Roboto;
   font-size: 15px;
@@ -74,7 +73,8 @@ html, body {
   text-overflow: ellipsis;
   width: 10%;
 }
-#origin-input:focus, #destination-input:focus, #rider-seat-input:focus{
+
+#origin-input:focus, #destination-input:focus, #rider-seat-input:focus {
   border-color: #4d90fe;
 }
 
@@ -98,33 +98,34 @@ html, body {
 }
 
 .modalDialog {
-    position: fixed;
-    font-family: Arial, Helvetica, sans-serif;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(192, 200, 228, 0.7);
-    z-index: 99999;
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(192, 200, 228, 0.7);
+  z-index: 99999;
+  opacity: 0;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
 }
 
 .modalDialog:target {
   opacity: 1;
   pointer-events: auto;
 }
-.modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #FFFFFF;
-    color: #545454;
+
+.modalDialog>div {
+  width: 400px;
+  position: relative;
+  margin: 10% auto;
+  padding: 5px 20px 13px 20px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: #545454;
 }
 
 .close {
@@ -147,7 +148,7 @@ html, body {
 }
 
 .close:hover {
-    background: #5680E9;
+  background: #5680E9;
 }
 
 .btn-confirm, .btn-decline {
@@ -169,7 +170,7 @@ html, body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
-.btn-confirm:hover , .btn-decline:hover, #submit-button:hover {
+.btn-confirm:hover, .btn-decline:hover, #submit-button:hover {
   background: #5680E9;
 }
 
@@ -177,8 +178,8 @@ html, body {
   display: none !important;
 }
 
-
 /*Stuff for step by step directions on right side of map*/
+
 /*#right-panel {
   font-family: 'Roboto', 'sans-serif';
   line-height: 30px;
