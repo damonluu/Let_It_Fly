@@ -39,9 +39,9 @@ var server = http.createServer(app).listen(app.get('port'), serverListener);
 
 
 //setting up google map api
-var googleMapsClient = require('@google/maps').createClient(
-{
-    key: 'AIzaSyDWtUUs81A2lUp2GbIj-h2NsecX2KZNgSg'
+
+var googleMapsClient = require('@google/maps').createClient({
+  key: 'AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0'
 });
 
 googleMapsClient.distanceMatrix(
@@ -67,6 +67,7 @@ googleMapsClient.distanceMatrix(
 
 var io = require('socket.io')(server);
 //handling events happen on socket.io
+
 io.on('connection', function(socket)
 {
     console.log('a client has connected');
