@@ -77,7 +77,8 @@ io.on('connection', function(socket)
     {
         db_connection.getConnection(function(err, c)
         {
-            c.query('SELECT * FROM Drivers', function(err, result, feilds)
+            var querySelectDriver = 'SELECT * FROM Drivers'
+            c.query(querySelectDriver, function(err, result, feilds)
             {
                 if (err) throw err;
                 c.release();
@@ -125,6 +126,7 @@ io.on('connection', function(socket)
         });
         console.log('notifying the driver');
         io.emit("new rider", data);
+        io.emit("update map");
     });
 
     //Remove the driver on both views once the driver clicks ride completed
