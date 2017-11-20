@@ -40,8 +40,9 @@ var server = http.createServer(app).listen(app.get('port'), serverListener);
 
 //setting up google map api
 
-var googleMapsClient = require('@google/maps').createClient({
-  key: 'AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0'
+var googleMapsClient = require('@google/maps').createClient(
+{
+    key: 'AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0'
 });
 
 googleMapsClient.distanceMatrix(
@@ -88,23 +89,20 @@ io.on('connection', function(socket)
     });
 
     //data should contain: driver id, current long, current lat
-    socket.on('new driver', function(data)
-    {
-        console.log('new driver available');
-        console.log(data);
-        db_connection.getConnection(function(err, c)
-        {
-            var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
-            c.query(queryInsert, function(err, result, feilds)
-            {
-                if (err) throw err;
-                io.emit("update map");
-                console.log(result);
-            });
-
-            c.release();
-        });
+     socket.on('new driver', function(data) {
+    console.log('new driver available');
+    console.log(data);
+    db_connection.getConnection(function(err, c) {
+      var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ', ' + data.seats + ',' + data.seats + ')';
+      c.query(queryInsert, function(err, result, feilds) {
+        if (err) throw err;
+        io.emit("update map");
+        console.log(result);
+      });
+      c.release();
     });
+  });
+     
 
     //data for request ride: driver id, rider id, dest long, dest lat, start long, start lat, cost, carpool, time
     //Add the first rider
@@ -130,11 +128,20 @@ io.on('connection', function(socket)
     });
 
     //Remove the driver on both views once the driver clicks ride completed
+    //Remove the driver on both views once the driver clicks ride completed
     socket.on('remove driver', function(data)
     {
         console.log("Remove Driver: " + data.id);
         db_connection.getConnection(function(err, c)
         {
+            var queryUpdateSeat = 'UPDATE DRIVERS SET AVAILABLESEATS = SEATS WHERE ID = ' + data.id;
+            console.log(queryUpdateSeat);
+            c.query(queryRemove, function(err, result, feilds)
+            {
+                if (err) throw err;
+                console.log(result);
+            });
+
             var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id;
             console.log(queryRemove);
             c.query(queryRemove, function(err, result, feilds)
@@ -150,12 +157,40 @@ io.on('connection', function(socket)
     });
 
     //data: riderId, rider-lat, rider-long, dest-lat, dest-long
-    socket.on('active rides', function(data)
+    // socket.on('active rides', function(data)
+    // {
+    //     console.log(data);
+    //     db_connection.getConnection(function(err, c)
+    //     {
+    //      var querySelectRides = 'select * from rides x where exists (select count(*) from rides group by driverid having driverid = x.driverid and count(*)<2)'
+    //         c.query(querySelectRides, function(err, result, feilds)
+    //         {
+    //             if (err) throw err;
+    //             c.release();
+    //             console.log(result);
+    //             console.log(result.length > 0);
+    //             if (result.length == 0)
+    //             {
+    //                 console.log("no active ride");
+    //                 io.emit('find nearest', data);
+    //             }
+    //             else
+    //             {
+    //                 console.log("look for carpool");
+    //                 console.log(result);
+    //                 io.emit('search carpool', result);
+    //             }
+    //         })
+    //     });
+    // });
+
+    //rework carpool to prioritize closest driver first
+    socket.on('find closest', function(data)
     {
         console.log(data);
         db_connection.getConnection(function(err, c)
         {
-        	var querySelectRides = 'select * from rides x where exists (select count(*) from rides group by driverid having driverid = x.driverid and count(*)<2)'
+            var querySelectRides = 'select * from rides x where exists (select count(*) from rides group by driverid having driverid = x.driverid and count(*)<2)'
             c.query(querySelectRides, function(err, result, feilds)
             {
                 if (err) throw err;
@@ -164,7 +199,7 @@ io.on('connection', function(socket)
                 console.log(result.length > 0);
                 if (result.length == 0)
                 {
-                    console.log("no active ride");
+                    console.log("no active ride (find closest socket)");
                     io.emit('find nearest', data);
                 }
                 else
@@ -174,6 +209,24 @@ io.on('connection', function(socket)
                     io.emit('search carpool', result);
                 }
             })
+        });
+    });
+
+    //approach 2: update markers
+    socket.on('update seats db', function(data)
+    {
+        console.log("UPDATE SEATS DB" + data);
+        db_connection.getConnection(function(err, c)
+        {
+            var queryUpdateSeat = 'UPDATE Drivers SET AVAILABLESEATS = ' + data[3] + ' WHERE ID = ' + data[0];
+            console.log(queryUpdateSeat);
+            c.query(queryUpdateSeat, function(err, result, fields)
+            {
+                if (err) throw err;
+                c.release();
+                io.emit('update seats', data);
+                console.log(result);
+            });
         });
     });
 

@@ -1,33 +1,33 @@
 <div id="popup"></div>
 <title> Sign Up </title>
-  <div id="logbox">
-      <form id="signup">
-        <h1>Create An Account</h1>
-        <div class="row">
-          <div class="col">
-        <input ng-model="users.firstName" id="first" pattern="^[a-zA-Z_ ]*$" oninvalid="setCustomValidity('Please enter letters only')" name="user[firstName]" type="text" placeholder="First Name" autofocus="autofocus" required="required" class="input pass"/>
+<div id="logbox">
+  <form id="signup">
+    <h1>Create An Account</h1>
+    <div class="row">
+      <div class="col">
+        <input ng-model="users.firstName" id="first" pattern="^[a-zA-Z_ ]*$" oninvalid="setCustomValidity('Please enter letters only')" name="user[firstName]" type="text" placeholder="First Name" autofocus="autofocus" required="required" class="input pass" />
       </div>
       <div class="col">
-        <input ng-model="users.lastName" id="last" pattern="^[a-zA-Z_ ]*$" oninvalid="setCustomValidity('Please enter letters only')" name="user[lastName]" type="text" placeholder="Last Name" autofocus="autofocus" required="required" class="input pass"/>
+        <input ng-model="users.lastName" id="last" pattern="^[a-zA-Z_ ]*$" oninvalid="setCustomValidity('Please enter letters only')" name="user[lastName]" type="text" placeholder="Last Name" autofocus="autofocus" required="required" class="input pass" />
       </div>
-      </div>
-        <input ng-model="users.password" name="user[password]" type="password" placeholder="Choose a password" required="required" class="input pass"/>
-        <input ng-model="users.phoneNumber" pattern="\d{10}" name="user[phone]" type="tel" maxlength="10" oninvalid="setCustomValidity('Please enter 10 digits only')"  placeholder="Phone Number" required="required" class="input pass"/>
-        <input ng-model="users.email" name="user[email]" type="email" placeholder="Email address" required="required" class="input pass"/>
-        <div class="row">
-        <div class="col">
-        <input ng-model="users.role" type="radio" name="role" id="rider" value="rider" required/><label for="rider">Rider</label>
-        </div>
-        <div class="col">
-        <input ng-model="users.role" type="radio" name="role" id="driver" value="driver" required/><label for="driver">Driver</label>
-        </div>
-        </div>
-        <button type="submit" ng-click="save(users)" class="inputButton">Next Step</button>
-        <div class="text-center">
-            already have an account? <a href="#signin" id="login_id">login</a>
-        </div>
-      </form>
     </div>
+    <input ng-model="users.password" name="user[password]" type="password" placeholder="Choose a password" required="required" class="input pass" />
+    <input ng-model="users.phoneNumber" pattern="\d{10}" name="user[phone]" type="tel" maxlength="10" oninvalid="setCustomValidity('Please enter 10 digits only')" placeholder="Phone Number" required="required" class="input pass" />
+    <input ng-model="users.email" name="user[email]" type="email" placeholder="Email address" required="required" class="input pass" />
+    <div class="row">
+      <div class="col">
+        <input ng-model="users.role" type="radio" name="role" id="rider" value="rider" required/><label for="rider">Rider</label>
+      </div>
+      <div class="col">
+        <input ng-model="users.role" type="radio" name="role" id="driver" value="driver" required/><label for="driver">Driver</label>
+      </div>
+    </div>
+    <button type="submit" ng-click="save(users)" class="inputButton">Next Step</button>
+    <div class="text-center">
+      already have an account? <a href="#signin" id="login_id">login</a>
+    </div>
+  </form>
+</div>
 
 
 

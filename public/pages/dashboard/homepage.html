@@ -1,38 +1,47 @@
-
 <div id="page-wrapper">
-          <div class="row">
-            <div class="col-lg-12">
-              <h1 class="page-header"><i class="fa fa-dashboard fa-fw"></i>Dashboard </h1>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <!--google api panel-->
-              <div class="panel panel-default">
-                  <div class="panel-heading">CURRENT RIDE</div>
-                  <div class="panel-body">Google Maps + ETA Box</div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <!--google api panel-->
-              <div class="panel panel-default">
-                  <div class="panel-heading">CURRENT WEATHER</div>
-                  <div class="panel-body">
-                    <a class="weatherwidget-io" href="https://forecast7.com/en/37d34n121d89/san-jose/?unit=us" data-label_1="SAN JOSE" data-label_2="WEATHER" data-theme="mountains" >SAN JOSE WEATHER</a>
-                <script>
-                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://weatherwidget.io/js/widget.min.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","weatherwidget-io-js");
-                </script>  <!--<div style="width: 530px;"><iframe style="display: block;" src="https://cdnres.willyweather.com/widget/loadView.html?id=75528" width="530" height="228" frameborder="0" scrolling="no"></iframe><a style="margin: -20px 0 0 0;height: 20px;text-indent: -9999em;position: relative;display: block;z-index: 1" href="https://www.willyweather.com/ca/santa-clara-county/san-jose.html" rel="nofollow">san jose CA weather forecast</a></div>-->
-                  </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header"><i class="fa fa-dashboard fa-fw"></i>Dashboard</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <!--google api panel-->
+      <div class="panel panel-default">
+        <div class="panel-heading">CURRENT RIDE</div>
+        <div class="panel-body">Google Maps + ETA Box</div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!--google api panel-->
+      <div class="panel panel-default">
+        <div class="panel-heading">CURRENT WEATHER</div>
+        <div class="panel-body">
+          <a class="weatherwidget-io" href="https://forecast7.com/en/37d34n121d89/san-jose/?unit=us" data-label_1="SAN JOSE" data-label_2="WEATHER" data-theme="mountains">SAN JOSE WEATHER</a>
+          <script>
+            ! function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (!d.getElementById(id)) {
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://weatherwidget.io/js/widget.min.js";
+                fjs.parentNode.insertBefore(js, fjs);
+              }
+            }(document, "script", "weatherwidget-io-js");
+          </script>
 
-          </div>
-          
-          <div class="row">
-            <div class="col-lg-12">
-              <!--rate us panel with stars-->
-          </div>
+          <!--<div style="width: 530px;"><iframe style="display: block;" src="https://cdnres.willyweather.com/widget/loadView.html?id=75528" width="530" height="228" frameborder="0" scrolling="no"></iframe><a style="margin: -20px 0 0 0;height: 20px;text-indent: -9999em;position: relative;display: block;z-index: 1" href="https://www.willyweather.com/ca/santa-clara-county/san-jose.html" rel="nofollow">san jose CA weather forecast</a></div>-->
         </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <!--rate us panel with stars-->
+    </div>
+  </div>
 </div>

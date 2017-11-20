@@ -27,6 +27,8 @@ CREATE TABLE `Drivers` (
   `current_long` double NOT NULL,
   `current_lat` double NOT NULL,
   `available` tinyint(1) NOT NULL DEFAULT '0',
+  `seats` int(11) NOT NULL,
+  `availableseats` int(11) NOT NULL,
   UNIQUE KEY `id` (`id`),
   CONSTRAINT `drivers_ibfk_1` FOREIGN KEY (`id`) REFERENCES `Users` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

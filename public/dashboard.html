@@ -21,68 +21,67 @@
   <script src="vendor/angular/angular.min.js"></script>
   <script src="vendor/angular-route/angular-route.min.js"></script>
   <script src="js/formApp.js"></script>
-    <!-- Custom scripts for this template -->
+  <!-- Custom scripts for this template -->
 
 
-   <!-- Bootstrap core JavaScript -->
+  <!-- Bootstrap core JavaScript -->
 
-  </head>
-  <body ng-controller="HomepageController">
-    <div id="wrapper">
-      <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="dashboard">
-        <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="" id="brand">Let It Fly</a>
+</head>
+
+<body ng-controller="HomepageController">
+  <div id="wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="dashboard">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="" id="brand">Let It Fly</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa fa-bars"></i>
           </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#userID">Dashboard</a>
-                <!-- href="#userID" -->
-              </li>
-               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#profile">Profile</a>
-              </li>
-               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#currentride">Current Ride</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#pastride">Past Rides</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#service">{{ function }}</a>
-              </li>
-            </ul>
-          </div>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#userID">Dashboard</a>
+              <!-- href="#userID" -->
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#currentride">Current Ride</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#pastride">Past Rides</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#service">{{ function }}</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
-      <ul class="nav navbar-nav sider-navbar">
-        <li id="profile">
-          <figure class="profile-userpic">
-            <img src ="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" class="img-responsive" alt="Profile Picture">
-          </figure>
-          <div class="profile-usertitle">
-            <div class="profile-usertitle-name">{{ name }}</div>
-          </div>
-        </li>
-        <li class="sider-menu">
+    <ul class="nav navbar-nav sider-navbar">
+      <li id="profile">
+        <figure class="profile-userpic">
+          <img src="http://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg" class="img-responsive" alt="Profile Picture">
+        </figure>
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name">{{ name }}</div>
+        </div>
+      </li>
+      <li class="sider-menu">
 
         <ul id="sidebar">
-            <li ><a href="#userID"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
-            <li ><a href="#profile" ><i class="fa fa-user fa-fw"></i>Profile</a></li>
-            <li ><a href="#currentride"><i class="fa fa-taxi fa-fw"></i>Current Ride</a></li>
-            <li ><a href="#pastride"><i class="fa fa-clock-o fa-fw"></i>Past Rides</a></li>
+          <li><a href="#userID"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
+          <li><a href="#profile"><i class="fa fa-user fa-fw"></i>Profile</a></li>
+          <li><a href="#currentride"><i class="fa fa-taxi fa-fw"></i>Current Ride</a></li>
+          <li><a href="#pastride"><i class="fa fa-clock-o fa-fw"></i>Past Rides</a></li>
         </ul>
       </li>
-     <button id="request"><a id="linkRequest" href="#service">{{ function }}</a></button>
-     <a id="logout" href="index.html">Logout</a>
-   </ul>
-    </div>
-    <ng-view></ng-view>
 
-
-
+      <a id="linkRequest" href="#service" class="button">{{ function }}</a>
+      <a id="logout" href="index.html">Logout</a>
+    </ul>
+  </div>
+  <ng-view></ng-view>
 
 
   <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -93,6 +92,6 @@
   <script src="js/dashboard.js"></script>
   <script src="js/dashboardjquery.js"></script>
 
-  </body>
+</body>
 
-  </html>
+</html>

@@ -10,18 +10,18 @@ module.exports.activateDriver = function(req, res) {
   var data = req.body;
   console.log(data);
 
-  db_connection.getConnection(function(err, c){
-    if(err) throw err;
+  db_connection.getConnection(function(err, c) {
+    if (err) throw err;
     //Add user info to the user table
     //, available BOOLEAN NOT NULL, FOREIGN KEY(ID) REFERENCES Users(ID))", function(err, result, fields){
-     var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
-     console.log(queryInsert);
-    c.query(queryInsert, function (err, result, fields){
-        if (err) throw err;
-        c.release();
-        console.log(result);
-        res.status(200).json(result);
-        return res.end();
+    var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ')';
+    console.log(queryInsert);
+    c.query(queryInsert, function(err, result, fields) {
+      if (err) throw err;
+      c.release();
+      console.log(result);
+      res.status(200).json(result);
+      return res.end();
     });
 
   });
