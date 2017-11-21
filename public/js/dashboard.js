@@ -145,33 +145,53 @@ dashboard.controller('ServiceController', function($scope, $http, Data, $timeout
 });
 
 dashboard.controller('PastrideController', function($scope, $http, Data, $timeout) {
-  // $timeout(function() {
-  //   $scope.getPastRides($scope, Data.getData().id, $scope.role);
-  //   console.log(Data.getData().id);
-  // }, 200);
-  //  $scope.getPastRides = function($scope, userID, role) {
-  //   console.log(userID);
-  //   $http({
-  //     url: '/getPastrides' + role,
-  //     method: 'GET',
-  //     params: {
-  //       id: userID
-  //     }
-  //   }).then(function(response) {
-  //     console.log(response.data[0]);
-  //     console.log(response.data.length);
-  //      $.ajax({
-  //       url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + response.data[0].start_lat + ',' + response.data[0].start_long + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
-  //       method: 'POST',
-  //       success: function(result, status) {
-  //         var address = result.results[0].formatted_address;
-  //         alert(address);
-  //         $scope.startAddress = address;
-  //         // console.log(status + " : " + result.results[0].formatted_address);
-  //       }
-  //     });
-  //   }).catch(function(response) {
-  //     console.log("something is wrong");
-  //   })
-  // };
+  $timeout(function() {
+    $scope.getPastRides($scope, Data.getData().id, $scope.role);
+    console.log(Data.getData().id);
+  }, 200);
+  $scope.getPastRides = function($scope, userID, role) {
+    console.log(userID);
+    $http({
+      url: '/getPastrides' + role,
+      method: 'GET',
+      params: {
+        id: userID
+      }
+    }).then(function(response) {
+      console.log(response.data[0]);
+      console.log(response.data.length);
+      $scope.driverName = response.data[0].driverid;
+      $scope.riderName = response.data[0].riderid;
+      $scope.price = response.data[0].cost;
+      var startAddressPromise = getAddressFromLatLng(response.data[0].start_lat, response.data[0].start_long);
+      startAddressPromise.then(function(result) {
+        $scope.$apply(function() {
+          $scope.startAddress = result;
+        });
+      });
+      var endAddressPromise = getAddressFromLatLng(response.data[0].dest_lat, response.data[0].dest_long);
+      endAddressPromise.then(function(result) {
+        $scope.$apply(function() {
+          $scope.endAddress = result;
+        });
+      });
+
+    }).catch(function(response) {
+      console.log(response);
+      console.log("something is wrong");
+    })
+  };
 });
+
+function getAddressFromLatLng(lat, lng) {
+  var deferred = $.Deferred();
+  $.ajax({
+    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+    method: 'POST',
+    success: function(result, status) {
+      var address = result.results[0].formatted_address;
+      deferred.resolve(address);
+    }
+  });
+  return deferred.promise();
+}
