@@ -74,6 +74,8 @@ function activeDriver() {
       alert("Please enter your location first");
     } else if (availableSeats == "" || availableSeats.length == 0) {
       alert("Please enter the number of your party")
+    } else if (availableSeats <= 0){
+      alert("You fool, you have no seats for the rider\nNo, sitting in the trunk is not an option");
     } else {
       alert("You are now Active. An Alert will appear when you are matched");
       var driverIdFromURL = parent.document.URL.substring(parent.document.URL.lastIndexOf(':') + 1);

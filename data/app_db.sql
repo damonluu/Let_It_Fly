@@ -61,7 +61,7 @@ CREATE TABLE `PastRides` (
   `cost` double NOT NULL,
   `carpool` tinyint(1) NOT NULL,
   `time` int(11),
-  PRIMARY KEY (`riderid`,`driverid`),
+  -- PRIMARY KEY (`riderid`,`driverid`),
   CONSTRAINT `pastrides_ibfk_1` FOREIGN KEY (`riderid`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -125,7 +125,7 @@ CREATE TABLE `Rides` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`driverid`,`riderid`),
   KEY `riderid` (`riderid`),
-  CONSTRAINT `rides_ibfk_1` FOREIGN KEY (`driverid`) REFERENCES `DRIVERS` (`id`),
+  -- CONSTRAINT `rides_ibfk_1` FOREIGN KEY (`driverid`) REFERENCES `DRIVERS` (`id`),
   CONSTRAINT `rides_ibfk_2` FOREIGN KEY (`riderid`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -173,19 +173,19 @@ DROP TRIGGER IF EXISTS update_driver;
 DROP TRIGGER IF EXISTS insert_into_pastrides;
 
 delimiter //
-CREATE TRIGGER update_driver 
-AFTER INSERT ON Rides FOR EACH ROW 
+CREATE TRIGGER update_driver
+AFTER INSERT ON Rides FOR EACH ROW
 BEGIN
  UPDATE drivers SET available = FALSE WHERE drivers.ID = NEW.driverid;
 END;//
 delimiter ;
 
 delimiter //
-CREATE TRIGGER insert_into_pastrides 
+CREATE TRIGGER insert_into_pastrides
 AFTER DELETE ON Rides FOR EACH ROW
 BEGIN
   INSERT INTO PastRides VALUES (OLD.driverid, OLD.riderID, OLD.dest_long, OLD.dest_lat, OLD.start_long, OLD.start_lat, OLD.cost, OLD.carpool, OLD.time);
-  UPDATE drivers SET available = TRUE, current_long = OLD.dest_long, current_lat = OLD.dest_lat;
+  DELETE FROM drivers WHERE id = OLD.driverid;
 END;//
 delimiter ;
 

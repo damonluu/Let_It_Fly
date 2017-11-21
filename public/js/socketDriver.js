@@ -21,7 +21,9 @@ function addDriver(data) {
 function removeDriver(data) {
   console.log("Remove Driver: " + data.id);
   removeDriverMarker(data.id);
+  alert("Ride Complete, Going Back To Dash Board");
   socket.emit("remove driver", data);
+  parent.window.location.href = 'http://localhost:1600/dashboard#/userID:' + data.id;
 }
 
 
