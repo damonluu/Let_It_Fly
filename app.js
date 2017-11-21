@@ -120,21 +120,36 @@ io.on('connection', function(socket) {
   socket.on('remove driver', function(data) {
     console.log("Remove Driver: " + data.id);
     db_connection.getConnection(function(err, c) {
-      var queryUpdateSeat = 'UPDATE DRIVERS SET AVAILABLESEATS = SEATS WHERE ID = ' + data.id;
+      var queryUpdateSeat = 'UPDATE Drivers SET AVAILABLESEATS = SEATS WHERE ID = ' + data.id;
       console.log(queryUpdateSeat);
-      c.query(queryRemove, function(err, result, feilds) {
+      c.query(queryUpdateSeat, function(err, result, feilds) {
         if (err) throw err;
         console.log(result);
       });
 
-      var queryRemove = 'DELETE FROM RIDES WHERE driverID = ' + data.id;
+      var json = {'driverid': data.id, 'rider1': null, 'rider2': null};
+
+      c.query('SELECT riderid FROM Rides WHERE driverid=' + data.id, function(err, result, feilds){
+        if(err) throw err;
+        
+        for(var i = 0; i < result.length; i++){
+            console.log('remove rider: ' + result[i].riderid);
+            if(json.rider1==null){
+                json.rider1 = result[i].riderid;
+            }else{
+                json.rider2 = result[i].riderid;
+            }
+        }
+
+      });
+
+      var queryRemove = 'DELETE FROM Rides WHERE driverid = ' + data.id;
       console.log(queryRemove);
       c.query(queryRemove, function(err, result, feilds) {
         if (err) throw err;
         c.release();
-        console.log(result);
         console.log('removed successfully');
-        io.emit("ride completed", result);
+        io.emit("ride completed", json);
       });
     });
   });

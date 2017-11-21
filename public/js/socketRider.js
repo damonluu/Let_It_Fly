@@ -83,7 +83,7 @@ socket.on('map view', function(data) {
 });
 
 socket.on('ride completed', function(data) {
-  if (data.riderID = riderID) {
+  if (data.rider1 == riderID || data.rider2 == riderID) {
     removeDriverMarker(data.id);
     alert('Ride Completed');
   }
