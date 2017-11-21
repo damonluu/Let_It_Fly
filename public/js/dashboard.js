@@ -160,8 +160,10 @@ dashboard.controller('PastrideController', function($scope, $http, Data, $timeou
     }).then(function(response) {
       console.log(response.data[0]);
       console.log(response.data.length);
-      $scope.driverName = response.data[0].driverid;
-      $scope.riderName = response.data[0].riderid;
+      console.log("response in dashboardjs");
+      console.log(response);
+      $scope.driverName = response.data[0].driverName;
+      $scope.riderName = response.data[0].riderName;
       $scope.price = response.data[0].cost;
       var startAddressPromise = getAddressFromLatLng(response.data[0].start_lat, response.data[0].start_long);
       startAddressPromise.then(function(result) {
@@ -173,6 +175,7 @@ dashboard.controller('PastrideController', function($scope, $http, Data, $timeou
       endAddressPromise.then(function(result) {
         $scope.$apply(function() {
           $scope.endAddress = result;
+          // $scope.driverName = response.data[0].driverName;
         });
       });
 
@@ -186,7 +189,7 @@ dashboard.controller('PastrideController', function($scope, $http, Data, $timeou
 function getAddressFromLatLng(lat, lng) {
   var deferred = $.Deferred();
   $.ajax({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNEgxiJhJCnRJgiZGt1tEmwguLxIWXygU',
     method: 'POST',
     success: function(result, status) {
       var address = result.results[0].formatted_address;
