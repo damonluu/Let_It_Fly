@@ -6,19 +6,16 @@ dashboard.config(function($routeProvider) {
       templateUrl: 'pages/dashboard/profile.html',
       controller: 'ProfileController'
     })
-    .when('/currentride:id', {
-      templateUrl: 'pages/dashboard/currentride.html',
-      controller: 'CurrentRideController'
-    })
     .when('/pastride:id', {
       templateUrl: 'pages/dashboard/pastride.html',
+      controller: 'PastrideController'
     })
     .when('/userID:id', {
       templateUrl: 'pages/dashboard/homepage.html',
     })
     .when('/service:id', {
       templateUrl: 'pages/dashboard/service.html',
-      controller: 'CurrentRideController'
+      controller: 'ServiceController'
     })
     .otherwise({
       redirectTo: '/userID:id',
@@ -68,7 +65,7 @@ dashboard.controller('HomepageController', function($scope, $location, $routePar
           console.log(dropdown[i].href);
           console.log(a[i].href);
         }
-        dropdown[4].href += $routeParams.id;
+        dropdown[3].href += $routeParams.id;
         buttonRequest.href += $routeParams.id;
         first = false;
       }
@@ -102,7 +99,7 @@ dashboard.controller('HomepageController', function($scope, $location, $routePar
         $scope.serviceTitle = " Driver Mode:  " + Data.getData().firstName;
       }
     }).catch(function(response) {
-      console.log("something is wrong");
+      console.log("Error when getting user's information");
     })
   };
 });
@@ -137,7 +134,7 @@ dashboard.controller('ProfileController', function($scope, $http, Data, $timeout
 });
 
 
-dashboard.controller('CurrentRideController', function($scope, $http, Data, $timeout) {
+dashboard.controller('ServiceController', function($scope, $http, Data, $timeout) {
   $timeout(function() {
     if ($scope.role == "Driver") {
       $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
@@ -145,4 +142,36 @@ dashboard.controller('CurrentRideController', function($scope, $http, Data, $tim
       $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
     }
   }, 100);
+});
+
+dashboard.controller('PastrideController', function($scope, $http, Data, $timeout) {
+  // $timeout(function() {
+  //   $scope.getPastRides($scope, Data.getData().id, $scope.role);
+  //   console.log(Data.getData().id);
+  // }, 200);
+  //  $scope.getPastRides = function($scope, userID, role) {
+  //   console.log(userID);
+  //   $http({
+  //     url: '/getPastrides' + role,
+  //     method: 'GET',
+  //     params: {
+  //       id: userID
+  //     }
+  //   }).then(function(response) {
+  //     console.log(response.data[0]);
+  //     console.log(response.data.length);
+  //      $.ajax({
+  //       url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + response.data[0].start_lat + ',' + response.data[0].start_long + '&key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0',
+  //       method: 'POST',
+  //       success: function(result, status) {
+  //         var address = result.results[0].formatted_address;
+  //         alert(address);
+  //         $scope.startAddress = address;
+  //         // console.log(status + " : " + result.results[0].formatted_address);
+  //       }
+  //     });
+  //   }).catch(function(response) {
+  //     console.log("something is wrong");
+  //   })
+  // };
 });

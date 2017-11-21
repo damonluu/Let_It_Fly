@@ -293,7 +293,7 @@ body {
   /*font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';*/
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h4, h5, h6 {
   font-family: 'Catamaran', 'Helvetica', 'Arial', 'sans-serif';
   font-weight: 300;
   letter-spacing: 1px;
@@ -470,8 +470,8 @@ input.hidden {
 }
 
 .bot-border {
-  border-bottom: 1px #f8f8f8 solid;
-  margin: 5px 0 5px 0
+  /*border-bottom: 1px #f8f8f8 solid;*/
+  margin: 10px 0 10px 0
 }
 
 #siteloader object {
@@ -482,3 +482,8 @@ input.hidden {
 #siteloader {
   height: 650px !important;
 }
+#bold{
+  font-weight: bold;
+  color:#5AB9EA;
+/*  font-size: 18px;
+*/}
