@@ -114,10 +114,11 @@ socket.on('search carpool', function(data) {
       if (result) {
         getRiderInfoCarpool(data);
       } else {
-        alert("The Riders Available Right Can Only Accept Carpool" +
-          "\nYou Do Not Qualify For Carpooling (Too Far Away) SORRY");
-        location.reload();
-        return;
+        // alert("The Riders Available Right Can Only Accept Carpool" +
+        //   "\nYou Do Not Qualify For Carpooling (Too Far Away) SORRY");
+        // location.reload();
+        // return;
+        socket.emit('carpool failed', data);
       }
     });
     // }
@@ -126,10 +127,10 @@ socket.on('search carpool', function(data) {
 });
 
 socket.on('find nearest', function(data) {
-  // console.log(data);
+  console.log(data);
   // console.log("data.riderId is " + data.riderID);
   // console.log("riderID is " + riderID);
-  if (data.riderID == riderID) {
+  if (data.riderID == riderID  || riderID == data[0].carpoolRequesterId) {
     console.log('find nearest driver...');
     console.log('getting rider info data...');
     console.log(data);

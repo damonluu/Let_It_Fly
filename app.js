@@ -237,9 +237,10 @@ io.on('connection', function(socket) {
     })
   });
 
-  //update price and carpool boolean from rides table
-  // socket.on('carpool update', function(data) {
-  //
-  // });
+  // update price and carpool boolean from rides table
+  socket.on('carpool failed', function(data) {
+    console.log('carpool failed... loking for nearest');
+    io.emit('find nearest', data);
+  });
 
 });
