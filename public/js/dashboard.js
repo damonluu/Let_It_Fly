@@ -189,7 +189,7 @@ dashboard.controller('PastrideController', function($scope, $http, Data, $timeou
 function getAddressFromLatLng(lat, lng) {
   var deferred = $.Deferred();
   $.ajax({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyDNEgxiJhJCnRJgiZGt1tEmwguLxIWXygU',
+    url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyCbwzfaOyI1NHYXHxO184YFUc0LhQQz7RE',
     method: 'POST',
     success: function(result, status) {
       var address = result.results[0].formatted_address;
