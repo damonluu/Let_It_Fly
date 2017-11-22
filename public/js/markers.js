@@ -195,7 +195,13 @@ function findClosestDriverMarker(data) {
   console.log(data);
 
   for (let i = 0; i < driverArray.length; i++) {
-    var distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
+    var distanceBetweenTwoCoordPromise
+    if(data.riderLat !== undefined){
+      distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data.riderLat, data.riderLng, driverArray[i][1], driverArray[i][2]);
+    } else {
+      distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data[0].start_lat, data[0].start_long, driverArray[i][1], driverArray[i][2]);
+    }
+    
     distanceBetweenTwoCoordPromise.then(function(result) {
       console.log(result);
       if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
