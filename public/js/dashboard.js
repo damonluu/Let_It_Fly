@@ -65,7 +65,7 @@ dashboard.controller('HomepageController', function($scope, $location, $routePar
           console.log(dropdown[i].href);
           console.log(a[i].href);
         }
-        dropdown[3].href += $routeParams.id;
+        dropdown[2].href += $routeParams.id;
         buttonRequest.href += $routeParams.id;
         first = false;
       }
