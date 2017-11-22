@@ -11,19 +11,21 @@
 <body>
   <!--creates the two boxes at top left where user can input origin and destination-->
 
-  <input id="origin-input" class="controls" type="text" placeholder="Enter an origin location">
-  <input id="destination-input" class="controls" type="text" placeholder="Enter a destination location">
+  <input id="origin-input" class="controls" type="text" placeholder="Origin location">
+  <input id="destination-input" class="controls" type="text" placeholder="Destination location">
+  <input id="rider-seat-input" class="controls" type="text" placeholder="People">
   <button type="submit" id="submit-button">Submit</button>
-  
+
   <div id="map"></div>
   <div id="directionsPanel"></div>
+  <!-- <div id="right-panel"></div> -->
 
   <div id="openModal" class="modalDialog">
     <div>
       <a id="close" href="#close" title="Close" class="close">X</a>
       <h2>Ride Details</h2>
       <p id="initial">Please Enter Origin And Destination First</p>
-      <p id="driverMinutesAway"</p>
+      <p id="driverMinutesAway"></p>
       <p id="estimateDriverArrival"></p>
       <p id="estimate"></p>
       <p id="distance"></p>
@@ -36,7 +38,7 @@
   </div>
 
   <script src="jquery/jquery-3.2.1.min.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNIMuefOw8IFBBjGifWHAMMuSKOC7epj0&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNEgxiJhJCnRJgiZGt1tEmwguLxIWXygU&libraries=places"></script>
   <script type="text/javascript" src="js/currentLocation.js"></script>
   <script type="text/javascript" src="js/googlemapsRider.js"></script>
   <script type="text/javascript" src="js/markers.js"></script>

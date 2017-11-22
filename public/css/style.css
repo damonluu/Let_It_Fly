@@ -5,10 +5,12 @@
 html {
   overflow-y: scroll;
 }*/
+
 body {
   background: #c1bdba;
   /*font-family: 'Titillium Web', sans-serif;*/
 }
+
 /*
 a {
   text-decoration: none;
@@ -29,7 +31,6 @@ a:hover {
   border-radius: 4px;
   box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
 }
-
 
 .tab-group {
   list-style: none;
@@ -82,13 +83,12 @@ a:hover {
 label {
   position: absolute;
   -webkit-transform: translateY(6px);
-          transform: translateY(6px);
+  transform: translateY(6px);
   left: 13px;
   color: rgba(255, 255, 255, 0.5);
   -webkit-transition: all 0.25s ease;
   transition: all 0.25s ease;
   -webkit-backface-visibility: hidden;
-
   font-size: 22px;
 }
 
@@ -99,7 +99,7 @@ label .req {
 
 label.active {
   -webkit-transform: translateY(50px);
-          transform: translateY(50px);
+  transform: translateY(50px);
   left: 2px;
   font-size: 14px;
 }
@@ -163,12 +163,14 @@ textarea {
   display: table;
   clear: both;
 }
-.top-row > div {
+
+.top-row>div {
   float: left;
   width: 48%;
   margin-right: 4%;
 }
-.top-row > div:last-child {
+
+.top-row>div:last-child {
   margin: 0;
 }
 
@@ -188,6 +190,7 @@ textarea {
   -webkit-appearance: none;
   margin-top: 40px;
 }
+
 .form .button:hover, .form .button:focus {
   background: #ba7601;
 }
@@ -200,13 +203,4 @@ textarea {
 .forgot {
   margin-top: -20px;
   text-align: right;
-}
-
-#siteloader object{
-  height: 100% !important;
-  width: 100% !important;
-}
-
-#siteloader {
-  height: 650px !important;
 }

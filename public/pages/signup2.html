@@ -1,20 +1,21 @@
-
-<div id="popup"></div>
+<div id="popup">
+</div>
 <div id="logbox">
   <form id="signup">
     <h1>Create An Account</h1>
     <!-- Card Number -->
-    <input ng-model="users.cardHolder" pattern="^[a-zA-Z_ ]*$" oninvalid="setCustomValidity('Please enter letters only')" name="users[cardHolder]" type="text" placeholder="Cardholder Name" autofocus="autofocus" required="required" class="input"/>
+    <input ng-model="users.cardHolder" pattern="^[a-zA-Z_ ]*$" oninvalid="setCustomValidity('Please enter letters only')" name="users[cardHolder]" type="text" placeholder="Cardholder Name" autofocus="autofocus" required="required" class="input" />
     <!-- Card Number -->
-    <input ng-model="users.cardNumber" name="users[cardNumber]" pattern="^\d+$" oninvalid="setCustomValidity('Please enter card number without whitespaces')" maxlength="16" type="tel" placeholder="Card Number" autofocus="autofocus" id="cardNumber" required="required" class="input"/>
+    <input ng-model="users.cardNumber" name="users[cardNumber]" pattern="^\d+$" oninvalid="setCustomValidity('Please enter card number without whitespaces')" maxlength="16" type="tel" placeholder="Card Number" autofocus="autofocus" id="cardNumber" required="required"
+      class="input" />
 
     <div class="row">
-    <input ng-model="users.cvv" name="user[cvv]" type="tel" oninvalid="setCustomValidity('Please enter only 3 digits')" maxlength="3" placeholder="CVV" autofocus="autofocus" required="required" class="input" id="cvv"> 
-    <p id="cvv-details">3 or 4 digits usually found <br> on the signature strip</p>
+      <input ng-model="users.cvv" name="user[cvv]" type="tel" oninvalid="setCustomValidity('Please enter only 3 digits')" maxlength="3" placeholder="CVV" autofocus="autofocus" required="required" class="input" id="cvv">
+      <p id="cvv-details">3 or 4 digits usually found <br> on the signature strip</p>
     </div>
     <!-- Date Field -->
     <div class="row">
-        <select name="users[month]" id="month" ng-model="users.month">
+      <select name="users[month]" id="month" ng-model="users.month">
           <option value="" selected>Month</option>
           <option value="1">January</option>
           <option value="2">February</option>
@@ -29,7 +30,7 @@
           <option value="11">November</option>
           <option value="12">December</option>
         </select>
-        <select name="users[year]" id="year" ng-model="users.year">
+      <select name="users[year]" id="year" ng-model="users.year">
           <option value="" selected>Year</option>
           <option value="2017">2017</option>
           <option value="2018">2018</option>
@@ -42,6 +43,6 @@
         </select>
     </div>
     <!-- Buttons -->
-     <button type="submit" ng-click="processForm(users)" class="inputButton">Submit</button>
+    <button type="submit" ng-click="processForm(users)" class="inputButton">Submit</button>
   </form>
-  </div>
+</div>

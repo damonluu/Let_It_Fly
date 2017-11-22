@@ -1,133 +1,138 @@
 		// create the module and name it scotchApp
-	var formApp = angular.module('formApp', ['ngRoute']);
-	formApp.value('users', {
-		id: '',
-		firstname: '',
-		lastname: '',
-		password: '',
-		email: '',
-		phonenumber: '',
-		rider: '',
-		cardholder: '',
-		cardnumber: '',
-		cvv: '',
-		month: '',
-		year: ''
-	});
+		var formApp = angular.module('formApp', ['ngRoute']);
+		formApp.value('users', {
+		  id: '',
+		  firstname: '',
+		  lastname: '',
+		  password: '',
+		  email: '',
+		  phonenumber: '',
+		  rider: '',
+		  cardholder: '',
+		  cardnumber: '',
+		  cvv: '',
+		  month: '',
+		  year: ''
+		});
+		formApp.config(function($routeProvider) {
+		  $routeProvider
+		    // route for the about page
 
-	formApp.config(function($routeProvider) {
-		$routeProvider
-			// route for the about page
+		    .when('/signin', {
+		      templateUrl: 'pages/signin.html',
+		      controller: 'SignInController'
+		    })
 
-			.when('/signin', {
-				templateUrl : 'pages/signin.html',
-				controller  : 'SignInController'
-			})
-
-			.when('/signup2', {
-				templateUrl : 'pages/signup2.html',
-				controller : 'SignUpController'
-			})
-			.otherwise({
-              redirectTo: '/',
-              templateUrl: 'pages/signup1.html',
-              controller: 'SignUpController'
-            });
-	});
-	formApp.controller('SignUpController', ['$scope','users','$http',function($scope, users, $http) {
-		$scope.checkNull = function(input, size) { 
-			var count = 0;
-			for(var property in input){
-				if(input.hasOwnProperty(property)){
-					console.log(input[property]);
-					count++;
-				}
-			}
-			return count == size;
-		}
-
-		$scope.processForm = function(user) {
-			console.log(user);
-			if($scope.checkNull(user,5)){
-				users.cardholder = user.cardHolder;
-				users.cardnumber = user.cardNumber;
-				users.month = user.month;
-				users.year = user.year;
-				users.cvv = user.cvv;
-			    $http.post('/checkCard',users).
-			         then(function(response) {
-			         	 console.log("passed checkCard");
-						 window.location.href="../dashboard#/userID:" + users.id;
-			         }).catch(function(response) {
-			         	 console.log(response.data);
-			         	 var popup = document.getElementById("popup");
-			         	 popup.innerHTML = response.data;
-			         	 popup.className = "show";
-			         	 setTimeout(function(){ popup.className = popup.className.replace("show", ""); }, 3000);
-			             console.error("error in posting");
-			         })
+		    .when('/signup2', {
+		      templateUrl: 'pages/signup2.html',
+		      controller: 'SignUpController'
+		    })
+		    .otherwise({
+		      redirectTo: '/',
+		      templateUrl: 'pages/signup1.html',
+		      controller: 'SignUpController'
+		    });
+		});
+		formApp.controller('SignUpController', ['$scope', 'users', '$http', function($scope, users, $http) {
+		  $scope.checkNull = function(input, size) {
+		    var count = 0;
+		    for (var property in input) {
+		      if (input.hasOwnProperty(property)) {
+		        console.log(input[property]);
+		        count++;
+		      }
 		    }
-		    else { console.log('missing info'); }
-		};
+		    return count == size;
+		  }
 
-		$scope.save = function(user){
-			console.log(user);
-			if($scope.checkNull(user,6)){
-				users.firstname = user.firstName;
-				users.lastname = user.lastName;
-				users.password = user.password;
-				users.phonenumber = user.phoneNumber;
-				users.email = user.email;
+		  $scope.processForm = function(user) {
+		    console.log(user);
+		    if ($scope.checkNull(user, 5)) {
+		      users.cardholder = user.cardHolder;
+		      users.cardnumber = user.cardNumber;
+		      users.month = user.month;
+		      users.year = user.year;
+		      users.cvv = user.cvv;
+		      $http.post('/checkCard', users).
+		      then(function(response) {
+		        console.log("passed checkCard");
+		        window.location.href = "../dashboard#/userID:" + users.id;
+		      }).catch(function(response) {
+		        console.log(response.data);
+		        var popup = document.getElementById("popup");
+		        popup.innerHTML = response.data;
+		        popup.className = "show";
+		        setTimeout(function() {
+		          popup.className = popup.className.replace("show", "");
+		        }, 3000);
+		        console.error("error in posting");
+		      })
+		    } else {
+		      console.log('missing info');
+		    }
+		  };
 
-				if(user.role === 'driver'){
-					users.rider = "FALSE";
-				}
-				else {
-					users.rider = "TRUE";
-				}
-				console.log(users.rider);
-				$http.post('/user',users).then(function(response) {
-				    console.log("created account successfully");
-				    users.id = response.data;
-				    console.log(users.id);
-				    window.location.href="form#/signup2";
-				}).catch(function(response) {
-					console.log(response.data);
-					var popup = document.getElementById("popup");
-			        popup.innerHTML = response.data;
-			        popup.className = "show";
-			        setTimeout(function(){ popup.className = popup.className.replace("show", ""); }, 3000);
-				    console.error("error in creating account");
-				})
-	   		}
-	   		console.log(users);
-	   		console.log("next step");
-		}
-	}]);
+		  $scope.save = function(user) {
+		    console.log(user);
+		    if ($scope.checkNull(user, 6)) {
+		      users.firstname = user.firstName;
+		      users.lastname = user.lastName;
+		      users.password = user.password;
+		      users.phonenumber = user.phoneNumber;
+		      users.email = user.email;
 
-	formApp.controller('SignInController', ['$scope','users','$http',function($scope, users, $http) {
-		$scope.login = function(user){
-			console.log(user);
+		      if (user.role === 'driver') {
+		        users.rider = "FALSE";
+		      } else {
+		        users.rider = "TRUE";
+		      }
+		      console.log(users.rider);
+		      $http.post('/user', users).then(function(response) {
+		        console.log("created account successfully");
+		        users.id = response.data;
+		        console.log(users.id);
+		        window.location.href = "form#/signup2";
+		      }).catch(function(response) {
+		        console.log(response.data);
+		        var popup = document.getElementById("popup");
+		        popup.innerHTML = response.data;
+		        popup.className = "show";
+		        setTimeout(function() {
+		          popup.className = popup.className.replace("show", "");
+		        }, 3000);
+		        console.error("error in creating account");
+		      })
+		    }
+		    console.log(users);
+		    console.log("next step");
+		  }
+		}]);
+
+		formApp.controller('SignInController', ['$scope', 'users', '$http', function($scope, users, $http) {
+		  $scope.login = function(user) {
+		    console.log(user);
 		    $http({
-		            url: '/user',
-		            method: 'GET',
-		            params: user
-		        }). then(function(response) {
-		            console.log("posted successfully");
-		            users.id = response.data[0].ID;
-		            window.location.href="../dashboard#/userID:" + users.id;
-		        }).catch(function(response) {
-		        	var popup = document.getElementById("popup");
-			        popup.innerHTML = response.data;
-			        popup.className = "show";
-			        setTimeout(function(){ popup.className = popup.className.replace("show", ""); }, 3000);
-		            console.log("Invalid Password or Email")
-		        })
-		}
+		      url: '/user',
+		      method: 'GET',
+		      params: user
+		    }).then(function(response) {
+		      console.log("posted successfully");
+		      users.id = response.data[0].ID;
+		      window.location.href = "../dashboard#/userID:" + users.id;
+		    }).catch(function(response) {
+		      var popup = document.getElementById("popup");
+		      popup.innerHTML = response.data;
+		      popup.className = "show";
+		      setTimeout(function() {
+		        popup.className = popup.className.replace("show", "");
+		      }, 3000);
+		      console.log("Invalid Password or Email")
+		    })
+		  }
 
 
-	}]);
+		}]);
 
-	/*myApp.controller('DashboardController', function($scope, $http){
-		$scope.
-	})*/
+		/*myApp.controller('DashboardController', function($scope, $http){
+			$scope.
+		})*/

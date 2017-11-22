@@ -18,213 +18,217 @@
 
   <script src="vendor/angular/angular.min.js"></script>
   <script src="vendor/angular-route/angular-route.min.js"></script>
-   <!-- Bootstrap core JavaScript -->
+  <!-- Bootstrap core JavaScript -->
 
 </head>
 
 <!-- define angular controller -->
+
 <body>
-    <!-- angular templating -->
-		<!-- this is where content will be injected -->
-      <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-        <div class="container">
-          <a class="navbar-brand js-scroll-trigger" href="" id="brand">Let It Fly</a>
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+  <!-- angular templating -->
+  <!-- this is where content will be injected -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="" id="brand">Let It Fly</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fa fa-bars"></i>
           </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" id="ftures" href="#features" >Features</a>
-              </li>
-               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#locations" >Locations</a>
-              </li>
-               <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="#contact">Contact Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="form" id="box">Sign Up</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </div>
-
-
-
-<header class="masthead">
-  <div class="container h-100">
-    <div class="row h-100">
-      <div class="col-lg-7 my-auto">
-        <div class="header-content mx-auto">
-          <h1 class="mb-5">A simple way to allow flight passengers to book rides from and to the airports.</h1>
-          <a href="form" class="btn btn-outline btn-xl js-scroll-trigger">Sign Up</a>
-        </div>
-      </div>
-      <div class="col-lg-5 my-auto">
-         <img src="img/new.png" class="img-fluid" alt=""> 
-      </div>
-    </div>
-  </div>
-</header>
-    
-    <section class="features" id="features">
-      <div class="container">
-        <div class="section-heading text-center">
-          <h2>Easy-to-Book Services</h2>
-          <p class="text-muted">Never Be Late, Never Miss a Flight</p>
-          <hr>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 my-auto">
-            <div class="device-container">
-              <img src="img/new.png" class="img-fluid" alt="">  
-            </div>
-          </div>
-          <div class="col-lg-8 my-auto">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="feature-item">
-                    <i class="icon-wallet text-primary"></i>
-                    <h3>Cost Efficient</h3>
-                    <p class="text-muted">Low and steady fees, no additional charges during high demand, and the first 2 miles are free!</p>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="feature-item">
-                    <i class="icon-hourglass text-primary"></i>
-                    <h3>30 Minutes Wait</h3>
-                    <p class="text-muted">Your ride is guaranteed to arrive within 30 minutes!</p>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="feature-item">
-                    <i class="icon-globe text-primary"></i>
-                    <h3>Environmental Friendly</h3>
-                    <p class="text-muted">Carpool and both parties get a $5 discount!</p>
-                  </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="feature-item">
-                    <i class="icon-clock text-primary"></i>
-                    <h3>Available 24/7</h3>
-                    <p class="text-muted">Ensure that there are always riders!</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-    <section class="locations" id="locations">
-      <div class="cta-content">
-        <div class="container">
-        <div class="section-heading text-center">
-            <h2>Bay Area Counties</h2>
-            <hr>
-          </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="circle"><h3>Santa<br>Clara</h3></div>
-              </div>
-              <div class="col-md-4">
-                <div class="circle"><h3> San<br>Mateo</h3></div>
-              </div>
-              <div class="col-md-4">
-                <div class="circle"><h3> Alameda</h3></div>
-              </div>
-          </div>
-        </div>
-        </div>
-        <br>
-        <br>
-        <div class="container">
-          <div class="section-heading text-center">
-          <h2>Affiliate Airports</h2>
-          <hr>
-          </div>
-            <div class="row">
-            <div class="card-deck">
-              <div class="col-xs-12 col-md-4">
-              <div class="card">
-                <img class="card-img-top" src="img/san_jose.jpg" alt="Card image cap">
-                <div class="card-block">
-                  <h4 class="card-title">San Jose Airport</h4>
-                  <p class="card-text">Located on 1,050 acres in the heart of Silicon Valley, Mineta San José International Airport (SJC) is owned and operated by the City of San José.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted"><a href="http://www.flysanjose.com/" target="_blank">Website</a></small>
-                </div>
-              </div>
-            </div>
-              <div class="col-xs-12 col-md-4">
-              <div class="card">
-                <img class="card-img-top" src="img/oakland.jpg" alt="Card image cap">
-                <div class="card-block">
-                  <h4 class="card-title">Oakland Airport</h4>
-                  <p class="card-text">Oakland International Airport is an international airport in Oakland, California, United States. It is located approximately 10 miles south of Downtown. It is owned by the Port of Oakland.</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted"><a href="http://www.oaklandairport.com/" target="_blank">Website</a></small>
-                </div>
-              </div>
-            </div>
-             <div class="col-xs-12 col-md-4">
-              <div class="card">
-                <img class="card-img-top" src="img/san_francisco.jpg" alt="Card image cap">
-                <div class="card-block">
-                  <h4 class="card-title">San Francisco Airport</h4>
-                  <p class="card-text">San Francisco International Airport is the seventh-busiest airport in the US by boarded passengers (25,706,994).</p>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted"><a href="https://www.flysfo.com/" target="_blank">Website</a></small>
-                </div>
-              </div>
-             </div>
-            </div>
-          </div>
-      </div>
-      
-    </section>
-
-    <section class="contact" id="contact">
-      <div class="container">
-        <ul class="list-inline list-social">
-          <li class="list-inline-item social-twitter">
-            <a href="#">
-              <i class="fa fa-twitter"></i>
-            </a>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" id="ftures" href="#features">Features</a>
           </li>
-          <li class="list-inline-item social-facebook">
-            <a href="#">
-              <i class="fa fa-facebook"></i>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#locations">Locations</a>
           </li>
-          <li class="list-inline-item social-google-plus">
-            <a href="#">
-              <i class="fa fa-google-plus"></i>
-            </a>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#contact">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="form" id="box">Sign Up</a>
           </li>
         </ul>
       </div>
-    </section>
+    </div>
+  </nav>
+  </div>
 
-    <footer>
-      <div class="container">
-        <p>&copy; 2017 Let It Fly.</p> 
+
+
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-lg-7 my-auto">
+          <div class="header-content mx-auto">
+            <h1 class="mb-5">A simple way to allow flight passengers to book rides from and to the airports.</h1>
+            <a href="form" class="btn btn-outline btn-xl js-scroll-trigger">Sign Up</a>
+          </div>
+        </div>
+        <div class="col-lg-5 my-auto">
+          <img src="img/new.png" class="img-fluid" alt="">
+        </div>
       </div>
-    </footer>
-    <!-- SPELLS -->
+    </div>
+  </header>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-heading text-center">
+        <h2>Easy-to-Book Services</h2>
+        <p class="text-muted">Never Be Late, Never Miss a Flight</p>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 my-auto">
+          <div class="device-container">
+            <img src="img/new.png" class="img-fluid" alt="">
+          </div>
+        </div>
+        <div class="col-lg-8 my-auto">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-wallet text-primary"></i>
+                  <h3>Cost Efficient</h3>
+                  <p class="text-muted">Low and steady fees, no additional charges during high demand, and the first 2 miles are free!</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-hourglass text-primary"></i>
+                  <h3>30 Minutes Wait</h3>
+                  <p class="text-muted">Your ride is guaranteed to arrive within 30 minutes!</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-globe text-primary"></i>
+                  <h3>Environmental Friendly</h3>
+                  <p class="text-muted">Carpool and both parties get a $5 discount!</p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="feature-item">
+                  <i class="icon-clock text-primary"></i>
+                  <h3>Available 24/7</h3>
+                  <p class="text-muted">Ensure that there are always riders!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="locations" id="locations">
+    <div class="cta-content">
+      <div class="container">
+        <div class="section-heading text-center">
+          <h2>Bay Area Counties</h2>
+          <hr>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="circle">
+              <h3>Santa<br>Clara</h3></div>
+          </div>
+          <div class="col-md-4">
+            <div class="circle">
+              <h3> San<br>Mateo</h3></div>
+          </div>
+          <div class="col-md-4">
+            <div class="circle">
+              <h3> Alameda</h3></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+      <div class="section-heading text-center">
+        <h2>Affiliate Airports</h2>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="card-deck">
+          <div class="col-xs-12 col-md-4">
+            <div class="card">
+              <img class="card-img-top" src="img/san_jose.jpg" alt="Card image cap">
+              <div class="card-block">
+                <h4 class="card-title">San Jose Airport</h4>
+                <p class="card-text">Located on 1,050 acres in the heart of Silicon Valley, Mineta San José International Airport (SJC) is owned and operated by the City of San José.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><a href="http://www.flysanjose.com/" target="_blank">Website</a></small>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <div class="card">
+              <img class="card-img-top" src="img/oakland.jpg" alt="Card image cap">
+              <div class="card-block">
+                <h4 class="card-title">Oakland Airport</h4>
+                <p class="card-text">Oakland International Airport is an international airport in Oakland, California, United States. It is located approximately 10 miles south of Downtown. It is owned by the Port of Oakland.</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><a href="http://www.oaklandairport.com/" target="_blank">Website</a></small>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <div class="card">
+              <img class="card-img-top" src="img/san_francisco.jpg" alt="Card image cap">
+              <div class="card-block">
+                <h4 class="card-title">San Francisco Airport</h4>
+                <p class="card-text">San Francisco International Airport is the seventh-busiest airport in the US by boarded passengers (25,706,994).</p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted"><a href="https://www.flysfo.com/" target="_blank">Website</a></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="container">
+      <ul class="list-inline list-social">
+        <li class="list-inline-item social-twitter">
+          <a href="#">
+              <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="list-inline-item social-facebook">
+          <a href="#">
+              <i class="fa fa-facebook"></i>
+            </a>
+        </li>
+        <li class="list-inline-item social-google-plus">
+          <a href="#">
+              <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2017 Let It Fly.</p>
+    </div>
+  </footer>
+  <!-- SPELLS -->
 
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/popper/popper.min.js"></script>
@@ -233,7 +237,7 @@
   <script src="vendor/jquery.easing/js/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/jquery.js"></script>
+  <script src="js/homejquery.js"></script>
 
 </body>
 

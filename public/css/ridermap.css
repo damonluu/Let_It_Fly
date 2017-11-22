@@ -8,6 +8,7 @@ h2, p {
 #map {
   height: 100%;
   position: relative;
+  z-index: 1;
 }
 
 #directionsPanel {
@@ -16,8 +17,7 @@ h2, p {
   left: 15px;
   z-index: 99;
   background-color: white;
-  float:right;
-  /*width:50%;*/
+  float: right;
   max-width: 25% !important;
   min-width: 20% !important;
   max-height: 80%;
@@ -31,37 +31,27 @@ h2, p {
 }
 
 /* Optional: Makes the sample page fill the window. */
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
-/*.controls {
-  margin-top: 20px;
-  border: 1px solid transparent;
-  border-radius: 20px;
-  clear: both;
-  box-sizing: border-box;
-  height: 40px;
-  outline: none;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}*/
-
 .controls {
   margin-top: 20px;
   border: 1px solid transparent;
-  border-radius: 20px;
+  border-radius: 5px;
   clear: both;
   box-sizing: border-box;
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 
-#origin-input,
-#destination-input {
-  background-color: #ffbb66;
+#origin-input, #destination-input {
+  background-color: #FFFFFF;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
@@ -69,116 +59,161 @@ html, body {
   margin-left: 10px;
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
-  width: 32%;
-  max-width: 300px;
-  min-width: 230px;
-  display: grid;
+  width: 30%;
 }
 
-#origin-input:focus,
-#destination-input:focus {
+#rider-seat-input {
+  background-color: #FFFFFF;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  margin-left: 10px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 10%;
+}
+
+#origin-input:focus, #destination-input:focus, #rider-seat-input:focus {
   border-color: #4d90fe;
 }
 
-
 #submit-button {
-  background-color: #ffbb66;
+  background-color: #5AB9EA;
+  color: white;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
   text-align: center;
   margin-left: 10px;
   /*padding: 10px 11px 0 13px;*/
-  width: 32%;
-  max-width: 300px;
-  min-width: 230px;
-  display: grid;
-
+  width: 15%;
   margin-top: 20px;
-  /*border: 1px solid transparent;*/
-  border-radius: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
   clear: both;
-  box-sizing: border-box;
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .modalDialog {
-    position: fixed;
-    font-family: Arial, Helvetica, sans-serif;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-    z-index: 99999;
-    opacity:0;
-    -webkit-transition: opacity 400ms ease-in;
-    -moz-transition: opacity 400ms ease-in;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(192, 200, 228, 0.7);
+  z-index: 99999;
+  opacity: 0;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
 }
+
 .modalDialog:target {
-    opacity:1;
-    pointer-events: auto;
+  opacity: 1;
+  pointer-events: auto;
 }
-.modalDialog > div {
-    width: 400px;
-    position: relative;
-    margin: 10% auto;
-    padding: 5px 20px 13px 20px;
-    border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
+
+.modalDialog>div {
+  width: 400px;
+  position: relative;
+  margin: 10% auto;
+  padding: 5px 20px 13px 20px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: #545454;
 }
 
 .close {
-    background: #606061;
-    color: #FFFFFF;
-    line-height: 25px;
-    position: absolute;
-    right: -12px;
-    text-align: center;
-    top: -10px;
-    width: 24px;
-    text-decoration: none;
-    font-weight: bold;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-    -moz-box-shadow: 1px 1px 3px #000;
-    -webkit-box-shadow: 1px 1px 3px #000;
-    box-shadow: 1px 1px 3px #000;
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 25px;
+  position: absolute;
+  right: -12px;
+  text-align: center;
+  top: -10px;
+  width: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  box-shadow: 1px 1px 3px #000;
 }
+
 .close:hover {
-    background: #00d9ff;
+  background: #5680E9;
 }
 
 .btn-confirm, .btn-decline {
-  background-color: #ffbb66;
+  background-color: #5AB9EA;
+  color: white;
   font-family: Roboto;
   font-size: 15px;
   font-weight: 400;
   text-align: center;
   margin-left: 27px;
-  max-width: 60%;
-  min-width: 40%;
+  /*padding: 10px 11px 0 13px;*/
+  width: 40%;
   margin-top: 0px;
-  border-radius: 20px;
+  border: 1px solid transparent;
+  border-radius: 5px;
   box-sizing: border-box;
   height: 40px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  display: inline-block;
 }
 
-.btn-confirm:hover , .btn-decline:hover, #submit-button:hover {
-  background: #c18e26;
+.btn-confirm:hover, .btn-decline:hover, #submit-button:hover {
+  background: #5680E9;
 }
 
 .hidden {
   display: none !important;
 }
+
+/*Stuff for step by step directions on right side of map*/
+
+/*#right-panel {
+  font-family: 'Roboto', 'sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+  overflow: auto;
+  background-color: #bbdaa4;
+}
+
+#right-panel select, #right-panel input {
+  font-size: 15px;
+}
+
+#right-panel select {
+  width: 100%;
+}
+
+#right-panel i {
+  font-size: 12px;
+}
+
+#map {
+  height: 100%;
+  float: left;
+  width: 63%;
+  height: 100%;
+}
+
+#right-panel {
+  float: right;
+  width: 34%;
+  height: 100%;
+}
+
+.panel {
+  height: 100%;
+  overflow: auto;
+}*/
