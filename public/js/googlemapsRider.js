@@ -44,6 +44,8 @@ function AutocompleteDirectionsHandler(map) {
       alert("Please enter your location first");
     } else if (checkSeatInput == "" || checkSeatInput.length == 0) {
       alert("Please enter the number of seats in your shuttle")
+    } else if (!checkSeatInput.match(/\d+/)) {
+      alert("Please enter digits for the number of seats required");
     } else if (checkSeatInput <= 0) {
       alert("Good luck finding a car with no seats");
     } else {

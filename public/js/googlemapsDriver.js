@@ -72,8 +72,10 @@ function activeDriver() {
     var checkInput = document.getElementById("origin-input").value;
     if (checkInput == "" || checkInput.length == 0 || checkInput == null) {
       alert("Please enter your location first");
-    } else if (availableSeats == "" || availableSeats.length == 0) {
+    } else if (availableSeats == "" || availableSeats.length == 0 ) {
       alert("Please enter the number of your party")
+    } else if (!availableSeats.match(/\d+/)) {
+      alert("Please enter digits for the number of available seats");
     } else if (availableSeats <= 0){
       alert("You fool, you have no seats for the rider\nNo, sitting in the trunk is not an option");
     } else {
