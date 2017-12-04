@@ -117,7 +117,7 @@ AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(aut
     if (mode === 'ORIG') {
       me.originPlaceId = place.place_id;
       driverOrigin = me.originPlaceId;
-      // console.log(me.originPlaceId);
+      countyCheckHelper(me.originPlaceId);
     }
   });
 }
@@ -209,6 +209,38 @@ function getAddressFromCoord(lat, lng) {
     }
   });
   document.getElementById('pickedUpRider-button').setAttribute("class", "");
+}
+
+// parse results to find county, refreshes map if county is not san mateo, santa clara, or alameda
+function findCounty(results) {
+  var filtered_array = results[0].address_components.filter(function(address_component) {
+    return address_component.types.includes("administrative_area_level_2");
+  });
+  var county = filtered_array.length ? filtered_array[0].long_name : "";
+  if (!validCounty(county)) {
+    alert("Out of County Boundaries, Please Enter a Different location");
+    location.reload();
+  }
+  return county;
+}
+
+// helper function for county check
+function validCounty(county) {
+  return county == 'Alameda County' || county == 'San Mateo County' || county == 'Santa Clara County';
+}
+
+// countyCheckHelper
+function countyCheckHelper(placeid) {
+  var countyGeocoder = new google.maps.Geocoder();
+  countyGeocoder.geocode({
+    'placeId': placeid
+  }, function(result, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        findCounty(result);
+      } else {
+        alert("Geocode was not successful for the following: " + status);
+      }
+  });
 }
 
 google.maps.event.addDomListener(window, 'load', initMap);

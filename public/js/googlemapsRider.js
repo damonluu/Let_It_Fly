@@ -102,11 +102,11 @@ AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(aut
     }
     if (mode === 'ORIG') {
       me.originPlaceId = place.place_id;
-      // getGeocode(me.originPlaceId);
+      countyCheckHelper(me.originPlaceId);
 
     } else {
       me.destinationPlaceId = place.place_id;
-      // getGeocode(me.destinationPlaceId);
+      countyCheckHelper(me.destinationPlaceId);
     }
     checkValidAirport(me.originPlaceId, me.destinationPlaceId);
   });
@@ -220,6 +220,22 @@ function findCounty(results) {
 function validCounty(county) {
   return county == 'Alameda County' || county == 'San Mateo County' || county == 'Santa Clara County';
 }
+
+// countyCheckHelper
+function countyCheckHelper(placeid) {
+  var countyGeocoder = new google.maps.Geocoder();
+  countyGeocoder.geocode({
+    'placeId': placeid
+  }, function(result, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        findCounty(result);
+      } else {
+        alert("Geocode was not successful for the following: " + status);
+      }
+  });
+}
+
+
 
 // function to calculate price using distance and duration and then modifys the modal box using the info
 function calculatePrice(distanceInMeters, durationInSeconds) {
