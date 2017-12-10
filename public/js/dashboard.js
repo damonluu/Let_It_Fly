@@ -15,7 +15,8 @@ dashboard.config(function($routeProvider) {
     })
     .when('/service:id', {
       templateUrl: 'pages/dashboard/homepage.html',
-      controller: 'ServiceController'
+      controller: 'ServiceController',
+      redirectTo: '/userID:id'
     })
     .otherwise({
       redirectTo: '/userID:id',
@@ -86,7 +87,7 @@ dashboard.controller('HomepageController', function($scope, $location, $routePar
       Data.setData(userID, response.data[0].firstName, response.data[0].lastName, response.data[0].email, response.data[0].rider);
       console.log(Data.getData());
       $scope.name = response.data[0].firstName + " " + response.data[0].lastName;
-      $scope.password = response.data[0].password;
+      // $scope.password = response.data[0].password;
       $scope.phonenumber = response.data[0].phoneNumber;
       $scope.email = response.data[0].email;
       if (response.data[0].rider == 1) {
@@ -121,7 +122,7 @@ dashboard.controller('ProfileController', function($scope, $http, Data, $timeout
       console.log(response.data[0]);
       $scope.type = response.data[0].type;
       num = response.data[0].cardNum.toString();
-      $scope.cardnumber = "xxxx-xxxx-xxxx-" + num.slice(11, 15);
+      $scope.cardnumber = "xxxx-xxxx-xxxx-" + num.slice(12, 16);
       $scope.month = response.data[0].expMonth;
       $scope.year = response.data[0].expYear;
       $scope.cardholder = response.data[0].name;

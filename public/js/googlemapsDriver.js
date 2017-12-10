@@ -206,6 +206,11 @@ function getAddressFromCoord(lat, lng) {
       var address = result.results[0].formatted_address;
       // console.log(status + " : " + result.results[0].formatted_address);
       alert("The Rider is at " + address + "\nHere are the directions to reach them.")
+      document.getElementById('address').innerHTML = "Rider Address: " + address;
+      document.getElementById('initial').setAttribute("class", "hidden");
+      document.getElementById('address').setAttribute("class", "");
+
+
     }
   });
   document.getElementById('pickedUpRider-button').setAttribute("class", "");
