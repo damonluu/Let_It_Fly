@@ -14,7 +14,7 @@ dashboard.config(function($routeProvider) {
       templateUrl: 'pages/dashboard/homepage.html',
     })
     .when('/service:id', {
-      templateUrl: 'pages/dashboard/service.html',
+      templateUrl: 'pages/dashboard/homepage.html',
       controller: 'ServiceController'
     })
     .otherwise({
@@ -136,10 +136,15 @@ dashboard.controller('ProfileController', function($scope, $http, Data, $timeout
 
 dashboard.controller('ServiceController', function($scope, $http, Data, $timeout) {
   $timeout(function() {
+    var url = '';
     if ($scope.role == "Driver") {
-      $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
+      url = 'http://localhost:1600/drivermap#:' + Data.getData().id;
+      window.open(url, '_blank').focus();
+      // $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
     } else {
-      $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
+      url = 'http://localhost:1600/ridermap#:' + Data.getData().id;
+      window.open(url, '_blank').focus();
+      // $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
     }
   }, 100);
 });

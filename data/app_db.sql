@@ -90,7 +90,7 @@ CREATE TABLE `Payments` (
   `expMonth` int(11) NOT NULL,
   `expYear` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`cardNum`,`cvv`),
+  PRIMARY KEY (`ID`,`cardNum`,`cvv`),
   KEY `ID` (`ID`),
   CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `Users` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

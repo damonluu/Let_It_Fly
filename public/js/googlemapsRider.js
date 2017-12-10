@@ -92,6 +92,7 @@ function displayModal(closestDriver) {
 // dont touch this, its to guess the address you type in and check if at least origin/destination is an airport
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
   var me = this;
+  // var flag = true;
   autocomplete.bindTo('bounds', this.map);
   autocomplete.addListener('place_changed', function() {
     var place = autocomplete.getPlace();
@@ -108,7 +109,8 @@ AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(aut
       me.destinationPlaceId = place.place_id;
       countyCheckHelper(me.destinationPlaceId);
     }
-    checkValidAirport(me.originPlaceId, me.destinationPlaceId);
+    var flag = checkValidAirport(me.originPlaceId, me.destinationPlaceId);
+    if(flag == false) { me.originPlaceId = null ; me.destinationPlaceId = null }
   });
 
 }
@@ -121,10 +123,14 @@ function checkValidAirport(originPlaceId, destinationPlaceId) {
     var airportPlaceId = validAirportPlace();
     if (!airportPlaceId.includes(originPlaceId) && !airportPlaceId.includes(destinationPlaceId)) {
       alert("Either the origin or destination must be an airport (SFO, SJC, or OAK)");
-      location.reload();
+      document.getElementById('origin-input').value = '';
+      document.getElementById('destination-input').value = '';
+      return false;
+      //location.reload();
     } else {
       originPID = originPlaceId;
       destinationPID = destinationPlaceId;
+      return true;
     }
   }
 };
