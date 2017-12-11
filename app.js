@@ -84,6 +84,14 @@ io.on('connection', function(socket) {
     console.log('new driver available');
     console.log(data);
     db_connection.getConnection(function(err, c) {
+
+      var queryDelete = 'DELETE FROM Drivers WHERE ID = ' + data.id;
+      console.log(queryDelete);
+      c.query(queryDelete, function(err, result, fields) {
+        if (err) throw err;
+        console.log(result);
+      });
+
       var queryInsert = 'INSERT INTO Drivers VALUE (' + data.id + ', ' + data.long + ', ' + data.lat + ', ' + data.available + ', ' + data.seats + ',' + data.seats + ')';
       c.query(queryInsert, function(err, result, feilds) {
         if (err) throw err;
@@ -131,7 +139,7 @@ io.on('connection', function(socket) {
 
       c.query('SELECT riderid FROM Rides WHERE driverid=' + data.id, function(err, result, feilds){
         if(err) throw err;
-        
+
         for(var i = 0; i < result.length; i++){
             console.log('remove rider: ' + result[i].riderid);
             if(json.rider1==null){
