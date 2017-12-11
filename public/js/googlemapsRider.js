@@ -97,6 +97,14 @@ function closeModal() {
   history.pushState('', 'Let It Fly', tempurl);
 }
 
+function declineRide() {
+  var tempurl = window.location.href;
+  location.href = "#close";
+  history.pushState('', 'Let It Fly', tempurl);
+  markers = markers2.slice(0);
+  getMapView(riderIdFromURL);
+}
+
 // dont touch this, its to guess the address you type in and check if at least origin/destination is an airport
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(autocomplete, mode) {
   var me = this;

@@ -7,6 +7,7 @@ var closestDriverMinutes = 9999;
 var closestDriverLat;
 var closestDriverLng;
 var availableSeats = -1;
+var markers2;
 
 var marker_image = new google.maps.MarkerImage(
   "img/map/vanMed.png"
@@ -147,11 +148,14 @@ function distanceBetweenTwoCoord(originLat, originLng, destinationLat, destinati
   return dfd.promise();
 }
 
+
+
 function test() {
   console.log("The Closest Driver ID Is: " + closestDriverID);
   console.log("The Driver is " + (closestDistance / 1609.34).toFixed(1) + " Miles Away");
   console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
   // stopAutoUpdate();
+  markers2 = markers.slice(0);
   removeMarkersExcept(closestDriverID);
 
   var resultData = {};
@@ -201,7 +205,7 @@ function findClosestDriverMarker(data) {
     } else {
       distanceBetweenTwoCoordPromise = distanceBetweenTwoCoord(data[0].start_lat, data[0].start_long, driverArray[i][1], driverArray[i][2]);
     }
-    
+
     distanceBetweenTwoCoordPromise.then(function(result) {
       console.log(result);
       if (result.rows[0].elements[0].distance.value < closestDistance && data.seats <= driverArray[i][3]) {
@@ -254,6 +258,7 @@ function test2(theDriverId) {
   console.log("The Driver is " + (closestDriverMinutes / 60).toFixed(0) + " Minutes Away");
   // stopAutoUpdate();
   // removeMarkersExcept(closestDriverID);
+  markers2 = markers.slice(0);
 
   var resultData = {};
   resultData["closestDriverId"] = theDriverId;
