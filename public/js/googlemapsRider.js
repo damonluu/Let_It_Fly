@@ -86,7 +86,15 @@ function displayModal(closestDriver) {
   document.getElementById("estimate").innerHTML = "Estimated Arrival To Your Destination: " + msToTime(d.getTime() - (1000 * 60 * 60 * 8) +
     (durationInMinutes * 60 * 1000) + (closestDriver.closestDriverMinutes * 60 * 1000));
   document.getElementById('estimate').setAttribute("class", "");
+  var tempurl = window.location.href;
   location.href = "#openModal";
+  history.pushState('', 'Let It Fly', tempurl);
+}
+
+function closeModal() {
+  var tempurl = window.location.href;
+  location.href = "#close";
+  history.pushState('', 'Let It Fly', tempurl);
 }
 
 // dont touch this, its to guess the address you type in and check if at least origin/destination is an airport
@@ -138,6 +146,9 @@ function checkValidAirport(originPlaceId, destinationPlaceId) {
 // this function will display the turn by turn diretions on the map and get rid of the origin/destination input boxes
 // also rename the button from "submit" to "ride details", and change it's onclick to open modal to see current ride details
 function displayStepByStep() {
+  var tempurl = window.location.href;
+  location.href = "#close";
+  history.pushState('', 'Let It Fly', tempurl);
   directionsDisplay.setDirections(directionResponse);
   document.getElementById('origin-input').setAttribute("class", "hidden");
   document.getElementById('destination-input').setAttribute("class", "hidden");
@@ -152,7 +163,9 @@ function modalAfterConfirm() {
   document.getElementById('confirm').setAttribute("class", "hidden");
   document.getElementById('decline').setAttribute("class", "hidden");
   document.getElementById('close').setAttribute("class", "close");
+  var tempurl = window.location.href;
   location.href = "#openModal";
+  history.pushState('', 'Let It Fly', tempurl);
 }
 
 // this function converts origin place id and destination place id into the distance and duration of the trip

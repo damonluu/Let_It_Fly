@@ -61,7 +61,15 @@ function modifyModal() {
   //   document.getElementById('confirm').setAttribute("class", "btn-confirm");
   //   document.getElementById('decline').setAttribute("class", "btn-decline");
   //   document.getElementById('close').setAttribute("class", "hidden");
+  var tempurl = window.location.href;
   location.href = "#openModal";
+  history.pushState('', 'Let It Fly', tempurl);
+}
+
+function closeModal() {
+  var tempurl = window.location.href;
+  location.href = "#close";
+  history.pushState('', 'Let It Fly', tempurl);
 }
 
 // THIS FUNCTION TAKES THE DRIVER ENTERED LOCATION AND INSERTS THEM INTO DB

@@ -22,7 +22,7 @@
 
   <div id="openModal" class="modalDialog">
     <div>
-      <a id="close" href="#close" title="Close" class="close">X</a>
+      <a id="close" href="javascript:void()" onclick="closeModal()" title="Close" class="close">X</a>
       <h2>Ride Details</h2>
       <p id="initial">Please Enter Origin And Destination First</p>
       <p id="driverMinutesAway"></p>
@@ -31,8 +31,8 @@
       <p id="distance"></p>
       <p id="duration"></p>
       <p id="price"></p>
-      <a href="#close"><button id="confirm" type="button" class="hidden" data-dismiss="modal" onclick="displayStepByStep()">Confirm Ride</button></a>
-      <a href="#close"><button id="decline" type="button" class="hidden">Decline Ride</button></a>
+      <button id="confirm" type="button" class="hidden" onclick="displayStepByStep()">Confirm Ride</button></a>
+      <button id="decline" type="button" class="hidden" onclick="closeModal()">Decline Ride</button>
 
     </div>
   </div>
