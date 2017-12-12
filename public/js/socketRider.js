@@ -87,6 +87,7 @@ socket.on('ride completed', function(data) {
     removeDriverMarker(data.id);
     alert('Ride Completed, Going Back To Dashboard');
     parent.window.location.href = 'http://localhost:1600/dashboard#/userID:' + riderID;
+    // window.close();
   }
 });
 

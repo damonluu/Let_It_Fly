@@ -140,12 +140,15 @@ dashboard.controller('ServiceController', function($scope, $http, Data, $timeout
     var url = '';
     if ($scope.role == "Driver") {
       url = 'http://localhost:1600/drivermap#:' + Data.getData().id;
-      window.open(url, '_blank').focus();
+      // window.open(url, '_blank').focus();
       // $("#siteloader").html('<object data="http://localhost:1600/drivermap.html">');
+      window.location.replace(url);
     } else {
       url = 'http://localhost:1600/ridermap#:' + Data.getData().id;
-      window.open(url, '_blank').focus();
+      // window.open(url, '_blank').focus();
       // $("#siteloader").html('<object data="http://localhost:1600/ridermap.html">');
+      window.location.replace(url);
+
     }
   }, 100);
 });
