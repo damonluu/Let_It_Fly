@@ -90,9 +90,9 @@ socket.on('ride completed', function(data) {
   }
 });
 
-// socket.on('update map', function() {
-//   getMapView(riderID);
-// });
+socket.on('update map', function() {
+  getMapView(riderID);
+});
 
 socket.on('search carpool', function(data) {
   // console.log(data);
